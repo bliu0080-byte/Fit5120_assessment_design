@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ScamSafe - Public welfare initiative providing cybersecurity fraud awareness and education">
+    <meta name="keywords" content="scam protection, fraud awareness, cybersecurity education">
+    <meta name="author" content="ScamSafe Team">
+
+    <title>ScamSafe - Cybersecurity Fraud Protection</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+
+    <!-- External Libraries -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <i class="fas fa-shield-check logo-icon"></i>
+            <span>ScamSafe</span>
+        </a>
+        <div class="nav-controls">
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#insights" class="nav-link">Insights</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="font-controls">
+                <button class="font-btn" data-size="small" title="Small Font" aria-label="Small Font Size">A</button>
+                <button class="font-btn active" data-size="normal" title="Normal Font" aria-label="Normal Font Size">A</button>
+                <button class="font-btn" data-size="large" title="Large Font" aria-label="Large Font Size">A</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="hero-content">
+        <h1 class="hero-title">2025 Cybersecurity Fraud Impact Report</h1>
+        <p class="hero-subtitle">
+            Public Welfare Initiative - Raising awareness about the devastating impact of cybersecurity fraud through real-time threat intelligence and educational resources.
+        </p>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-number">890M</div>
+                <div class="stat-label">Global Victims in 2025</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">$2.8T</div>
+                <div class="stat-label">Total Economic Losses</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">156%</div>
+                <div class="stat-label">Year-over-Year Growth</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<main class="container">
+    <!-- Section Header -->
+    <div class="section-header">
+        <h2 class="section-title">Active Threat Alerts</h2>
+        <div class="last-updated">
+            <i class="fas fa-clock"></i>
+            <span id="last-update-time">Last Updated: August 28, 2025, 14:30 UTC</span>
+        </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="controls">
+        <div class="filter-section">
+            <span class="filter-label">Filter by threat type:</span>
+            <div class="filter-tabs" id="filter-tabs">
+                <button class="filter-tab active" data-filter="all">
+                    <i class="fas fa-list"></i> All Threats
+                </button>
+                <button class="filter-tab" data-filter="sms">
+                    <i class="fas fa-mobile-alt"></i> SMS
+                </button>
+                <button class="filter-tab" data-filter="phone">
+                    <i class="fas fa-phone"></i> Voice
+                </button>
+                <button class="filter-tab" data-filter="email">
+                    <i class="fas fa-envelope"></i> Email
+                </button>
+                <button class="filter-tab" data-filter="investment">
+                    <i class="fas fa-chart-line"></i> Financial
+                </button>
+            </div>
+        </div>
+        <button class="refresh-btn" id="refresh-btn">
+            <i class="fas fa-sync-alt"></i>
+            Update Feed
+        </button>
+    </div>
+
+    <!-- Alerts Grid -->
+    <div class="alerts-grid" id="alerts-grid">
+        <!-- Alert cards will be dynamically loaded here -->
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-container" id="loading-container" style="display: none;">
+        <div class="spinner"></div>
+        <p>Loading threat alerts...</p>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-container" id="error-container" style="display: none;">
+        <div class="error-message">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Unable to load threat data. Please try again later.</p>
+            <button class="retry-btn" id="retry-btn">Retry</button>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="#accessibility">Accessibility</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#sitemap">Site Map</a>
+        </div>
+        <div class="footer-disclaimer">
+            <p>This website is maintained by ScamSafe as a public welfare initiative. Information provided is for educational purposes only. We are dedicated to preventing cybersecurity fraud through community awareness and education.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="./js/config.js"></script>
+<script src="./js/utils.js"></script>
+<script src="./js/components/fontController.js"></script>
+<script src="./js/components/filterController.js"></script>
+<script src="./js/components/alertManager.js"></script>
+<script src="./js/main.js"></script>
+</body>
+</html>
