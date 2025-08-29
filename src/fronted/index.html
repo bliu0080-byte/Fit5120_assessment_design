@@ -21,6 +21,56 @@
     <link rel="stylesheet" href="./css/components.css">
     <link rel="stylesheet" href="./css/layout.css">
     <link rel="stylesheet" href="./css/responsive.css">
+    <style>
+        .font-controls {
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            background: rgba(51, 65, 85, 0.5) !important;
+            padding: 4px !important;
+            border-radius: 12px !important;
+        }
+
+        .font-btn {
+            width: 36px !important;
+            height: 36px !important;
+            border: none !important;
+            border-radius: 8px !important;
+            background: transparent !important;
+            color: #94a3b8 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .font-btn:hover {
+            background: rgba(59, 130, 246, 0.2) !important;
+            color: #cbd5e1 !important;
+            transform: scale(1.05) !important;
+        }
+
+        .font-btn.active {
+            background: #3b82f6 !important;
+            color: white !important;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3) !important;
+        }
+
+        .font-btn:focus {
+            outline: 2px solid #3b82f6 !important;
+            outline-offset: 2px !important;
+        }
+        body,
+        .hero-title,
+        .hero-subtitle,
+        .section-title,
+        .alert-title,
+        .alert-description,
+        p, h1, h2, h3, h4, h5, h6 {
+            font-size: calc(1em * var(--current-font-scale)) !important;
+        }
+    </style>
 </head>
 <body>
 <!-- Navigation -->
@@ -38,9 +88,15 @@
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
             <div class="font-controls">
-                <button class="font-btn" data-size="small" title="Small Font" aria-label="Small Font Size">A</button>
-                <button class="font-btn active" data-size="normal" title="Normal Font" aria-label="Normal Font Size">A</button>
-                <button class="font-btn" data-size="large" title="Large Font" aria-label="Large Font Size">A</button>
+                <button class="font-btn" data-size="small" title="Small Font" aria-label="Small Font Size">
+                    <span style="font-size: 12px; font-weight: bold;">a</span>
+                </button>
+                <button class="font-btn active" data-size="normal" title="Normal Font" aria-label="Normal Font Size">
+                    <span style="font-size: 14px; font-weight: bold;">A</span>
+                </button>
+                <button class="font-btn" data-size="large" title="Large Font" aria-label="Large Font Size">
+                    <span style="font-size: 18px; font-weight: bold;">AA</span>
+                </button>
             </div>
         </div>
     </div>
@@ -151,8 +207,144 @@
 <script src="./js/config.js"></script>
 <script src="./js/utils.js"></script>
 <script src="./js/components/fontController.js"></script>
-<script src="./js/components/filterController.js"></script>
 <script src="./js/components/alertManager.js"></script>
+<script src="./js/components/filterController.js"></script>
 <script src="./js/main.js"></script>
 </body>
+<script>
+    // 紧急修复：简单的字体控制实现
+    (function() {
+        console.log('应用字体控制修复补丁...');
+
+        // 等待DOM加载
+        function initFontControlFix() {
+            // 设置默认CSS变量
+            const root = document.documentElement;
+            if (!root.style.getPropertyValue('--current-font-scale')) {
+                root.style.setProperty('--current-font-scale', '1');
+            }
+
+            // 获取所有字体按钮
+            const fontButtons = document.querySelectorAll('.font-btn');
+
+            if (fontButtons.length === 0) {
+                console.error('未找到字体控制按钮');
+                return;
+            }
+
+            console.log(`找到 ${fontButtons.length} 个字体按钮`);
+
+            // 字体大小配置
+            const fontSizes = {
+                small: 0.9,
+                normal: 1.0,
+                large: 1.1
+            };
+
+            // 从localStorage加载保存的设置
+            const savedSize = localStorage.getItem('scamsafe_font_size');
+            if (savedSize && fontSizes[savedSize]) {
+                root.style.setProperty('--current-font-scale', fontSizes[savedSize]);
+
+                // 更新按钮状态
+                fontButtons.forEach(btn => {
+                    if (btn.dataset.size === savedSize) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+
+            // 为每个按钮添加点击事件
+            fontButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const size = this.dataset.size;
+                    const scale = fontSizes[size];
+
+                    if (!scale) {
+                        console.error('无效的字体大小:', size);
+                        return;
+                    }
+
+                    console.log(`设置字体大小: ${size} (${scale}x)`);
+
+                    // 更新CSS变量
+                    root.style.setProperty('--current-font-scale', scale);
+
+                    // 更新按钮状态
+                    fontButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    // 保存到localStorage
+                    try {
+                        localStorage.setItem('scamsafe_font_size', size);
+                        console.log('字体大小已保存');
+                    } catch (error) {
+                        console.error('保存失败:', error);
+                    }
+
+                    // 添加视觉反馈
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            // 添加键盘快捷键支持
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    let newSize = null;
+
+                    switch(e.key) {
+                        case '+':
+                        case '=':
+                            e.preventDefault();
+                            const currentScalePlus = parseFloat(root.style.getPropertyValue('--current-font-scale') || 1);
+                            if (currentScalePlus < 1.1) {
+                                newSize = currentScalePlus < 1 ? 'normal' : 'large';
+                            }
+                            break;
+                        case '-':
+                        case '_':
+                            e.preventDefault();
+                            const currentScaleMinus = parseFloat(root.style.getPropertyValue('--current-font-scale') || 1);
+                            if (currentScaleMinus > 0.9) {
+                                newSize = currentScaleMinus > 1 ? 'normal' : 'small';
+                            }
+                            break;
+                        case '0':
+                            e.preventDefault();
+                            newSize = 'normal';
+                            break;
+                    }
+
+                    if (newSize) {
+                        // 触发对应按钮的点击事件
+                        const targetButton = document.querySelector(`.font-btn[data-size="${newSize}"]`);
+                        if (targetButton) {
+                            targetButton.click();
+                        }
+                    }
+                }
+            });
+
+            console.log('字体控制修复补丁应用成功');
+        }
+
+        // 确保DOM加载完成后再初始化
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initFontControlFix);
+        } else {
+            // DOM已经加载完成，直接初始化
+            setTimeout(initFontControlFix, 100);
+        }
+    })();
+</script>
 </html>

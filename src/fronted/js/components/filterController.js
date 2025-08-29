@@ -280,7 +280,7 @@ class FilterController {
 
         // Use requestAnimationFrame for smooth animation
         requestAnimationFrame(() => {
-            const alerts = this.utils.dom.selectAll('.alert-card');
+            const alerts = Array.from(this.utils.dom.selectAll('.alert-card'));
             let visibleCount = 0;
 
             alerts.forEach((card, index) => {
@@ -373,7 +373,7 @@ class FilterController {
         const alerts = this.utils.dom.selectAll('.alert-card');
         const count = filter === 'all'
             ? alerts.length
-            : alerts.filter(card => card.dataset.type === filter).length;
+            : alerts.filter(card => card.dataset.type === filter).length;alerts.filter
 
         // Create preview tooltip
         const tab = this.utils.dom.select(`[data-filter="${filter}"]`);

@@ -99,8 +99,17 @@ class ScamSafeApp {
         this.fontController = window.scamSafeFontController || new FontController();
         this.components.set('fontController', this.fontController);
 
-        // Wait for initial data load
-        await this.waitForInitialData();
+        // 3) 触发一次初始加载（根据你的 AlertManager 实现二选一 / 都加）
+        if (typeof this.alertManager.init === 'function') {
+            await this.alertManager.init();
+            }
+        if (typeof this.alertManager.refreshAlerts === 'function') {
+            // true 常见语义是“强制刷新”或“静默以外的刷新”
+                await this.alertManager.refreshAlerts(true);
+            } else if (typeof this.alertManager.loadAlerts === 'function') {
+                await this.alertManager.loadAlerts();
+            }
+                await this.waitForAlertsReady();
 
         console.log('All components initialized successfully');
     }
@@ -109,17 +118,24 @@ class ScamSafeApp {
      * Wait for initial data to load
      * @returns {Promise} Promise that resolves when data is loaded
      */
-    waitForInitialData() {
+    waitForAlertsReady() {
         return new Promise((resolve) => {
-            const checkData = () => {
-                if (this.alertManager && !this.alertManager.isLoading) {
-                    resolve();
-                } else {
-                    setTimeout(checkData, 100);
-                }
+            if (this.alertManager?.isReady?.()) {
+                resolve();
+                return;
+            }
+            const handler = () => {
+                document.removeEventListener('alertsLoaded', handler);
+                resolve();
             };
+            document.addEventListener('alertsLoaded', handler, { once: true });
 
-            checkData();
+            const poll = setInterval(() => {
+                if (this.alertManager?.getStatistics?.()) {
+                    clearInterval(poll);
+                    resolve();
+                }
+            }, 150);
         });
     }
 
