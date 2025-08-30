@@ -5,7 +5,7 @@
 
 class FontController {
     constructor() {
-        this.config = window.SCAMSAFE_CONFIG || CONFIG;
+        this.config = window.SCAMSAFE_CONFIG || window.CONFIG || {};
         this.utils = window.ScamSafeUtils || Utils;
         this.currentSize = 'normal';
         this.root = document.documentElement;

@@ -97,7 +97,7 @@ npm run preview
 
 ### 1. AlertManager (警报管理器)
 - **功能**: 管理威胁警报数据的加载、缓存和展示
-- **特性**: 自动刷新、离线支持、数据缓存、错误处理
+- **特性**: 自动刷新、离线支持 q、数据缓存、错误处理
 - **文件**: `js/components/alertManager.js`
 
 ### 2. FilterController (筛选控制器)

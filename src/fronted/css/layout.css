@@ -401,3 +401,58 @@
     white-space: nowrap;
     border: 0;
 }
+/* README-style Banner */
+.readme-banner {
+    background: #facc15; /* 更醒目的黄色，可改成 var(--warning) */
+    color: #0b2a6b;
+    position: relative;
+    overflow: hidden;
+    padding: 3rem 1.5rem; /* 增加整体内边距，让区域更大 */
+}
+
+.readme-banner__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: clamp(16px, 3vw, 32px);
+    align-items: center;
+}
+
+.readme-banner__title {
+    font-size: clamp(26px, 3.5vw, 48px);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 16px;
+    color: #0b2a6b;
+}
+
+.readme-banner__desc {
+    font-size: clamp(16px, 1.6vw, 20px);
+    margin: 0;
+    color: #0b2a6b;
+}
+
+.readme-banner__media {
+    justify-self: end;
+    width: 100%;
+    max-width: 520px;
+}
+
+.readme-banner__media img {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+}
+
+@media (max-width: 900px) {
+    .readme-banner__inner {
+        grid-template-columns: 1fr;
+    }
+    .readme-banner__media {
+        justify-self: start;
+        max-width: 100%;
+        margin-top: 20px;
+    }
+}

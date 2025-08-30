@@ -12,14 +12,14 @@
 
     /* Color Palette - Professional Dark Theme */
     --primary-blue: #1e40af;
-    --secondary-blue: #3b82f6;
-    --accent-blue: #60a5fa;
-    --dark-bg: #0f172a;
-    --card-bg: #1e293b;
-    --border-color: #334155;
-    --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
-    --text-muted: #94a3b8;
+    --secondary-blue: #2563eb;
+    --accent-blue: #3b82f6;
+    --dark-bg: #ffffff;
+    --card-bg: #f9fafb;
+    --border-color: #e5e7eb;
+    --text-primary: #111827;
+    --text-secondary: #374151;
+    --text-muted: #6b7280;
 
     /* Status Colors */
     --success: #059669;
