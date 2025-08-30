@@ -370,20 +370,23 @@ class FilterController {
      * @param {string} filter - Filter type
      */
     showPreviewCount(filter) {
-        const alerts = this.utils.dom.selectAll('.alert-card');
-        const count = filter === 'all'
+        // NodeList -> Array，避免 “.filter 不是函数”
+        const alerts = Array.from(this.utils.dom.selectAll('.alert-card') || []);
+
+        const count = (filter === 'all')
             ? alerts.length
-            : alerts.filter(card => card.dataset.type === filter).length;alerts.filter
+            : alerts.filter(card => card.dataset.type === filter).length;
 
-        // Create preview tooltip
+        // Create/update preview tooltip
         const tab = this.utils.dom.select(`[data-filter="${filter}"]`);
-        if (tab && !tab.querySelector('.filter-preview')) {
-            const preview = this.utils.dom.create('div', {
-                className: 'filter-preview'
-            }, `${count} alerts`);
+        if (!tab) return;
 
+        let preview = tab.querySelector('.filter-preview');
+        if (!preview) {
+            preview = this.utils.dom.create('div', { className: 'filter-preview' });
             tab.appendChild(preview);
         }
+        preview.textContent = `${count} alerts`;
     }
 
     /**
@@ -584,7 +587,7 @@ class FilterController {
      * @returns {Object} Filter stats
      */
     getFilterStats() {
-        const alerts = this.utils.dom.selectAll('.alert-card');
+        const alerts = Array.from(this.utils.dom.selectAll('.alert-card') || []);
         const stats = {};
 
         Object.keys(this.config.threatTypes).forEach(filter => {

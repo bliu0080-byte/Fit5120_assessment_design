@@ -209,34 +209,33 @@ class ScamSafeApp {
 
         navLinks.forEach(link => {
             this.utils.dom.on(link, 'click', (event) => {
-                event.preventDefault();
+                const href = link.getAttribute('href') || '';
 
-                const href = link.getAttribute('href');
-                const section = href?.replace('#', '');
-
-                if (section) {
-                    this.navigateToSection(section);
+                // 只处理内部锚点（#home、#education…）
+                if (href.startsWith('#')) {
+                    event.preventDefault();
+                    const sectionId = href.slice(1); // 去掉 '#'
+                    this.navigateToSection(sectionId);
                     this.updateActiveNavLink(link);
+                } else {
+                    // 外部/其它页面（insights.html、/pages/xxx.html…）不拦截
+                    // 不要 preventDefault，交给浏览器跳转
                 }
             });
         });
 
-        // Handle hash changes
+        // 处理地址栏 hash 变化（保留内部锚点滚动）
         this.addEventListener('hashchange', () => {
             this.handleHashChange();
         });
 
-        // Smooth scroll behavior
+        // 仅对 a[href^="#"] 做平滑滚动（保留你原来的逻辑）
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             this.utils.dom.on(anchor, 'click', (event) => {
                 event.preventDefault();
                 const target = document.querySelector(anchor.getAttribute('href'));
-
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
