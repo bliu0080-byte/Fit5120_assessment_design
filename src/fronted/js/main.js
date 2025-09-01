@@ -87,29 +87,37 @@ class ScamSafeApp {
      * Initialize all components
      */
     async initializeComponents() {
-        // Initialize AlertManager first (data layer)
-        this.alertManager = new AlertManager();
-        this.components.set('alertManager', this.alertManager);
+        const hasAlertsUI = !!document.getElementById('alerts-grid');
 
-        // Initialize FilterController with AlertManager reference
-        this.filterController = new FilterController(this.alertManager);
-        this.components.set('filterController', this.filterController);
+        if (hasAlertsUI) {
+            // Initialize AlertManager first (data layer)
+            this.alertManager = new AlertManager();
+            this.components.set('alertManager', this.alertManager);
+
+            // Initialize FilterController with AlertManager reference
+            this.filterController = new FilterController(this.alertManager);
+            this.components.set('filterController', this.filterController);
+        } else {
+            this.alertManager = null;
+            this.filterController = null;
+        }
 
         // Initialize FontController
         this.fontController = window.scamSafeFontController || new FontController();
         this.components.set('fontController', this.fontController);
 
-        // 3) 触发一次初始加载（根据你的 AlertManager 实现二选一 / 都加）
-        if (typeof this.alertManager.init === 'function') {
-            await this.alertManager.init();
+        // 3) Alerts data load (only when alerts UI is present)
+        if (hasAlertsUI && this.alertManager) {
+            if (typeof this.alertManager.init === 'function') {
+                await this.alertManager.init();
             }
-        if (typeof this.alertManager.refreshAlerts === 'function') {
-            // true 常见语义是“强制刷新”或“静默以外的刷新”
+            if (typeof this.alertManager.refreshAlerts === 'function') {
                 await this.alertManager.refreshAlerts(true);
             } else if (typeof this.alertManager.loadAlerts === 'function') {
                 await this.alertManager.loadAlerts();
             }
-                await this.waitForAlertsReady();
+            await this.waitForAlertsReady();
+        }
 
         console.log('All components initialized successfully');
     }

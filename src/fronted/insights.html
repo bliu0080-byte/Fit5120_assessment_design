@@ -53,9 +53,15 @@
 
 <!-- Insights Header -->
 <header class="page-header">
-    <div class="container">
-        <h1 class="section-title">Insights</h1>
-        <p class="section-subtitle">Explore cybersecurity insights and scam awareness updates.</p>
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; gap:16px; position:relative;">
+        <div>
+            <h1 class="section-title">Insights</h1>
+            <p class="section-subtitle">Explore cybersecurity insights and scam awareness updates.</p>
+        </div>
+        <div class="header-controls" style="display:flex; align-items:center; gap:12px;">
+            <button id="year-button" class="btn btn-secondary" type="button" aria-haspopup="listbox" aria-expanded="false" title="Select year">Year: Auto</button>
+            <div id="year-menu" role="listbox" aria-label="Select year" style="display:none; position:absolute; top:64px; right:24px; background: var(--card-bg); border:1px solid var(--border-color); border-radius: 8px; box-shadow: var(--shadow-md); padding:8px; min-width: 160px; z-index: 20;"></div>
+        </div>
     </div>
 </header>
 
@@ -104,6 +110,7 @@
 </script>
 <script src="./js/config.js"></script>
 <script src="./js/utils.js"></script>
+<script src="./js/scamwatchParser.js"></script>
 <script src="./js/components/fontController.js"></script>
 <script src="./js/components/alertManager.js"></script>
 <script src="./js/components/filterController.js"></script>
