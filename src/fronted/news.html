@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>News Details</title>
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/layout.css">
+</head>
+<body>
+<!-- Navigation (same as Home) -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="index.html#home" class="logo">
+            <i class="fas fa-shield-check logo-icon"></i>
+            <span>ScamSafe</span>
+        </a>
+
+        <div class="nav-controls">
+            <ul class="nav-links">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="insights.html" class="nav-link">Insights</a></li>
+                <li><a href="education.html" class="nav-link">Education</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <!-- Font size controls (same as Home) -->
+            <div class="font-controls" role="group" aria-label="Font size controls">
+                <button class="font-btn" data-size="small" type="button" aria-label="Decrease font size" title="Smaller text">
+                    <i class="fa-solid fa-minus"></i>
+                </button>
+                <button class="font-btn active" data-size="normal" type="button" aria-label="Reset to default size" title="Default size">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+                <button class="font-btn" data-size="large" type="button" aria-label="Increase font size" title="Larger text">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="container" style="max-width: 860px; margin-top: 32px;">
+    <article id="news-detail" class="news-detail"></article>
+</main>
+
+<script>
+    const API = (window.SCAMSAFE_CONFIG?.apiBackend?.baseUrl) || 'http://localhost:3001/api';
+    const id = new URLSearchParams(location.search).get('id');
+
+    async function loadDetail() {
+        const r = await fetch(`${API}/news`);
+        const { items=[] } = await r.json();
+        const news = items.find(n => n.id === id);
+        const el = document.getElementById('news-detail');
+        if (!news) { el.innerHTML = "<p>News not found.</p>"; return; }
+
+        el.innerHTML = `
+        <h1 class="section-title">${news.title}</h1>
+        <p class="news-date" style="color:#94a3b8;margin:4px 0 16px;">
+          ${new Date(news.timestamp).toLocaleString()}
+        </p>
+        <img src="${news.image || './assets/images/news-placeholder.jpg'}"
+             alt="news image" class="news-image" style="width:100%;max-height:420px;object-fit:cover;border-radius:12px;margin:12px 0;">
+        <div class="news-body" style="font-size:1.05rem;line-height:1.7;color:var(--text-primary);">
+          ${(news.description || '').replace(/\n/g, '<br>')}
+        </div>
+        <p class="news-source" style="margin-top:16px;color:#94a3b8;text-align:right;">
+          来源：${news.source || 'ScamSafe Admin'}
+        </p>
+        ${news.url ? `<p style="text-align:right"><a href="${news.url}" target="_blank" class="alert-link">原文链接</a></p>` : ''}
+      `;
+    }
+    loadDetail();
+</script>
+
+<!-- 依赖 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<script src="./js/config.js"></script>
+<script src="./js/utils.js"></script>
+<script src="./js/components/fontController.js"></script>
+<script src="./js/main.js"></script>
+</body>
+</html>

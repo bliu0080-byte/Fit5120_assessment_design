@@ -87,33 +87,61 @@ class ScamSafeApp {
      * Initialize all components
      */
     async initializeComponents() {
-        // Initialize AlertManager first (data layer)
-        this.alertManager = new AlertManager();
-        this.components.set('alertManager', this.alertManager);
-
-        // Initialize FilterController with AlertManager reference
-        this.filterController = new FilterController(this.alertManager);
-        this.components.set('filterController', this.filterController);
-
-        // Initialize FontController
-        this.fontController = window.scamSafeFontController || new FontController();
-        this.components.set('fontController', this.fontController);
-
-        // 3) 触发一次初始加载（根据你的 AlertManager 实现二选一 / 都加）
-        if (typeof this.alertManager.init === 'function') {
-            await this.alertManager.init();
+        try {
+            // 1) 保证类已加载到全局（避免 ReferenceError）
+            if (!window.AlertManager) {
+                throw new Error('AlertManager script not loaded');
             }
-        if (typeof this.alertManager.refreshAlerts === 'function') {
-            // true 常见语义是“强制刷新”或“静默以外的刷新”
+
+            // 2) 初始化各组件（带守护）
+            this.alertManager = new window.AlertManager();
+            this.components.set('alertManager', this.alertManager);
+            window.__alertManager = this.alertManager; // 可选：方便在控制台调试
+
+            if (window.FilterController) {
+                this.filterController = new window.FilterController(this.alertManager);
+                this.components.set('filterController', this.filterController);
+            } else {
+                console.warn('FilterController script not loaded.');
+            }
+
+            if (window.scamSafeFontController) {
+                this.fontController = window.scamSafeFontController;
+            } else if (window.FontController) {
+                this.fontController = new window.FontController();
+            }
+            if (this.fontController) {
+                this.components.set('fontController', this.fontController);
+            }
+
+            // 3) 触发数据加载：优先 init → refreshAlerts → loadAlerts
+            if (typeof this.alertManager.init === 'function') {
+                await this.alertManager.init();
+            } else if (typeof this.alertManager.refreshAlerts === 'function') {
                 await this.alertManager.refreshAlerts(true);
             } else if (typeof this.alertManager.loadAlerts === 'function') {
                 await this.alertManager.loadAlerts();
             }
+
+            // 4) 等待数据/事件就绪（若无，则快速返回）
+            if (typeof this.waitForAlertsReady === 'function') {
                 await this.waitForAlertsReady();
+            } else {
+                await new Promise(r => setTimeout(r, 0));
+            }
 
-        console.log('All components initialized successfully');
+            console.log('All components initialized successfully');
+        } catch (err) {
+            console.error('Failed to initialize application:', err);
+            const grid = document.getElementById('news-grid');
+            if (grid) {
+                grid.insertAdjacentHTML(
+                    'beforeend',
+                    '<p style="padding:12px;color:#64748b">News module failed to initialize.</p>'
+                );
+            }
+        }
     }
-
     /**
      * Wait for initial data to load
      * @returns {Promise} Promise that resolves when data is loaded

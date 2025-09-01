@@ -175,4 +175,9 @@
     }
 
     console.log(`${CONFIG.app.name} v${CONFIG.app.version} - Configuration loaded (env=${NODE_ENV})`);
+    // 在 CONFIG 里加:
+    apiBackend: {
+        baseUrl: 'http://localhost:3001/api'
+    }
 })();
+
