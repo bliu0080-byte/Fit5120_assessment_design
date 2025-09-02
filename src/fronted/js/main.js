@@ -1,19 +1,40 @@
 /**
- * Main Application Controller
+ * Main Application Controller (Unified)
  * ScamSafe - Application initialization and component orchestration
  */
 
 class ScamSafeApp {
     constructor() {
-        this.config = window.SCAMSAFE_CONFIG || window.CONFIG || {};
-        this.utils = window.ScamSafeUtils || Utils;
+        // 配置与工具兜底
+        this.config = (window.SCAMSAFE_CONFIG || window.CONFIG || {
+            app: { name: 'ScamSafe', version: 'dev' },
+            analytics: { enabled: false },
+            features: {}
+        });
+        this.utils = window.ScamSafeUtils || window.Utils || {
+            // 极简 DOM/工具兜底，避免第三方工具未加载导致报错
+            dom: {
+                select: (s, r = document) => r.querySelector(s),
+                selectAll: (s, r = document) => Array.from(r.querySelectorAll(s)),
+                on: (el, ev, fn, opts) => el && el.addEventListener && el.addEventListener(ev, fn, opts),
+                create: (tag, props = {}, text = '') => {
+                    const el = document.createElement(tag);
+                    Object.assign(el, props);
+                    if (text) el.textContent = text;
+                    return el;
+                },
+            },
+            debounce(fn, delay = 250) {
+                let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), delay); };
+            },
+            date: { now: () => Date.now() }
+        };
 
-        // Component instances
+        // 组件与状态
         this.fontController = null;
         this.filterController = null;
         this.alertManager = null;
 
-        // Application state
         this.isInitialized = false;
         this.components = new Map();
         this.eventListeners = new Map();
@@ -21,141 +42,94 @@ class ScamSafeApp {
         this.init();
     }
 
-    /**
-     * Initialize application
-     */
     async init() {
         try {
-            console.log(`${this.config.app.name} v${this.config.app.version} - Initializing...`);
+            const appName = (this.config.app && this.config.app.name) || 'ScamSafe';
+            const appVer  = (this.config.app && this.config.app.version) || 'dev';
+            console.log(`${appName} v${appVer} - Initializing...`);
 
-            // Check browser compatibility
             if (!this.checkBrowserCompatibility()) {
                 this.showBrowserCompatibilityWarning();
                 return;
             }
 
-            // Initialize components in order
             await this.initializeComponents();
-
-            // Setup global event handlers
             this.setupGlobalEventHandlers();
-
-            // Setup navigation
             this.setupNavigation();
-
-            // Handle URL hash on load
             this.handleInitialHash();
 
-            // Mark as initialized
             this.isInitialized = true;
-
-            // Dispatch initialization complete event
             this.dispatchInitEvent();
 
-            console.log(`${this.config.app.name} - Initialization complete`);
-
+            console.log(`${appName} - Initialization complete`);
         } catch (error) {
             console.error('Failed to initialize application:', error);
             this.showInitializationError(error);
         }
     }
 
-    /**
-     * Check browser compatibility
-     * @returns {boolean} True if compatible
-     */
     checkBrowserCompatibility() {
-        const requiredFeatures = [
-            'fetch',
-            'Promise',
-            'localStorage',
-            'addEventListener',
-            'querySelector',
-            'classList'
-        ];
-
-        return requiredFeatures.every(feature => {
-            const isSupported = feature in window || feature in document || feature in document.documentElement;
-            if (!isSupported) {
-                console.warn(`Browser missing required feature: ${feature}`);
-            }
-            return isSupported;
+        const required = ['fetch','Promise','localStorage','addEventListener','querySelector','classList'];
+        return required.every((f) => {
+            const ok = (f in window) || (f in document) || (f in document.documentElement);
+            if (!ok) console.warn(`Browser missing required feature: ${f}`);
+            return ok;
         });
     }
 
-    /**
-     * Initialize all components
-     */
     async initializeComponents() {
-        try {
-            // 1) 保证类已加载到全局（避免 ReferenceError）
-            if (!window.AlertManager) {
-                throw new Error('AlertManager script not loaded');
-            }
+        // ✅ 根据 DOM 判断是否需要 Alerts UI（首页才有）
+        const hasAlertsUI = !!document.getElementById('news-grid');
 
-            // 2) 初始化各组件（带守护）
+        // 1) AlertManager（仅首页）
+        if (hasAlertsUI && window.AlertManager) {
             this.alertManager = new window.AlertManager();
             this.components.set('alertManager', this.alertManager);
-            window.__alertManager = this.alertManager; // 可选：方便在控制台调试
+            window.__alertManager = this.alertManager; // 方便调试
+        } else if (hasAlertsUI && !window.AlertManager) {
+            console.warn('AlertManager script not loaded but alerts UI is present.');
+        }
 
-            if (window.FilterController) {
-                this.filterController = new window.FilterController(this.alertManager);
-                this.components.set('filterController', this.filterController);
-            } else {
-                console.warn('FilterController script not loaded.');
-            }
+        // 2) FilterController（需有类与 AlertManager，并且页面上有筛选区）
+        const hasFilterTabs = !!document.getElementById('filter-tabs');
+        if (hasAlertsUI && hasFilterTabs && window.FilterController && this.alertManager) {
+            this.filterController = new window.FilterController(this.alertManager);
+            this.components.set('filterController', this.filterController);
+        } else if (hasFilterTabs && !window.FilterController) {
+            console.warn('FilterController script not loaded.');
+        }
 
-            if (window.scamSafeFontController) {
-                this.fontController = window.scamSafeFontController;
-            } else if (window.FontController) {
-                this.fontController = new window.FontController();
-            }
-            if (this.fontController) {
-                this.components.set('fontController', this.fontController);
-            }
+        // 3) FontController（全站复用）
+        if (window.scamSafeFontController) {
+            this.fontController = window.scamSafeFontController;
+        } else if (window.FontController) {
+            this.fontController = new window.FontController();
+        }
+        if (this.fontController) {
+            this.components.set('fontController', this.fontController);
+        }
 
-            // 3) 触发数据加载：优先 init → refreshAlerts → loadAlerts
+        // 4) 数据加载（仅当有 AlertManager）
+        if (this.alertManager) {
             if (typeof this.alertManager.init === 'function') {
                 await this.alertManager.init();
-            } else if (typeof this.alertManager.refreshAlerts === 'function') {
+            }
+            if (typeof this.alertManager.refreshAlerts === 'function') {
                 await this.alertManager.refreshAlerts(true);
             } else if (typeof this.alertManager.loadAlerts === 'function') {
                 await this.alertManager.loadAlerts();
             }
-
-            // 4) 等待数据/事件就绪（若无，则快速返回）
-            if (typeof this.waitForAlertsReady === 'function') {
-                await this.waitForAlertsReady();
-            } else {
-                await new Promise(r => setTimeout(r, 0));
-            }
-
-            console.log('All components initialized successfully');
-        } catch (err) {
-            console.error('Failed to initialize application:', err);
-            const grid = document.getElementById('news-grid');
-            if (grid) {
-                grid.insertAdjacentHTML(
-                    'beforeend',
-                    '<p style="padding:12px;color:#64748b">News module failed to initialize.</p>'
-                );
-            }
+            await this.waitForAlertsReady();
         }
+
+        console.log('All components initialized successfully');
     }
-    /**
-     * Wait for initial data to load
-     * @returns {Promise} Promise that resolves when data is loaded
-     */
+
     waitForAlertsReady() {
+        if (!this.alertManager) return Promise.resolve(); // 非首页，直接返回
         return new Promise((resolve) => {
-            if (this.alertManager?.isReady?.()) {
-                resolve();
-                return;
-            }
-            const handler = () => {
-                document.removeEventListener('alertsLoaded', handler);
-                resolve();
-            };
+            if (this.alertManager?.isReady?.()) return resolve();
+            const handler = () => { document.removeEventListener('alertsLoaded', handler); resolve(); };
             document.addEventListener('alertsLoaded', handler, { once: true });
 
             const poll = setInterval(() => {
@@ -167,546 +141,256 @@ class ScamSafeApp {
         });
     }
 
-    /**
-     * Setup global event handlers
-     */
     setupGlobalEventHandlers() {
-        // Handle component communication
-        this.addEventListener('alertsLoaded', (event) => {
-            console.log(`Loaded ${event.detail.count} alerts`);
-            this.updateGlobalStats(event.detail);
+        // 组件事件
+        this.addEventListener('alertsLoaded', (e) => {
+            console.log(`Loaded ${e.detail.count} alerts`);
+            this.updateGlobalStats(e.detail);
+        });
+        this.addEventListener('filterChanged', (e) => {
+            console.log(`Filter changed to: ${e.detail.filter}`);
+            this.trackAnalyticsEvent('filter_used', { filter: e.detail.filter });
+        });
+        this.addEventListener('fontSizeChanged', (e) => {
+            console.log(`Font size changed to: ${e.detail.name}`);
+            this.trackAnalyticsEvent('font_changed', { size: e.detail.size });
+        });
+        this.addEventListener('alertAction', (e) => {
+            console.log(`Alert action: ${e.detail.action.label} on ${e.detail.alert.id}`);
+            this.handleAlertAction(e.detail.alert, e.detail.action);
         });
 
-        this.addEventListener('filterChanged', (event) => {
-            console.log(`Filter changed to: ${event.detail.filter}`);
-            this.trackAnalyticsEvent('filter_used', { filter: event.detail.filter });
-        });
-
-        this.addEventListener('fontSizeChanged', (event) => {
-            console.log(`Font size changed to: ${event.detail.name}`);
-            this.trackAnalyticsEvent('font_changed', { size: event.detail.size });
-        });
-
-        this.addEventListener('alertAction', (event) => {
-            console.log(`Alert action: ${event.detail.action.label} on ${event.detail.alert.id}`);
-            this.handleAlertAction(event.detail.alert, event.detail.action);
-        });
-
-        // Handle visibility changes
+        // 页面可见性与网络状态
         this.addEventListener('visibilitychange', () => {
-            if (!document.hidden) {
-                this.handlePageVisible();
-            } else {
-                this.handlePageHidden();
-            }
+            document.hidden ? this.handlePageHidden() : this.handlePageVisible();
         });
+        this.addEventListener('online',  () => this.handleOnline());
+        this.addEventListener('offline', () => this.handleOffline());
 
-        // Handle online/offline status
-        this.addEventListener('online', () => {
-            this.handleOnline();
-        });
+        // Resize（节流）
+        const onResize = this.utils.debounce(() => this.handleResize(), 250);
+        this.addEventListener('resize', onResize, window);
 
-        this.addEventListener('offline', () => {
-            this.handleOffline();
-        });
-
-        // Handle resize for responsive adjustments
-        const debouncedResize = this.utils.debounce(() => {
-            this.handleResize();
-        }, 250);
-
-        this.addEventListener('resize', debouncedResize);
-
-        // Handle errors
-        this.addEventListener('error', (event) => {
-            this.handleGlobalError(event.error || event);
-        });
-
-        // Handle unhandled promise rejections
-        this.addEventListener('unhandledrejection', (event) => {
-            this.handleGlobalError(event.reason);
-            event.preventDefault(); // Prevent console error
-        });
+        // 全局错误
+        this.addEventListener('error', (e) => this.handleGlobalError(e.error || e));
+        this.addEventListener('unhandledrejection', (e) => {
+            this.handleGlobalError(e.reason); e.preventDefault();
+        }, window);
     }
 
-    /**
-     * Setup navigation functionality
-     */
     setupNavigation() {
         const navLinks = this.utils.dom.selectAll('.nav-link');
-
-        navLinks.forEach(link => {
-            this.utils.dom.on(link, 'click', (event) => {
+        navLinks.forEach((link) => {
+            this.utils.dom.on(link, 'click', (ev) => {
                 const href = link.getAttribute('href') || '';
-
-                // 只处理内部锚点（#home、#education…）
+                // 仅处理当前页锚点
                 if (href.startsWith('#')) {
-                    event.preventDefault();
-                    const sectionId = href.slice(1); // 去掉 '#'
-                    this.navigateToSection(sectionId);
+                    ev.preventDefault();
+                    const id = href.slice(1);
+                    this.navigateToSection(id);
                     this.updateActiveNavLink(link);
-                } else {
-                    // 外部/其它页面（insights.html、/pages/xxx.html…）不拦截
-                    // 不要 preventDefault，交给浏览器跳转
                 }
+                // 其他链接（跨页面）保持默认行为
             });
         });
 
-        // 处理地址栏 hash 变化（保留内部锚点滚动）
-        this.addEventListener('hashchange', () => {
-            this.handleHashChange();
-        });
+        // 地址栏 hash 变化
+        this.addEventListener('hashchange', () => this.handleHashChange(), window);
 
-        // 仅对 a[href^="#"] 做平滑滚动（保留你原来的逻辑）
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            this.utils.dom.on(anchor, 'click', (event) => {
-                event.preventDefault();
-                const target = document.querySelector(anchor.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+        // 对所有 a[href^="#"] 平滑滚动
+        this.utils.dom.selectAll('a[href^="#"]').forEach((a) => {
+            this.utils.dom.on(a, 'click', (ev) => {
+                ev.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
     }
 
-    /**
-     * Handle initial URL hash
-     */
     handleInitialHash() {
         const hash = window.location.hash;
-
-        if (hash) {
-            if (hash.includes('filter=')) {
-                // Handle filter hash
-                const filter = hash.split('filter=')[1];
-                if (this.filterController?.isValidFilter(filter)) {
-                    setTimeout(() => {
-                        this.filterController.setActiveFilter(filter);
-                    }, 500);
-                }
-            } else {
-                // Handle section hash
-                const section = hash.replace('#', '');
-                this.navigateToSection(section);
-            }
-        }
-    }
-
-    /**
-     * Handle hash changes
-     */
-    handleHashChange() {
-        const hash = window.location.hash;
-
+        if (!hash) return;
         if (hash.includes('filter=')) {
             const filter = hash.split('filter=')[1];
-            if (this.filterController?.isValidFilter(filter)) {
+            if (this.filterController?.isValidFilter?.(filter)) {
+                setTimeout(() => this.filterController.setActiveFilter(filter), 500);
+            }
+        } else {
+            this.navigateToSection(hash.replace('#', ''));
+        }
+    }
+
+    handleHashChange() {
+        const hash = window.location.hash;
+        if (!hash) return;
+        if (hash.includes('filter=')) {
+            const filter = hash.split('filter=')[1];
+            if (this.filterController?.isValidFilter?.(filter)) {
                 this.filterController.setActiveFilter(filter);
             }
-        } else if (hash) {
-            const section = hash.replace('#', '');
-            this.navigateToSection(section);
+        } else {
+            this.navigateToSection(hash.replace('#', ''));
         }
     }
 
-    /**
-     * Navigate to section
-     * @param {string} section - Section ID
-     */
     navigateToSection(section) {
-        const sectionElement = this.utils.dom.select(`#${section}`);
-
-        if (sectionElement) {
-            sectionElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+        const el = this.utils.dom.select(`#${section}`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    /**
-     * Update active navigation link
-     * @param {Element} activeLink - Active link element
-     */
-    updateActiveNavLink(activeLink) {
-        const navLinks = this.utils.dom.selectAll('.nav-link');
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-        });
-
-        activeLink.classList.add('active');
+    updateActiveNavLink(active) {
+        this.utils.dom.selectAll('.nav-link').forEach(l => l.classList.remove('active'));
+        active.classList.add('active');
     }
 
-    /**
-     * Handle alert action
-     * @param {Object} alert - Alert data
-     * @param {Object} action - Action data
-     */
     handleAlertAction(alert, action) {
         switch (action.type) {
-            case 'primary':
-                this.showAlertDetails(alert);
-                break;
-            case 'secondary':
-                this.showAlertEducation(alert, action);
-                break;
-            default:
-                console.log(`Unhandled action type: ${action.type}`);
+            case 'primary':   this.showAlertDetails(alert); break;
+            case 'secondary': this.showAlertEducation(alert, action); break;
+            default: console.log(`Unhandled action type: ${action.type}`);
         }
     }
 
-    /**
-     * Show alert details modal/page
-     * @param {Object} alert - Alert data
-     */
     showAlertDetails(alert) {
-        // Implementation would show detailed view
-        console.log('Showing details for alert:', alert.id);
-
-        // For now, just scroll to top and highlight
+        console.log('Showing details for alert:', alert?.id);
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        // Could implement modal or dedicated page here
-        this.showNotification(`Viewing details for: ${alert.title}`, 'info');
+        this.showNotification(`Viewing details for: ${alert?.title || alert?.id}`, 'info');
     }
 
-    /**
-     * Show alert education content
-     * @param {Object} alert - Alert data
-     * @param {Object} action - Action data
-     */
     showAlertEducation(alert, action) {
-        console.log(`Showing ${action.label} for alert:`, alert.id);
-
-        // Implementation would show educational content
-        this.showNotification(`${action.label} for ${alert.type} threats`, 'info');
+        console.log(`Showing ${action?.label} for alert:`, alert?.id);
+        this.showNotification(`${action?.label} for ${alert?.type || 'unknown'} threats`, 'info');
     }
 
-    /**
-     * Update global statistics
-     * @param {Object} data - Alert data
-     */
-    updateGlobalStats(data) {
-        // Update hero stats if needed
-        const stats = this.alertManager?.getStatistics();
-        if (stats) {
-            this.updateHeroStats(stats);
-        }
+    updateGlobalStats() {
+        // 如需把统计数写回首页 hero，可在此实现
+        const stats = this.alertManager?.getStatistics?.();
+        if (!stats) return;
+        // const nodes = this.utils.dom.selectAll('.stat-number');
+        // TODO: 写入真实数值或动画更新
     }
 
-    /**
-     * Update hero section statistics
-     * @param {Object} stats - Statistics data
-     */
-    updateHeroStats(stats) {
-        const statNumbers = this.utils.dom.selectAll('.stat-number');
-
-        if (statNumbers.length >= 3) {
-            // Update with real data if available
-            // For now, keep the static values
-        }
-    }
-
-    /**
-     * Handle page becoming visible
-     */
     handlePageVisible() {
-        console.log('Page became visible');
-
-        // Resume auto-refresh if enabled
-        this.alertManager?.resumeAutoRefresh();
-
-        // Update timestamps
-        this.alertManager?.updateTimestamps();
+        this.alertManager?.resumeAutoRefresh?.();
+        this.alertManager?.updateTimestamps?.();
     }
+    handlePageHidden()  { this.alertManager?.pauseAutoRefresh?.(); }
 
-    /**
-     * Handle page becoming hidden
-     */
-    handlePageHidden() {
-        console.log('Page became hidden');
+    handleOnline()  { this.showNotification('Connection restored', 'success'); this.alertManager?.refreshAlerts?.(true); }
+    handleOffline() { this.showNotification('You are currently offline', 'warning'); }
 
-        // Pause auto-refresh to save resources
-        this.alertManager?.pauseAutoRefresh();
-    }
-
-    /**
-     * Handle online status
-     */
-    handleOnline() {
-        console.log('Connection restored');
-        this.showNotification('Connection restored', 'success');
-
-        // Refresh data when coming back online
-        this.alertManager?.refreshAlerts(true);
-    }
-
-    /**
-     * Handle offline status
-     */
-    handleOffline() {
-        console.log('Connection lost');
-        this.showNotification('You are currently offline', 'warning');
-    }
-
-    /**
-     * Handle window resize
-     */
     handleResize() {
-        console.log('Window resized:', window.innerWidth, window.innerHeight);
-
-        // Could trigger responsive adjustments here
-        this.updateLayoutForViewport();
-    }
-
-    /**
-     * Update layout based on viewport
-     */
-    updateLayoutForViewport() {
         const isMobile = window.innerWidth <= 768;
-        const isTablet = window.innerWidth <= 1024;
-
+        const isTablet = window.innerWidth <= 1024 && !isMobile;
         document.body.classList.toggle('mobile-layout', isMobile);
-        document.body.classList.toggle('tablet-layout', isTablet && !isMobile);
+        document.body.classList.toggle('tablet-layout', isTablet);
     }
 
-    /**
-     * Handle global errors
-     * @param {Error} error - Error object
-     */
     handleGlobalError(error) {
         console.error('Global error:', error);
-
-        // Track error for analytics
         this.trackAnalyticsEvent('error', {
-            message: error.message || 'Unknown error',
-            stack: error.stack || 'No stack trace'
+            message: error?.message || String(error) || 'Unknown error',
+            stack: error?.stack || 'No stack trace'
         });
-
-        // Show user-friendly error message
         this.showNotification('An unexpected error occurred', 'error');
     }
 
-    /**
-     * Show notification to user
-     * @param {string} message - Notification message
-     * @param {string} type - Notification type (info, success, warning, error)
-     * @param {number} duration - Display duration in ms
-     */
     showNotification(message, type = 'info', duration = 5000) {
-        // Simple console notification for now
-        // Could be enhanced with toast notifications
-        const styles = {
-            info: 'color: blue',
-            success: 'color: green',
-            warning: 'color: orange',
-            error: 'color: red'
-        };
+        const styles = { info: 'color: blue', success: 'color: green', warning: 'color: orange', error: 'color: red' };
+        console.log(`%c${type.toUpperCase()}: ${message}`, styles[type] || '');
 
-        console.log(`%c${type.toUpperCase()}: ${message}`, styles[type]);
-
-        // Create temporary visual notification
-        const notification = this.utils.dom.create('div', {
+        const n = this.utils.dom.create('div', {
             className: `notification notification-${type}`,
             style: `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 12px 20px;
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        color: var(--text-primary);
-        z-index: 9999;
-        animation: slideIn 0.3s ease-out;
+        position: fixed; top: 20px; right: 20px; padding: 12px 20px;
+        background: var(--card-bg, #fff); border: 1px solid var(--border-color, #e5e7eb);
+        border-radius: 8px; color: var(--text-primary, #111); z-index: 9999;
+        box-shadow: 0 6px 18px rgba(0,0,0,.08); animation: slideIn .3s ease-out;
       `
         }, message);
-
-        document.body.appendChild(notification);
-
-        // Auto remove
-        setTimeout(() => {
-            notification.style.animation = 'slideOut 0.3s ease-out';
-            setTimeout(() => notification.remove(), 300);
-        }, duration);
+        document.body.appendChild(n);
+        setTimeout(() => { n.style.animation = 'slideOut .3s ease-out'; setTimeout(() => n.remove(), 300); }, duration);
     }
 
-    /**
-     * Track analytics event
-     * @param {string} event - Event name
-     * @param {Object} data - Event data
-     */
     trackAnalyticsEvent(event, data = {}) {
-        if (!this.config.analytics.enabled) return;
-
+        if (!this.config?.analytics?.enabled) return;
         console.log(`Analytics: ${event}`, data);
-
-        // Implementation would send to analytics service
-        // For now, just log to console
+        // TODO: send to analytics endpoint
     }
 
-    /**
-     * Show browser compatibility warning
-     */
     showBrowserCompatibilityWarning() {
-        const warning = this.utils.dom.create('div', {
+        const w = this.utils.dom.create('div', {
             style: `
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: #dc2626;
-        color: white;
-        padding: 16px;
-        text-align: center;
-        z-index: 99999;
+        position: fixed; top: 0; left: 0; right: 0; background: #dc2626; color: #fff;
+        padding: 16px; text-align: center; z-index: 99999;
       `
-        }, `
-      <strong>Browser Compatibility Warning:</strong>
-      Your browser may not support all features of this application.
-      Please update to a modern browser for the best experience.
-    `);
-
-        document.body.insertBefore(warning, document.body.firstChild);
+        }, 'Browser may not support all features. Please update for the best experience.');
+        document.body.insertBefore(w, document.body.firstChild);
     }
 
-    /**
-     * Show initialization error
-     * @param {Error} error - Error object
-     */
-    showInitializationError(error) {
-        const errorElement = this.utils.dom.create('div', {
+    showInitializationError() {
+        const el = this.utils.dom.create('div', {
             style: `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: var(--card-bg);
-        border: 1px solid var(--danger);
-        border-radius: 12px;
-        padding: 24px;
-        max-width: 400px;
-        text-align: center;
-        z-index: 99999;
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: var(--card-bg, #fff); border: 1px solid var(--danger, #ef4444);
+        border-radius: 12px; padding: 24px; max-width: 420px; text-align: center; z-index: 99999;
       `
         });
-
-        errorElement.innerHTML = `
-      <div style="color: var(--danger); font-size: 48px; margin-bottom: 16px;">
+        el.innerHTML = `
+      <div style="color: var(--danger, #ef4444); font-size: 40px; margin-bottom: 12px;">
         <i class="fas fa-exclamation-triangle"></i>
       </div>
-      <h3 style="color: var(--text-primary); margin-bottom: 16px;">
-        Initialization Failed
-      </h3>
-      <p style="color: var(--text-secondary); margin-bottom: 20px;">
-        The application failed to start properly. Please refresh the page to try again.
-      </p>
+      <h3 style="margin-bottom: 10px;">Initialization Failed</h3>
+      <p style="color:#6b7280; margin-bottom: 18px;">Please refresh the page to try again.</p>
       <button onclick="window.location.reload()" style="
-        background: var(--secondary-blue);
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-      ">
-        Refresh Page
-      </button>
-    `;
-
-        document.body.appendChild(errorElement);
+        background: var(--secondary-blue, #3b82f6); color: #fff; border: none;
+        padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: 600;
+      ">Refresh Page</button>`;
+        document.body.appendChild(el);
     }
 
-    /**
-     * Dispatch initialization complete event
-     */
     dispatchInitEvent() {
         const event = new CustomEvent('appInitialized', {
             detail: {
-                app: this.config.app.name,
-                version: this.config.app.version,
+                app: (this.config.app && this.config.app.name) || 'ScamSafe',
+                version: (this.config.app && this.config.app.version) || 'dev',
                 components: Array.from(this.components.keys()),
                 timestamp: this.utils.date.now()
             }
         });
-
         document.dispatchEvent(event);
     }
 
-    /**
-     * Add event listener with cleanup tracking
-     * @param {string} event - Event name
-     * @param {Function} handler - Event handler
-     * @param {Element} target - Target element (defaults to document)
-     */
     addEventListener(event, handler, target = document) {
         target.addEventListener(event, handler);
-
-        // Track for cleanup
-        if (!this.eventListeners.has(target)) {
-            this.eventListeners.set(target, []);
-        }
+        if (!this.eventListeners.has(target)) this.eventListeners.set(target, []);
         this.eventListeners.get(target).push({ event, handler });
     }
 
-    /**
-     * Get component instance
-     * @param {string} name - Component name
-     * @returns {Object|null} Component instance
-     */
-    getComponent(name) {
-        return this.components.get(name) || null;
-    }
-
-    /**
-     * Check if application is initialized
-     * @returns {boolean} Initialization status
-     */
-    isReady() {
-        return this.isInitialized;
-    }
-
-    /**
-     * Get application info
-     * @returns {Object} Application information
-     */
+    getComponent(name) { return this.components.get(name) || null; }
+    isReady() { return this.isInitialized; }
     getInfo() {
         return {
-            name: this.config.app.name,
-            version: this.config.app.version,
+            name: (this.config.app && this.config.app.name) || 'ScamSafe',
+            version: (this.config.app && this.config.app.version) || 'dev',
             initialized: this.isInitialized,
             components: Array.from(this.components.keys()),
-            features: this.config.features
+            features: this.config.features || {}
         };
     }
 
-    /**
-     * Destroy application and cleanup
-     */
     destroy() {
         console.log('Destroying application...');
-
-        // Destroy components
-        this.components.forEach((component, name) => {
-            if (component.destroy && typeof component.destroy === 'function') {
-                component.destroy();
-                console.log(`Component ${name} destroyed`);
-            }
+        this.components.forEach((c, name) => {
+            if (c?.destroy && typeof c.destroy === 'function') c.destroy();
+            console.log(`Component ${name} destroyed`);
         });
-
-        // Cleanup event listeners
-        this.eventListeners.forEach((listeners, target) => {
-            listeners.forEach(({ event, handler }) => {
-                target.removeEventListener(event, handler);
-            });
+        this.eventListeners.forEach((list, target) => {
+            list.forEach(({ event, handler }) => target.removeEventListener(event, handler));
         });
-
-        // Clear references
         this.components.clear();
         this.eventListeners.clear();
         this.isInitialized = false;
-
         console.log('Application destroyed');
     }
 }
@@ -714,25 +398,19 @@ class ScamSafeApp {
 // Initialize application when DOM is ready
 function initializeApp() {
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            window.scamSafeApp = new ScamSafeApp();
-        });
+        document.addEventListener('DOMContentLoaded', () => { window.scamSafeApp = new ScamSafeApp(); });
     } else {
         window.scamSafeApp = new ScamSafeApp();
     }
 }
-
-// Auto-initialize
 initializeApp();
 
 // Cleanup on page unload
 window.addEventListener('beforeunload', () => {
-    if (window.scamSafeApp) {
-        window.scamSafeApp.destroy();
-    }
+    if (window.scamSafeApp) window.scamSafeApp.destroy();
 });
 
-// Export for module systems
+// CommonJS export (optional)
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = ScamSafeApp;
 }
