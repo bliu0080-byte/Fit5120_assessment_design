@@ -34,7 +34,8 @@
         renderInsights(STATE.data);
       } catch (e) {
         console.error('Failed to load fallback insights:', e);
-        showInlineError('insights', 'Unable to load insights data');
+        // Show error in the metrics section since there is no generic container
+        showInlineError('metrics', 'Unable to load insights data');
       }
     }
   }
@@ -61,31 +62,7 @@
     return data;
   }
 
-  async function loadLiveFeedWithCache() {
-    const cached = Utils.storage.get(FEED_CACHE_KEY, null);
-    const now = Date.now();
-    if (cached && cached.expires > now) {
-      return cached.data;
-    }
-
-    // Try PhishStats (no key). Note: may be blocked by CORS.
-    const url = 'https://phishstats.info:2096/api/phishing?_sort=-date&_page=1&limit=10';
-    const res = await fetch(url, { mode: 'cors' });
-    if (!res.ok) throw new Error('Feed HTTP error ' + res.status);
-    const list = await res.json();
-
-    const normalized = list.map((item) => ({
-      id: item._id || item.id || Utils.string.random(8),
-      date: item.date || item.created || new Date().toISOString(),
-      target: item.target || item.brand || 'Unknown target',
-      url: item.url || item.hostname || '',
-      type: 'phishing',
-      risk: 'high'
-    }));
-
-    Utils.storage.set(FEED_CACHE_KEY, { data: normalized, expires: now + FEED_CACHE_TTL });
-    return normalized;
-  }
+  // Live feed removed per scope; relying on local data sources.
 
   function renderInsights(data) {
     if (!data) return;

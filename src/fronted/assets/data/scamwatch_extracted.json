@@ -1,0 +1,29 @@
+{
+  "years": [2020],
+  "byYear": {
+    "2020": {
+      "year": 2020,
+      "metrics": {
+        "reports": 216086,
+        "lossesAUD": 175666585,
+        "avgLossAUD": 813
+      },
+      "topScamTypes": [
+        { "label": "Investment Scams", "amountAUD": 65802807 },
+        { "label": "Romance", "amountAUD": 38916120 },
+        { "label": "False Billing", "amountAUD": 18464903 }
+      ],
+      "contact": {
+        "byLoss": [
+          { "method": "Email", "amountAUD": 35231831 }
+        ],
+        "byCount": [
+          { "method": "Phone call", "count": 103152 },
+          { "method": "Email", "count": 47503 },
+          { "method": "Text message", "count": 32337 }
+        ]
+      }
+    }
+  }
+}
+

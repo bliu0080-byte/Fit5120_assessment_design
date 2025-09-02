@@ -1,0 +1,34 @@
+{
+  "lastUpdated": "2025-08-20T10:00:00.000Z",
+  "period": { "label": "Jan–Dec 2024" },
+  "metrics": {
+    "label1": "Reports (AU)",
+    "reports": 218450,
+    "lossesAUD": 301250000,
+    "avgLossAUD": 1379,
+    "yoyGrowthPct": 12
+  },
+  "topScamTypes": [
+    { "label": "Investment Scams", "amountAUD": 154000000 },
+    { "label": "Phishing", "amountAUD": 42000000 },
+    { "label": "Romance", "amountAUD": 36000000 },
+    { "label": "False Billing", "amountAUD": 18000000 },
+    { "label": "Employment", "amountAUD": 12000000 },
+    { "label": "Threats", "amountAUD": 9000000 }
+  ],
+  "monthly": [
+    { "month": "2024-01", "total": 16000 },
+    { "month": "2024-02", "total": 15000 },
+    { "month": "2024-03", "total": 17500 },
+    { "month": "2024-04", "total": 17250 },
+    { "month": "2024-05", "total": 18200 },
+    { "month": "2024-06", "total": 19500 },
+    { "month": "2024-07", "total": 19800 },
+    { "month": "2024-08", "total": 18250 },
+    { "month": "2024-09", "total": 17500 },
+    { "month": "2024-10", "total": 18500 },
+    { "month": "2024-11", "total": 19250 },
+    { "month": "2024-12", "total": 19200 }
+  ]
+}
+
