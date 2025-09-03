@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS news (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL,
   description TEXT,
+  content TEXT,
   type TEXT CHECK(type IN ('sms','phone','email','investment','social','shopping','all')) NOT NULL,
   severity TEXT CHECK(severity IN ('low','medium','high','critical')) NOT NULL DEFAULT 'medium',
   url TEXT,
@@ -21,8 +22,8 @@ export default {
     },
     create(n) {
         db.prepare(`INSERT INTO news
-      (id,title,description,type,severity,url,image,source,timestamp)
-      VALUES (@id,@title,@description,@type,@severity,@url,@image,@source,@timestamp)`).run(n);
+      (id,title,description,content,type,severity,url,image,source,timestamp)
+      VALUES (@id,@title,@description,@content,@type,@severity,@url,@image,@source,@timestamp)`).run(n);
         return n;
     },
     delete(id) {
