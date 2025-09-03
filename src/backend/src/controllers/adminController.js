@@ -11,6 +11,7 @@ export const createNews = (req, res) => {
         id: crypto.randomUUID(),
         title: a.title || "Untitled",
         description: a.description || "",
+        content: a.content || "",
         type: a.type || "all",
         severity: a.severity || "medium",
         url: a.url || "",

@@ -9,6 +9,7 @@
         // 表单
         title: $('title'),
         desc: $('desc'),
+        content: $('content'),
         type: $('type'),
         severity: $('severity'),
         image: $('image'),
@@ -124,6 +125,7 @@
         const payload = {
             title: els.title.value.trim(),
             description: els.desc.value.trim(),
+            content: els.content.value.trim(),
             type: els.type.value,
             severity: els.severity.value,
             image: els.image.value.trim(),
@@ -151,6 +153,7 @@
     function resetForm() {
         els.title.value = '';
         els.desc.value = '';
+        els.content.value = '';
         els.type.value = 'sms';
         els.severity.value = 'medium';
         els.image.value = '';
