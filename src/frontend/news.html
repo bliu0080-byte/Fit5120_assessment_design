@@ -67,7 +67,7 @@
           ${(news.content || news.description || '').replace(/\n/g, '<br>')}
         </div>
         <p class="news-source" style="margin-top:16px;color:#94a3b8;text-align:right;">
-          来源：${news.source || 'ScamSafe Admin'}
+          source ：${news.source || 'ScamSafe Admin'}
         </p>
         ${news.url ? `<p style="text-align:right"><a href="${news.url}" target="_blank" class="alert-link">原文链接</a></p>` : ''}
       `;
