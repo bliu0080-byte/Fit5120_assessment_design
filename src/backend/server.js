@@ -13,72 +13,39 @@ import adminRoutes from './src/routes/adminRoutes.js';
 
 const app = express();
 
-/* -------------------------------------------
- * 0) Trust proxy (important on Render)
- * ----------------------------------------- */
+/* --- Trust proxy (Render 需要，才能拿到正确的 https) --- */
 app.set('trust proxy', 1);
 
-/* -------------------------------------------
- * 1) CORS
- * ----------------------------------------- */
-const ALLOWED_ORIGINS = [
+/* --- CORS --- */
+const allowedOrigins = [
     'http://127.0.0.1:3000',
     'http://localhost:3000',
     'https://bliu0080-byte.github.io',
     'https://bliu0080-byte.github.io/Fit5120_assessment_design',
     'https://scamsafe.onrender.com'
 ];
-
-// Use a function so same-origin/no-origin (e.g., curl) also works
 app.use(
     cors({
         origin(origin, cb) {
-            if (!origin) return cb(null, true);
-            return cb(null, ALLOWED_ORIGINS.includes(origin));
-        },
-        credentials: false
+            if (!origin) return cb(null, true); // 允许无 Origin 的请求（如 curl/健康检查）
+            return cb(null, allowedOrigins.includes(origin));
+        }
     })
 );
 app.options('*', cors());
 
-/* -------------------------------------------
- * 2) Body parsing
- * ----------------------------------------- */
+/* --- Body Parsing --- */
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-/* -------------------------------------------
- * 3) Paths & helpers
- * ----------------------------------------- */
+/* --- Path Helpers --- */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const ROOT_DIR   = __dirname;
-const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
-const UPLOAD_DIR = path.join(ROOT_DIR, 'uploads');
-const DATA_DIR   = path.join(ROOT_DIR, 'data');
-const NEWS_JSON  = path.join(DATA_DIR, 'news.json');
+const UPLOAD_DIR = path.join(__dirname, 'uploads');
+if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 
-for (const dir of [UPLOAD_DIR, DATA_DIR]) {
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-}
-
-// Simple JSON helpers as a fallback storage
-function readJSON(file, fallback = { items: [] }) {
-    try {
-        if (!fs.existsSync(file)) return fallback;
-        const raw = fs.readFileSync(file, 'utf8');
-        return JSON.parse(raw);
-    } catch {
-        return fallback;
-    }
-}
-function writeJSON(file, data) {
-    fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
-}
-if (!fs.existsSync(NEWS_JSON)) writeJSON(NEWS_JSON, { items: [] });
-
-// Build absolute https URL using forwarded headers
+/* --- 生成“当前请求对应的绝对 URL” (支持 Render 的 forwarded 头) --- */
 function absUrl(req, urlPath) {
     const proto = String(req.headers['x-forwarded-proto'] || req.protocol || 'https')
         .split(',')[0]
@@ -87,44 +54,35 @@ function absUrl(req, urlPath) {
     return `${proto}://${host}${urlPath}`;
 }
 
-// Normalize legacy/local image URL for clients
-function fixImageForClient(img, req) {
+/* --- 统一修正图片 URL --- */
+function fixImageURL(img, req) {
     if (!img) return img;
     let s = String(img).trim();
 
-    // /uploads/xxx → absolute https
+    // /uploads/xxx → 绝对 https
     if (s.startsWith('/uploads/')) return absUrl(req, s);
 
-    // http://localhost:3001/... or http://127.0.0.1/... → current https host
+    // http://localhost:xxx 或 127.0.0.1 → 当前域名 https
     s = s.replace(
         /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i,
         `https://${req.headers['x-forwarded-host'] || req.get('host')}`
     );
 
-    // Force https to avoid Mixed Content
+    // 强制 https，避免 mixed content
     if (s.startsWith('http://')) s = s.replace(/^http:/i, 'https:');
 
     return s;
 }
 
-/* -------------------------------------------
- * 4) Static: uploads & (optional) public
- * ----------------------------------------- */
+/* --- 静态托管 uploads (可直接外网访问图片) --- */
 app.use('/uploads', express.static(UPLOAD_DIR, { maxAge: '7d', etag: true }));
 
-if (fs.existsSync(PUBLIC_DIR)) {
-    app.use(express.static(PUBLIC_DIR));
-}
-
-/* -------------------------------------------
- * 5) Multer upload (keep extension)
- * ----------------------------------------- */
+/* --- Multer 上传 --- */
 const storage = multer.diskStorage({
     destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
     filename: (_req, file, cb) => {
-        const ext  = (path.extname(file.originalname || '') || '.jpg').toLowerCase();
-        const name = `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`;
-        cb(null, name);
+        const ext = (path.extname(file.originalname) || '.jpg').toLowerCase();
+        cb(null, `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`);
     }
 });
 const upload = multer({
@@ -136,99 +94,73 @@ const upload = multer({
     }
 });
 
-// Upload endpoint → returns absolute https url + relative path
+// 上传接口：返回“绝对 https URL” + 相对 path
 app.post('/api/upload', (req, res) => {
     upload.single('file')(req, res, (err) => {
-        if (err) return res.status(400).json({ error: err.message || 'Upload failed' });
-        if (!req.file) return res.status(400).json({ error: 'No file received. Use field name "file".' });
-
-        const urlPath  = `/uploads/${req.file.filename}`;
-        const absolute = absUrl(req, urlPath);
-        res.json({ url: absolute, path: urlPath });
+        if (err) {
+            console.error('[UPLOAD ERROR]', err);
+            return res.status(400).json({ error: err.message || 'Upload failed' });
+        }
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file received. Use field name "file".' });
+        }
+        const urlPath = `/uploads/${req.file.filename}`;
+        return res.json({ url: absUrl(req, urlPath), path: urlPath });
     });
 });
 
-// Upload error handler
+// 上传错误处理
 app.use((err, _req, res, _next) => {
-    if (err instanceof multer.MulterError || /image files/i.test(err?.message || '')) {
+    console.error('[UPLOAD ERROR]', err);
+    if (err instanceof multer.MulterError || /image files/i.test(err.message || '')) {
         return res.status(400).json({ error: err.message });
     }
     return res.status(500).json({ error: 'Server error' });
 });
 
-/* -------------------------------------------
- * 6) News API (this powers your front-end)
- *    Data source: data/news.json (fallback)
- *    You can replace with DB later.
- * ----------------------------------------- */
-// GET /api/news — list news with fixed image URLs
-app.get('/api/news', (req, res) => {
-    const data  = readJSON(NEWS_JSON, { items: [] });
-    const items = Array.isArray(data.items) ? data.items : [];
-
-    const fixed = items.map((n) => ({
-        ...n,
-        image: fixImageForClient(n.image, req)
-    }));
-
-    res.json({ items: fixed });
+/* ------------------------------------------------------------------
+ * 关键补丁：拦截 GET /api/news 的 res.json，在发出响应前修正 image
+ * 这一步不会改你的 adminRoutes，只是包了一层“响应美化器”
+ * ------------------------------------------------------------------ */
+app.use((req, res, next) => {
+    if (req.method === 'GET' && req.path === '/api/news') {
+        const _json = res.json.bind(res);
+        res.json = (payload) => {
+            try {
+                if (payload && Array.isArray(payload.items)) {
+                    payload.items = payload.items.map((it) => ({
+                        ...it,
+                        image: fixImageURL(it.image, req)
+                    }));
+                }
+            } catch (e) {
+                console.warn('news image normalize failed:', e?.message);
+            }
+            return _json(payload);
+        };
+    }
+    next();
 });
 
-// POST /api/news — create a news item (simple editor use)
-app.post('/api/news', (req, res) => {
-    const { title, description, image, timestamp, category, type, url } = req.body;
-    if (!title) return res.status(400).json({ error: 'title is required' });
-
-    const data  = readJSON(NEWS_JSON, { items: [] });
-    const items = Array.isArray(data.items) ? data.items : [];
-
-    const item = {
-        id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
-        title,
-        description: description || '',
-        image: image || '',
-        timestamp: timestamp || Date.now(),
-        category: category || type || 'general',
-        url: url || ''
-    };
-
-    items.unshift(item);
-    writeJSON(NEWS_JSON, { items });
-    res.status(201).json({ item });
-});
-
-// Single item (optional)
-app.get('/api/news/:id', (req, res) => {
-    const data  = readJSON(NEWS_JSON, { items: [] });
-    const items = Array.isArray(data.items) ? data.items : [];
-    const found = items.find((n) => n.id === req.params.id);
-    if (!found) return res.status(404).json({ error: 'Not found' });
-    res.json({ item: found });
-});
-
-/* -------------------------------------------
- * 7) Other business routes (admin)
- * ----------------------------------------- */
-// Keep your existing admin routes under /api
+/* --- 你原有的业务路由 --- */
 app.use('/api', adminRoutes);
 
-/* -------------------------------------------
- * 8) Health
- * ----------------------------------------- */
+// 你这段“示例 API”是空数据，建议删掉；留着会覆盖真实的 /api/news：
+// app.get('/api/news', (req, res) => { res.json({ items: [] }); });
+
+/* --- Health --- */
 app.get('/health', (_req, res) => res.send('ok'));
 
-/* -------------------------------------------
- * 9) SPA fallback (serve index.html for non-API)
- * ----------------------------------------- */
-if (fs.existsSync(PUBLIC_DIR)) {
+/* --- 前端静态托管（可选） --- */
+const publicDir = path.join(__dirname, 'public');
+if (fs.existsSync(publicDir)) {
+    app.use(express.static(publicDir));
     app.get(/^(?!\/api).*/, (_req, res) => {
-        res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+        res.sendFile(path.join(publicDir, 'index.html'));
     });
 }
 
-/* -------------------------------------------
- * 10) Start server
- * ----------------------------------------- */
+/* --- Start --- */
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ Backend running at http://localhost:${PORT}`);
