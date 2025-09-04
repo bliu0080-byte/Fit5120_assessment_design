@@ -78,3 +78,26 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Backend running at http://localhost:${PORT}`);
 });
+
+
+app.use(cors({
+    origin: [
+        'https://bliu0080-byte.github.io/Fit5120_assessment_design',                           // 你的 github.io 根域
+        'https://bliu0080-byte.github.io/Fit5120_assessment_design'  // 项目页
+    ]
+}));
+app.use(express.json());
+
+
+app.get('/health', (req, res) => res.send('ok'));
+
+
+app.get('/api/news', (req, res) => {
+    res.json({ items: [] });
+});
+
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`API listening on ${PORT}`);
+});
