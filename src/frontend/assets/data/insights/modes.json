@@ -1,0 +1,9 @@
+[
+  { "mode": "Phone", "reports": 42000 },
+  { "mode": "SMS",   "reports": 33500 },
+  { "mode": "Email", "reports": 29800 },
+  { "mode": "Social Media", "reports": 21000 },
+  { "mode": "Online Ads",   "reports": 15800 },
+  { "mode": "In-person",    "reports": 7800 },
+  { "mode": "Other",        "reports": 3600 }
+]

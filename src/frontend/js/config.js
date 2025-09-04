@@ -36,6 +36,10 @@
             retryAttempts: 3,
             retryDelay: 1000
         },
+        // Backend API used by admin.html for news upload and management
+        apiBackend: {
+            baseUrl: isDev ? 'http://localhost:3001/api' : 'https://api.scamsafe.org/api'
+        },
 
         // Feature Flags
         features: {
@@ -175,9 +179,4 @@
     }
 
     console.log(`${CONFIG.app.name} v${CONFIG.app.version} - Configuration loaded (env=${NODE_ENV})`);
-    // In CONFIG add.
-    apiBackend: {
-        baseUrl: 'http://localhost:3001/api'
-    }
 })();
-
