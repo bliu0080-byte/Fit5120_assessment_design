@@ -28,8 +28,7 @@
 <nav class="navbar" id="navbar">
     <div class="nav-container">
         <a href="index.html#home" class="logo">
-            <i class="fas fa-shield-check logo-icon"></i>
-            <span>ScamSafe</span>
+            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img">
         </a>
 
         <div class="nav-controls">
@@ -57,41 +56,66 @@
 </nav>
 <!-- Announcement / README-style Banner -->
 <section class="readme-banner" id="readme-banner" role="region" aria-label="ScamSafe announcement">
-    <div class="readme-banner__inner">
-        <div class="readme-banner__text">
-            <h2 class="readme-banner__title">
-                Know when to stop and check – stay safe from scams.
-            </h2>
-            <p class="readme-banner__desc">
-                Check common warning signs before you click, reply, or pay. Stay alert and protect yourself online.
-            </p>
-        </div>
-        <div class="readme-banner__media" aria-hidden="true">
-            <!-- 替换成你自己的图片路径 -->
-            <img src="./assets/images/img.png" alt="">
-        </div>
+    <h2 class="readme-banner__title">
+        Know when to stop and check – stay safe from scams.
+    </h2>
+    <p class="readme-banner__desc">
+        Check common warning signs before you click, reply, or pay. Stay alert and protect yourself online.
+    </p>
+    <div class="readme-banner__cards">
+        <!-- Insights Card -->
+        <a href="insights.html" class="banner-card">
+            <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m13.11 7.664 1.78 2.672"/>
+                    <path d="m14.162 12.788-3.324 1.424"/>
+                    <path d="m20 4-6.06 1.515"/>
+                    <path d="M3 3v16a2 2 0 0 0 2 2h16"/>
+                    <circle cx="12" cy="6" r="2"/>
+                    <circle cx="16" cy="12" r="2"/>
+                    <circle cx="9" cy="15" r="2"/>
+                </svg>
+            </div>
+            <h3>Insights</h3>
+            <p>Explore real-time scam data and analytics.</p>
+        </a>
+
+        <!-- Education Card -->
+        <a href="education.html" class="banner-card">
+            <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                    <path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/>
+                    <path d="M12 17h.01"/>
+                </svg>
+            </div>
+            <h3>Education</h3>
+            <p>Learn how to identify and avoid scams.</p>
+        </a>
     </div>
 </section>
+
     <!-- Hero Section -->
 <section class="hero" id="home">
     <div class="hero-content">
-        <h1 class="hero-title">2025 Cybersecurity Fraud Impact Report</h1>
-        <p class="hero-subtitle">
-            Public Welfare Initiative - Raising awareness about the devastating impact of cybersecurity fraud through real-time threat intelligence and educational resources.
-        </p>
-        <div class="hero-stats">
-            <div class="stat-item">
-                <div class="stat-number">890M</div>
-                <div class="stat-label">Global Victims in 2025</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">$2.8T</div>
-                <div class="stat-label">Total Economic Losses</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">156%</div>
-                <div class="stat-label">Year-over-Year Growth</div>
-            </div>
+        <h1 class="hero-title">Every Second, Someone Gets Scammed – Stay Alert, Stay Safe</h1>
+
+        <div class="sc-hero__cards" role="list">
+            <article class="sc-card" role="listitem" aria-live="polite">
+                <header class="sc-card__label">2025 Australians have lost</header>
+                <div class="sc-card__num"><span class="prefix">AU$</span><span id="au-amount" class="odometer">238000000</span></div>
+                <footer class="sc-card__note">that’s about AU$12 every second.</footer>
+            </article>
+            <article class="sc-card" role="listitem" aria-live="polite">
+                <header class="sc-card__label">2025 worldwide, more than</header>
+                <div class="sc-card__num"><span id="world-victims" class="odometer">405,333,336</span></div>
+                <footer class="sc-card__note">people have been scammed，that’s about 19 victims every second. </footer>
+            </article>
+            <article class="sc-card" role="listitem">
+                <header class="sc-card__label">Scam losses have grown</header>
+                <div class="sc-card__num"><span class="odometer">156%</span></div>
+                <footer class="sc-card__note">compared to last year.</footer>
+            </article>
         </div>
     </div>
 </section>
@@ -184,6 +208,7 @@
 <script src="./js/components/alertManager.js"></script>
 <script src="./js/components/filterController.js"></script>
 <script src="./js/main.js"></script>
+<script src="./js/statsUpdater.js"></script>
 </body>
 <script>
 </script>

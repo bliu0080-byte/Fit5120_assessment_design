@@ -3,9 +3,6 @@
  * ScamSafe - Reusable UI components (updated)
  */
 
-/* =========================
-   基础与导航/按钮/筛选（原样保留）
-   ========================= */
 .navbar {
     background: var(--card-bg);
     border-bottom: 2px solid var(--border-color);
@@ -100,7 +97,7 @@
 }
 .filter-tab:hover:not(.active){ background: rgba(59,130,246,.2); color: var(--text-primary); }
 
-/* Cards (通用) */
+/* Cards  */
 .card{ background: var(--card-bg); border:1px solid var(--border-color); border-radius: var(--radius-xl);
     overflow:hidden; transition: all var(--transition-normal); position:relative;
 }
@@ -156,7 +153,7 @@
 }
 .retry-btn:hover{ background: var(--primary-blue); transform: translateY(-1px); }
 
-/* 简洁告警卡（保留） */
+
 .alert-card{ background: var(--card-bg); border-radius:12px; padding:16px; box-shadow: var(--shadow-sm);
     display:flex; flex-direction:column; gap:12px;
 }
@@ -168,10 +165,10 @@
 .alert-link:hover{ text-decoration:underline; }
 
 /* =========================
-   新闻网格与卡片（新版，自适应高度）
+   News grid with cards (new version, adaptive height)
    ========================= */
 
-/* 设计标尺 */
+/* design criteria */
 :root{
     --design-w: 1200;
     --s: min(100vw / var(--design-w), 1);
@@ -191,7 +188,7 @@
     gap: 15px;
 }
 
-/* Card 基础 */
+/* Card infrastructural */
 .news-card{
     background: var(--card-bg,#fff);
     border: 3px solid var(--border-color,#e2e8f0);
@@ -207,7 +204,7 @@
     border-color: var(--secondary-blue,#3b82f6);
 }
 
-/* 媒体区：使用常规流 + 比例，避免父容器无高导致图片不显示 */
+
 .news-media{ width:100%; overflow:hidden; }
 .news-media[data-ar="16/9"]{ aspect-ratio: 16/9; }
 .news-media[data-ar="4/3"]{ aspect-ratio: 4/3; }
@@ -217,7 +214,7 @@
 }
 .news-card:hover .news-img{ transform: scale(1.05); }
 
-/* 文字区：默认不截断，保证完整显示（如需裁剪可改回 line-clamp） */
+
 .news-body{ padding: var(--pad); display:flex; flex-direction:column; gap:.5rem; }
 .news-title{ margin:0; font-weight:800; line-height:1.3; font-size: calc(1.15rem * var(--s)); color: var(--text-primary,#1e293b); }
 .news-desc{ margin:0; color: var(--text-secondary,#475569); font-size: calc(.95rem * var(--s)); line-height:1.6; }
@@ -230,19 +227,19 @@
     font-size: calc(.75rem * var(--s)); font-weight:700; text-transform:uppercase; letter-spacing:.5px;
 }
 
-/* 槽位布局（5个槽位） */
+/* Slot layout (5 slots) */
 .slot-feature{
     grid-column: 1 / -1;
     display:grid; grid-template-columns: 1.35fr 1fr; gap:0;
 }
-.slot-feature .news-media{ min-height: 260px; }        /* 保证视觉高度 */
+.slot-feature .news-media{ min-height: 260px; }
 .slot-feature .news-title{ font-size: calc(1.6rem * var(--s)); }
 
 .slot-tall{
     grid-column:1; grid-row: span 2;
     display:flex; flex-direction:column;
 }
-.slot-tall .news-media{ /* 上图下文：给一个常用比例 */
+.slot-tall .news-media{
     aspect-ratio: 4/3;
 }
 
@@ -257,12 +254,12 @@
 }
 .slot-wide .news-media{ min-height: 240px; }
 
-/* 无图降级：纯文本卡 */
+/* No Picture Downgrade: Plain Text Cards */
 .text-only .news-media{ display:none !important; }
 .text-only .news-body{ padding: calc(24px * var(--s)); }
 .text-only .news-title{ font-size: calc(1.3rem * var(--s)); }
 
-/* 分页 */
+/* subdivision */
 .news-pager{ display:flex; align-items:center; justify-content:center; gap:.75rem; margin-top:2rem; }
 .pager-btn{
     border:1px solid var(--border-color,#e2e8f0); background:#fff; border-radius:.5rem;
@@ -284,4 +281,9 @@
         grid-column:auto; grid-row:auto; display:flex; flex-direction:column;
     }
     .news-media{ aspect-ratio: 16/9 !important; }
+}
+.logo-img {
+    height: 80px;
+    width: auto;
+    display: block;
 }

@@ -12,7 +12,7 @@ class ScamSafeApp {
             features: {}
         });
         this.utils = window.ScamSafeUtils || window.Utils || {
-            // 极简 DOM/工具兜底，避免第三方工具未加载导致报错
+            // Minimalist DOM/tools under the hood to avoid errors caused by unloaded third-party tools
             dom: {
                 select: (s, r = document) => r.querySelector(s),
                 selectAll: (s, r = document) => Array.from(r.querySelectorAll(s)),
@@ -30,7 +30,7 @@ class ScamSafeApp {
             date: { now: () => Date.now() }
         };
 
-        // 组件与状态
+        // Components and State
         this.fontController = null;
         this.filterController = null;
         this.alertManager = null;
@@ -78,10 +78,10 @@ class ScamSafeApp {
     }
 
     async initializeComponents() {
-        // ✅ 根据 DOM 判断是否需要 Alerts UI（首页才有）
+        // ✅ Determine if Alerts UI is needed based on DOM (Home only)
         const hasAlertsUI = !!document.getElementById('news-grid');
 
-        // 1) AlertManager（仅首页）
+        // 1)AlertManager (home page only)
         if (hasAlertsUI && window.AlertManager) {
             this.alertManager = new window.AlertManager();
             this.components.set('alertManager', this.alertManager);
@@ -90,7 +90,7 @@ class ScamSafeApp {
             console.warn('AlertManager script not loaded but alerts UI is present.');
         }
 
-        // 2) FilterController（需有类与 AlertManager，并且页面上有筛选区）
+        // 2) FilterController（
         const hasFilterTabs = !!document.getElementById('filter-tabs');
         if (hasAlertsUI && hasFilterTabs && window.FilterController && this.alertManager) {
             this.filterController = new window.FilterController(this.alertManager);
@@ -99,7 +99,7 @@ class ScamSafeApp {
             console.warn('FilterController script not loaded.');
         }
 
-        // 3) FontController（全站复用）
+        // 3) FontController
         if (window.scamSafeFontController) {
             this.fontController = window.scamSafeFontController;
         } else if (window.FontController) {
@@ -109,7 +109,7 @@ class ScamSafeApp {
             this.components.set('fontController', this.fontController);
         }
 
-        // 4) 数据加载（仅当有 AlertManager）
+        // 4) Data loading
         if (this.alertManager) {
             if (typeof this.alertManager.init === 'function') {
                 await this.alertManager.init();
@@ -142,7 +142,7 @@ class ScamSafeApp {
     }
 
     setupGlobalEventHandlers() {
-        // 组件事件
+        // Data loading
         this.addEventListener('alertsLoaded', (e) => {
             console.log(`Loaded ${e.detail.count} alerts`);
             this.updateGlobalStats(e.detail);
@@ -160,18 +160,18 @@ class ScamSafeApp {
             this.handleAlertAction(e.detail.alert, e.detail.action);
         });
 
-        // 页面可见性与网络状态
+        // Page visibility and network state
         this.addEventListener('visibilitychange', () => {
             document.hidden ? this.handlePageHidden() : this.handlePageVisible();
         });
         this.addEventListener('online',  () => this.handleOnline());
         this.addEventListener('offline', () => this.handleOffline());
 
-        // Resize（节流）
+        // Resize（
         const onResize = this.utils.debounce(() => this.handleResize(), 250);
         this.addEventListener('resize', onResize, window);
 
-        // 全局错误
+        // global error
         this.addEventListener('error', (e) => this.handleGlobalError(e.error || e));
         this.addEventListener('unhandledrejection', (e) => {
             this.handleGlobalError(e.reason); e.preventDefault();
@@ -183,21 +183,21 @@ class ScamSafeApp {
         navLinks.forEach((link) => {
             this.utils.dom.on(link, 'click', (ev) => {
                 const href = link.getAttribute('href') || '';
-                // 仅处理当前页锚点
+
                 if (href.startsWith('#')) {
                     ev.preventDefault();
                     const id = href.slice(1);
                     this.navigateToSection(id);
                     this.updateActiveNavLink(link);
                 }
-                // 其他链接（跨页面）保持默认行为
+
             });
         });
 
-        // 地址栏 hash 变化
+        //Address bar hash change
         this.addEventListener('hashchange', () => this.handleHashChange(), window);
 
-        // 对所有 a[href^="#"] 平滑滚动
+        // For all a[href^="#"] smooth scrolling
         this.utils.dom.selectAll('a[href^="#"]').forEach((a) => {
             this.utils.dom.on(a, 'click', (ev) => {
                 ev.preventDefault();
@@ -263,11 +263,11 @@ class ScamSafeApp {
     }
 
     updateGlobalStats() {
-        // 如需把统计数写回首页 hero，可在此实现
+
         const stats = this.alertManager?.getStatistics?.();
         if (!stats) return;
         // const nodes = this.utils.dom.selectAll('.stat-number');
-        // TODO: 写入真实数值或动画更新
+
     }
 
     handlePageVisible() {

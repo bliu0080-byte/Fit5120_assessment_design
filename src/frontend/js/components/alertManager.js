@@ -3,28 +3,28 @@ class AlertManager {
         const cfg = window.SCAMSAFE_CONFIG || window.CONFIG || {};
         this.api = (cfg.apiBackend && cfg.apiBackend.baseUrl) || `http://${location.hostname}:3001/api`;
 
-        // 状态：加入 activeFilter
+        // Status: activeFilter added
         this.state = {
             loading: false,
             data: [],
             page: 1,
-            pageSize: 5,     // 每页固定 5 条
+            pageSize: 5,     // Fixed 5 items per page
             activeFilter: 'all'
         };
 
-        // 分页元素
+        // paging element
         this.$grid  = document.getElementById('news-grid');
         this.$pager = document.getElementById('news-pager');
         this.$prev  = document.getElementById('prev-page');
         this.$next  = document.getElementById('next-page');
         this.$info  = document.getElementById('page-info');
 
-        // 事件
+        // event
         this.$prev?.addEventListener('click', () => this.toPage(this.state.page - 1));
         this.$next?.addEventListener('click', () => this.toPage(this.state.page + 1));
     }
 
-    /* ========== 数据加载 ========== */
+    /* ========== Data loading ========== */
     async loadAlerts() {
         this.state.loading = true;
         try {
@@ -44,8 +44,8 @@ class AlertManager {
         }
     }
 
-    /* ========== 过滤相关 ========== */
-    // 统一格式：去空格/小写/空格转连字符（按钮与数据两边都用这个规则）
+    /* ========== Filtration Related ========== */
+    // Harmonized format: space removal/lowercase/space to hyphen (use this rule on both sides of the button and data)
     normalize(val) {
         return String(val || '')
             .trim()
@@ -53,17 +53,17 @@ class AlertManager {
             .replace(/\s+/g, '-');
     }
 
-    // 设置过滤器（供 FilterController 调用）
+    // Setting up filters (for FilterController to call)
     setFilter(val) {
         const next = this.normalize(val || 'all');
         if (this.state.activeFilter !== next) {
             this.state.activeFilter = next;
-            this.state.page = 1; // 切换过滤回到第一页
+            this.state.page = 1; // Toggle filter to return to the first page
             this.renderPage();
         }
     }
 
-    // 获取过滤后的数组（支持 category/type/tags）
+    // Get filtered array (supports category/type/tags)
     getFilteredData() {
         const { data, activeFilter } = this.state;
         if (!Array.isArray(data) || !data.length) return [];
@@ -81,7 +81,7 @@ class AlertManager {
         });
     }
 
-    /* ========== 分页相关 ========== */
+    /* ========== Get filtered array (supports category/type/tags) ========== */
     pageCount() {
         const { pageSize } = this.state;
         const total = this.getFilteredData().length;   // 基于过滤后的数据
@@ -94,7 +94,7 @@ class AlertManager {
         this.renderPage();
     }
 
-    /* ========== 渲染页面 ========== */
+    /* ========== rendering page ========== */
     renderPage() {
         if (!this.$grid) return;
 
@@ -105,7 +105,7 @@ class AlertManager {
 
         this.$grid.innerHTML = '';
 
-        // 固定 5 个槽位：feature / tall / standard / standard / wide
+
         const slots = ['feature', 'tall', 'standard', 'standard', 'wide'];
 
         slice.forEach((item, i) => {
@@ -114,7 +114,7 @@ class AlertManager {
             this.$grid.appendChild(card);
         });
 
-        // 分页条
+        // conditional statement
         const totalPages = this.pageCount();
         if (this.$pager) {
             this.$pager.hidden = totalPages <= 1;
@@ -124,7 +124,7 @@ class AlertManager {
         }
     }
 
-    /* ========== 构建卡片 ========== */
+    /* ========== Building Cards ========== */
     buildCard(item, slot, idx) {
         const hasImg = Boolean(item.image && String(item.image).trim());
         const card = document.createElement('article');
@@ -140,8 +140,7 @@ class AlertManager {
       </div>
     `;
 
-        // 只有真的有图才渲染 <img>；失败降级为纯文本卡
-        const ar = '16/9'; // 与 CSS 的 aspect-ratio 配合
+        const ar = '16/9';
         const img = hasImg
             ? `<div class="news-media" data-ar="${ar}">
            <img class="news-img"
@@ -152,7 +151,7 @@ class AlertManager {
          </div>`
             : '';
 
-        // feature / wide：左右结构；tall / standard：图上文下
+
         if (slot === 'feature' || slot === 'wide') {
             card.innerHTML = hasImg
                 ? `${img}<div class="news-body">${title}${desc}${meta}</div>`
@@ -166,7 +165,7 @@ class AlertManager {
             if (slot === 'standard' && idx === 3) card.classList.add('std-2'); // 第二行第3列
         }
 
-        // 点击整卡跳转（按需替换你的跳转逻辑）
+        // Click on the whole card to jump
         card.style.cursor = 'pointer';
         card.addEventListener('click', (e) => {
             if (e.target.closest('a')) return;
@@ -177,7 +176,7 @@ class AlertManager {
         return card;
     }
 
-    /* ========== 工具 ========== */
+    /* ========== artifact ========== */
     formatDate(ts) {
         try {
             if (!ts) return '';
@@ -190,5 +189,5 @@ class AlertManager {
     }
 }
 
-// 显式挂到全局（避免因 script 顺序/模块化导致找不到）
+// Explicitly hook into the global
 window.AlertManager = window.AlertManager || AlertManager;

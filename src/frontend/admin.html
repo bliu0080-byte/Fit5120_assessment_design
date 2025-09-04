@@ -23,11 +23,11 @@
 </head>
 
 <body>
-<!-- 顶部导航（与首页一致） -->
+<!--Top navigation (in line with the home page)） -->
 <nav class="navbar" id="navbar">
     <div class="nav-container">
         <a href="index.html#home" class="logo">
-            <i class="fas fa-shield-check logo-icon"></i><span>ScamSafe</span>
+            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img">
         </a>
         <div class="nav-controls">
             <ul class="nav-links">
@@ -49,7 +49,7 @@
 </nav>
 
 <div class="admin-wrap">
-    <!-- 顶部标题 -->
+    <!-- top heading -->
     <header class="card admin-header">
         <div class="card-bd admin-header-body">
             <div>
@@ -61,7 +61,7 @@
     </header>
 
     <div class="admin-grid">
-        <!-- 发布卡片 -->
+        <!-- Publishing Cards -->
         <section class="card">
             <div class="card-hd"><i class="fa-solid fa-pen-to-square"></i><strong>Publish a New Alert</strong></div>
             <div class="card-bd admin-form">
@@ -112,10 +112,10 @@
                         <div class="input-row">
                             <input id="image" class="input" placeholder="https://.../cover.jpg"/>
                             <input id="imageFile" type="file" accept="image/*" style="display:none">
-                            <button type="button" id="chooseImage" class="btn btn-ghost">选择文件</button>
-                            <button type="button" id="uploadImage" class="btn btn-primary">上传</button>
+                            <button type="button" id="chooseImage" class="btn btn-ghost">Select File</button>
+                            <button type="button" id="uploadImage" class="btn btn-primary">upload</button>
                         </div>
-                        <small class="muted">可直接粘贴 URL，或选择本地图片后点击上传。</small>
+                        <small class="muted">Paste the URL directly, or select a local image and click upload.</small>
                     </div>
                     <div class="field">
                         <label class="label">Source URL (optional)</label>
@@ -143,12 +143,12 @@
             </div>
         </section>
 
-        <!-- 列表卡片 -->
+        <!-- tabs -->
         <section class="card">
             <div class="card-hd"><i class="fa-solid fa-list"></i><strong>Existing Alerts</strong></div>
             <div class="card-bd">
                 <div id="list" class="list">
-                    <!-- 列表渲染位置 -->
+                    <!-- List Rendering Position -->
                 </div>
                 <div id="empty" class="empty" style="display:none">No alerts yet.</div>
             </div>
@@ -156,11 +156,11 @@
     </div>
 </div>
 
-<!-- 依赖（保持与首页一致） -->
+<!-- 依赖（Keep it consistent with the home page） -->
 <script src="./js/config.js"></script>
 <script src="./js/utils.js"></script>
 <script src="./js/components/fontController.js"></script>
-<!-- Admin 专用逻辑 -->
+<!-- Admin application-specific logic -->
 <script src="./js/admin.js"></script>
 </body>
 </html>

@@ -62,27 +62,42 @@
     flex-wrap: wrap;
     margin-top: var(--spacing-2xl);
 }
-
-.stat-item {
-    text-align: center;
-    min-width: 120px;
+/* 卡片区 */
+/* 1) 更稳的自适应网格：每格最小260px，自动换行 */
+.sc-hero__cards{
+    display: grid; gap: 22px; max-width: 1120px; margin: 0 auto 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-.stat-number {
-    font-size: calc(2.5rem * var(--current-font-scale));
-    font-weight: var(--font-weight-bold);
-    color: var(--secondary-blue);
-    display: block;
-    margin-bottom: var(--spacing-xs);
+/* 2) 卡片样式：改为白底更清晰；可保留你原来的半透明样式 */
+.sc-card{
+    background: rgba(255,255,255,0.95);   /* 更接近你截图里的白色卡片 */
+    color: #0c162a;
+    border-radius: var(--radius-2xl, 1rem);
+    padding: 24px 18px;
+    box-shadow: 0 10px 20px rgba(12,22,42,0.12);
+    transition: transform .2s ease, box-shadow .2s ease;
+    backdrop-filter: saturate(1.1) blur(6px);
 }
+.sc-card:hover{ transform: translateY(-4px); box-shadow: 0 16px 28px rgba(12,22,42,0.16); }
 
-.stat-label {
-    font-size: calc(0.875rem * var(--current-font-scale));
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+/* 3) 文案与数字：允许断行 + 控制字号 + 行高 */
+.sc-card__label{ font-weight: 700; color: #0c162a; margin-bottom: 8px; }
+.sc-card__num {
+    display: inline-block;
+    font-weight: 800;
+    line-height: 1.15;
+    white-space: nowrap;
+    transform: scale(1);        /* 这里可用 JS 动态调整 */
+    transform-origin: left center;
 }
+.sc-card__note{ margin-top: 6px; color: #0c162a; font-size: .96rem; }
 
+/* 4) 强制覆盖某些库（如 Odometer）默认的 nowrap 行为 */
+.odometer{
+    letter-spacing: .2px;
+    white-space: normal !important;  /* 关键 */
+}
 /* Main Container */
 .container {
     max-width: var(--max-width-container);
@@ -403,49 +418,69 @@
 }
 /* README-style Banner */
 .readme-banner {
-    background: #facc15; /* 更醒目的黄色，可改成 var(--warning) */
-    color: #0b2a6b;
     position: relative;
-    overflow: hidden;
-    padding: 3rem 1.5rem; /* 增加整体内边距，让区域更大 */
-}
-
-.readme-banner__inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: clamp(16px, 3vw, 32px);
+    background:
+            linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+            url('../assets/images/homeback.jpg') center/cover no-repeat;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    min-height: 300px;
+    padding: 2rem;
 }
-
 .readme-banner__title {
-    font-size: clamp(26px, 3.5vw, 48px);
-    line-height: 1.1;
-    font-weight: 800;
-    margin: 0 0 16px;
-    color: #0b2a6b;
+    font-size: 5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #ffffff;
 }
 
 .readme-banner__desc {
-    font-size: clamp(16px, 1.6vw, 20px);
-    margin: 0;
-    color: #0b2a6b;
+    font-size: 1.8rem;
+    line-height: 1.6;
+    max-width: 800px;
+    color: #ffebee;
+}
+.readme-banner__cards {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-.readme-banner__media {
-    justify-self: end;
-    width: 100%;
-    max-width: 520px;
+.banner-card {
+    background: #fff;
+    color: #111;
+    padding: 1.5rem;
+    border-radius: var(--radius-lg, 0.75rem);
+    text-decoration: none;
+    width: 240px;
+    box-shadow: var(--shadow-md, 0 4px 6px rgba(0,0,0,0.1));
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.readme-banner__media img {
-    width: 100%;
-    height: auto;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+.banner-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg, 0 8px 12px rgba(0,0,0,0.15));
 }
 
+.banner-card .card-icon {
+    margin-bottom: 1rem;
+}
+
+.banner-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #111;
+}
+
+.banner-card p {
+    font-size: 0.95rem;
+    color: #444;
+}
 @media (max-width: 900px) {
     .readme-banner__inner {
         grid-template-columns: 1fr;
@@ -455,4 +490,31 @@
         max-width: 100%;
         margin-top: 20px;
     }
+}
+.readme-education {
+    position: relative;
+    background:
+            linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+            url('../assets/images/education_back.jpg') center/cover no-repeat;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    padding: 2rem;
+}
+.readme-education__title {
+    font-size: 5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+.readme-education__desc {
+    font-size: 1.8rem;
+    line-height: 1.6;
+    max-width: 800px;
+    color: #ffebee;
 }

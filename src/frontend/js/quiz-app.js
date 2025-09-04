@@ -28,7 +28,7 @@ const moduleInfo = [
         icon: '✉️',
         title: 'Email & Message Scams',
         description: 'Recognize phishing emails, fake prizes, and suspicious attachments',
-        questions: '10 Questions'
+        questions: 'Start answering'
     }
 ];
 
@@ -41,21 +41,43 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialize module cards
 function initializeModules() {
     const moduleSelection = document.getElementById('moduleSelection');
+    const moduleImages = {
+        phone: './assets/images/phone.png',
+        web:   './assets/images/web.png',
+        email: './assets/images/email.png'
+    };
 
-    moduleSelection.innerHTML = moduleInfo.map(module => `
-        <div class="module-card" data-module="${module.id}">
-            <div class="module-icon">${module.icon}</div>
-            <div class="module-title">${module.title}</div>
-            <div class="module-description">${module.description}</div>
-            <div class="module-questions">${module.questions}</div>
+    moduleSelection.innerHTML = moduleInfo.map(m => `
+    <div class="module-card" data-module="${m.id}" role="button" tabindex="0" aria-label="${m.title}">
+      <div class="mc-topbar"></div>
+      <div class="mc-grid">
+        <div class="mc-body">
+          <div class="mc-title">${m.title}</div>
+          <div class="mc-desc">${m.description}</div>
         </div>
-    `).join('');
 
-    // Add click handlers to module cards
+        <div class="mc-media">
+          ${
+        moduleImages[m.id]
+            ? `<img src="${moduleImages[m.id]}" alt="${m.title} illustration" class="mc-img" />`
+            : `<div class="mc-emoji" aria-hidden="true">${m.icon || '🛡️'}</div>`
+    }
+        </div>
+
+        <div class="mc-footer">
+          <button class="mc-cta" data-module="${m.id}" type="button">Start Quiz</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
     document.querySelectorAll('.module-card').forEach(card => {
-        card.addEventListener('click', function() {
-            const moduleId = this.getAttribute('data-module');
-            startModule(moduleId);
+        const id = card.getAttribute('data-module');
+        card.addEventListener('click', () => startModule(id));
+        card.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startModule(id); }
+        });
+        card.querySelector('.mc-cta')?.addEventListener('click', e => {
+            e.stopPropagation(); startModule(id);
         });
     });
 }

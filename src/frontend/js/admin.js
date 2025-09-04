@@ -4,9 +4,9 @@
     const $ = (id) => document.getElementById(id);
     const API = (window.SCAMSAFE_CONFIG?.apiBackend?.baseUrl) || 'http://localhost:3001/api';
 
-    // 统一只声明一次 els，把所有需要的元素都放进来
+    // Uniformly declare els only once and put in all the required elements
     const els = {
-        // 表单
+        // form (document)
         title: $('title'),
         desc: $('desc'),
         content: $('content'),
@@ -16,13 +16,13 @@
         url: $('url'),
         time: $('time'),
 
-        // 上传与预览
+        // Upload & Preview
         imageFile: $('imageFile'),
         chooseImage: $('chooseImage'),
         uploadImage: $('uploadImage'),
         imgPreview: $('imgPreview'),
 
-        // 列表与按钮
+        // Lists and buttons
         publish: $('publish'),
         resetBtn: $('resetBtn'),
         list: $('list'),

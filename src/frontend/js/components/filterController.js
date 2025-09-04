@@ -1,6 +1,6 @@
 /**
  * Filter Controller Component (updated)
- * 驱动 AlertManager 的过滤；不直接隐藏 DOM
+ * Driving AlertManager's filtering; not directly hiding the DOM
  */
 
 class FilterController {
@@ -9,7 +9,7 @@ class FilterController {
         this.config = (window.SCAMSAFE_CONFIG || window.CONFIG || {});
         this.utils  = (window.ScamSafeUtils || window.Utils || null);
 
-        // 归一化：'SMS Fraud' -> 'sms-fraud'
+
         this.normalize = (v) => String(v || '').trim().toLowerCase().replace(/\s+/g, '-');
 
         this.active = 'all';
@@ -20,11 +20,11 @@ class FilterController {
         this.restoreFromStorage();
         this.updateFilterCount();
 
-        // 数据刷新后，更新计数
+        // Update count after data refresh
         document.addEventListener('alertsLoaded', () => this.updateFilterCount());
     }
 
-    /* ---------- 元素绑定（有 utils 用 utils，没 utils 用原生） ---------- */
+    /* ---------- Element binding (utils if you have utils, native if you don't) ---------- */
     q(sel, root=document){ return (this.utils?.dom?.select?.(sel) ?? root.querySelector(sel)); }
     qa(sel, root=document){ return Array.from(this.utils?.dom?.selectAll?.(sel) ?? root.querySelectorAll(sel)); }
     on(el, ev, cb){ (this.utils?.dom?.on ? this.utils.dom.on(el, ev, cb) : el.addEventListener(ev, cb)); }
@@ -33,7 +33,7 @@ class FilterController {
     bindElements() {
         this.$tabs = this.qa('.filter-tab');
         this.$container = this.q('#filter-tabs') || document;
-        // 统一用你现在的栅格容器 id
+        // Uniformly use your current raster container ids
         this.$grid = this.q('#news-grid');
 
         if (!this.$tabs.length) {
@@ -41,16 +41,16 @@ class FilterController {
         }
     }
 
-    /* ---------- 事件与初始化 ---------- */
+    /* ---------- Events and Initialization ---------- */
     attach() {
-        // 初始 active
+        // starting (point) active
         const first = this.$tabs.find(b => b.classList.contains('active')) || this.$tabs[0];
         if (first) {
             this.setActive(first);
             this.apply(first.dataset.filter || 'all', false);
         }
 
-        // 点击
+        // strike (on the keyboard)
         this.$tabs.forEach(btn => {
             this.on(btn, 'click', (e) => {
                 e.preventDefault();
@@ -59,7 +59,7 @@ class FilterController {
             });
         });
 
-        // 键盘导航
+        // Keyboard Navigation
         this.$tabs.forEach((tab, idx) => {
             tab.setAttribute('tabindex', idx === 0 ? '0' : '-1');
             tab.setAttribute('role', 'tab');
@@ -74,7 +74,7 @@ class FilterController {
             });
         });
 
-        // 快捷键 Alt+数字
+        // Shortcut Alt+Number
         this.on(document, 'keydown', (ev) => {
             if (!ev.altKey) return;
             const map = { '1':'all','2':'sms','3':'phone','4':'email','5':'investment' };
@@ -97,7 +97,7 @@ class FilterController {
         } catch {}
     }
 
-    /* ---------- 行为 ---------- */
+    /* ---------- gestion ---------- */
     setActive(btn) {
         this.$tabs.forEach(b => b.classList.remove('active'));
         btn?.classList.add('active');
@@ -111,29 +111,29 @@ class FilterController {
         }
         this.active = slug;
 
-        // 调用 AlertManager 的过滤 + 重渲染（核心）
+        // Call AlertManager's filtering + re-rendering (core)
         if (this.am?.setFilter) {
             this.am.setFilter(slug);
         } else {
             console.warn('FilterController: AlertManager.setFilter unavailable');
         }
 
-        // 更新计数/禁用
+        // Update Count/Disable
         this.updateFilterCount();
 
-        // 可选：保存
+        // Optional: Save
         if (saveToStorage && this.config?.features?.filterPersistence && this.config?.storage?.selectedFilter) {
             try { (this.utils?.storage?.set ?? ((k,v)=>localStorage.setItem(k,v)))(this.config.storage.selectedFilter, slug); } catch {}
         }
 
-        // ARIA 状态
+        // ARIA state of affairs
         this.$tabs.forEach(tab => {
             const isActive = this.normalize(tab.dataset.filter) === slug;
             tab.setAttribute('aria-pressed', isActive);
             tab.setAttribute('aria-selected', isActive);
         });
 
-        // 可选：更新 URL hash
+
         if (slug === 'all') {
             if (location.hash) history.replaceState(null, '', location.pathname + location.search);
         } else {
@@ -141,16 +141,16 @@ class FilterController {
             if (location.hash !== h) history.replaceState(null, '', h);
         }
 
-        // 可选：宣告
+
         this.announce(`Filter changed to ${slug.replace(/-/g,' ')}`);
     }
 
-    // 统计：基于 AlertManager.state.data，而不是查 DOM
+    // Statistics: based on AlertManager.state.data
     updateFilterCount() {
         if (!this.am?.state?.data) return;
         const data = this.am.state.data;
 
-        // 聚合 category/type/tags
+        // polymerization category/type/tags
         const counts = {};
         data.forEach(item => {
             const buckets = []
@@ -162,7 +162,7 @@ class FilterController {
         });
         counts.all = data.length;
 
-        // 更新按钮徽标与禁用
+        // Update Button Logo and Disable
         this.$tabs.forEach(tab => {
             const slug = this.normalize(tab.dataset.filter || 'all');
             const n = counts[slug] || 0;
@@ -195,9 +195,9 @@ class FilterController {
     }
 
     destroy(){
-        // 简化：此处不做事件解绑（页面关闭即可释放）
+        // Simplified: no event unbinding here (page closure releases it)
     }
 }
 
-/* 关键：挂到全局，确保 main.js 能实例化 */
+/* Key: hook to global, ensure main.js can be instantiated */
 window.FilterController = window.FilterController || FilterController;

@@ -1,6 +1,6 @@
-// server.js  —— ESM 版本
+// server.js  —
 import dotenv from 'dotenv';
-dotenv.config(); // 先加载 env
+dotenv.config(); // Load env first
 
 import express from 'express';
 import cors from 'cors';
@@ -12,7 +12,7 @@ import adminRoutes from './src/routes/adminRoutes.js';
 
 const app = express();
 
-// 1) 先开 CORS（把 127 与 localhost 都允许，避免“同机不同域名”）
+// 1) Open CORS first.
 app.use(cors({
     origin: ['http://127.0.0.1:3000', 'http://localhost:3000'],
 }));
@@ -21,12 +21,12 @@ app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 2) 静态目录 uploads
+// 2) Static directory uploads
 const UPLOAD_DIR = path.resolve('uploads');
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR);
 app.use('/uploads', express.static(UPLOAD_DIR));
 
-// 3) multer 配置
+// 3) multer deployment
 const storage = multer.diskStorage({
     destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
     filename: (_req, file, cb) => {
@@ -43,7 +43,7 @@ const upload = multer({
     },
 });
 
-// 4) 上传接口（返回绝对 URL）
+// 4) Upload interface (returns an absolute URL)
 app.post('/api/upload', (req, res, next) => {
     upload.single('file')(req, res, (err) => {
         if (err) {
@@ -62,7 +62,7 @@ app.post('/api/upload', (req, res, next) => {
     });
 });
 
-// 5) multer/其他错误处理（避免直接 500 毫无提示）
+// 5) multer/other error handling (to avoid a straight 500 with no indication)
 app.use((err, _req, res, _next) => {
     console.error('[UPLOAD ERROR]', err); // 在后端控制台打印具体原因
     if (err instanceof multer.MulterError || /image files/i.test(err.message)) {
@@ -71,7 +71,7 @@ app.use((err, _req, res, _next) => {
     return res.status(500).json({ error: 'Server error' });
 });
 
-// 6) 其他业务路由
+// 6) Other business routing
 app.use('/api', adminRoutes);
 
 const PORT = process.env.PORT || 3001;
