@@ -1,39 +1,50 @@
-// server.js  —
+// server.js
 import dotenv from 'dotenv';
-dotenv.config(); // Load env first
+dotenv.config(); // Load .env first
 
 import express from 'express';
 import cors from 'cors';
 import path from 'node:path';
 import fs from 'node:fs';
 import multer from 'multer';
+import { fileURLToPath } from 'url';
 
 import adminRoutes from './src/routes/adminRoutes.js';
 
 const app = express();
 
-// 1) Open CORS first.
+/* ---------------- CORS ---------------- */
+const allowedOrigins = [
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
+    'https://bliu0080-byte.github.io',
+    'https://bliu0080-byte.github.io/Fit5120_assessment_design',
+    'https://scamsafe.onrender.com'
+];
 app.use(cors({
-    origin: ['http://127.0.0.1:3000', 'http://localhost:3000'],
+    origin: allowedOrigins,
+    credentials: false
 }));
 app.options('*', cors());
 
-app.use(express.json());
+/* ---------------- Body Parsing ---------------- */
+app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// 2) Static directory uploads
+/* ---------------- Uploads ---------------- */
 const UPLOAD_DIR = path.resolve('uploads');
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR);
+
 app.use('/uploads', express.static(UPLOAD_DIR));
 
-// 3) multer deployment
 const storage = multer.diskStorage({
     destination: (_req, _file, cb) => cb(null, UPLOAD_DIR),
     filename: (_req, file, cb) => {
         const ext = path.extname(file.originalname).toLowerCase();
         cb(null, `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`);
-    },
+    }
 });
+
 const upload = multer({
     storage,
     limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
@@ -43,61 +54,58 @@ const upload = multer({
     },
 });
 
-// 4) Upload interface (returns an absolute URL)
+// 上传接口
 app.post('/api/upload', (req, res, next) => {
     upload.single('file')(req, res, (err) => {
         if (err) {
-            // multer 的错误（大小/类型等）
             console.error('[UPLOAD ERROR]', err);
             return res.status(400).json({ error: err.message || 'Upload failed' });
         }
         if (!req.file) {
-            console.error('[UPLOAD ERROR] no file received', req.headers['content-type']);
-            return res.status(400).json({ error: 'No file received. Field name must be "file" and use multipart/form-data.' });
+            return res.status(400).json({ error: 'No file received. Use field name "file".' });
         }
-
         const urlPath = `/uploads/${req.file.filename}`;
         const absolute = `${req.protocol}://${req.get('host')}${urlPath}`;
         return res.json({ url: absolute, path: urlPath });
     });
 });
 
-// 5) multer/other error handling (to avoid a straight 500 with no indication)
+// 上传错误处理
 app.use((err, _req, res, _next) => {
-    console.error('[UPLOAD ERROR]', err); // 在后端控制台打印具体原因
+    console.error('[UPLOAD ERROR]', err);
     if (err instanceof multer.MulterError || /image files/i.test(err.message)) {
         return res.status(400).json({ error: err.message });
     }
     return res.status(500).json({ error: 'Server error' });
 });
 
-// 6) Other business routing
+/* ---------------- API ---------------- */
 app.use('/api', adminRoutes);
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-    console.log(`Backend running at http://localhost:${PORT}`);
-});
-
-
-app.use(cors({
-    origin: [
-        'https://bliu0080-byte.github.io/Fit5120_assessment_design',                           // 你的 github.io 根域
-        'https://bliu0080-byte.github.io/Fit5120_assessment_design'  // 项目页
-    ]
-}));
-app.use(express.json());
-
-
-app.get('/health', (req, res) => res.send('ok'));
-
-
+// 示例 API
 app.get('/api/news', (req, res) => {
     res.json({ items: [] });
 });
 
+// 健康检查
+app.get('/health', (req, res) => res.send('ok'));
 
+/* ---------------- 前端静态文件托管 ---------------- */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const publicDir = path.join(__dirname, 'public');
+
+// 托管 public 目录里的前端
+if (fs.existsSync(publicDir)) {
+    app.use(express.static(publicDir));
+    // SPA 兜底：非 API 路径返回 index.html
+    app.get(/^(?!\/api).*/, (req, res) => {
+        res.sendFile(path.join(publicDir, 'index.html'));
+    });
+}
+
+/* ---------------- 启动服务 ---------------- */
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`API listening on ${PORT}`);
+    console.log(`✅ Backend running at http://localhost:${PORT}`);
 });

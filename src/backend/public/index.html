@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ScamSafe - Public welfare initiative providing cybersecurity fraud awareness and education">
+    <meta name="keywords" content="scam protection, fraud awareness, cybersecurity education">
+    <meta name="author" content="ScamSafe Team">
+
+    <title>ScamSafe - Cybersecurity Fraud Protection</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+
+    <!-- External Libraries -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/components.css">
+
+</head>
+<body>
+<!-- Navigation (same as Home) -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="index.html#home" class="logo">
+            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img">
+        </a>
+
+        <div class="nav-controls">
+            <ul class="nav-links">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="insights.html" class="nav-link">Insights</a></li>
+                <li><a href="education.html" class="nav-link">Education</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <!-- Font size controls (same as Home) -->
+            <div class="font-controls" role="group" aria-label="Font size controls">
+                <button class="font-btn" data-size="small" type="button" aria-label="Decrease font size" title="Smaller text">
+                    <i class="fa-solid fa-minus"></i>
+                </button>
+                <button class="font-btn active" data-size="normal" type="button" aria-label="Reset to default size" title="Default size">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+                <button class="font-btn" data-size="large" type="button" aria-label="Increase font size" title="Larger text">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Announcement / README-style Banner -->
+<section class="readme-banner" id="readme-banner" role="region" aria-label="ScamSafe announcement">
+    <h2 class="readme-banner__title">
+        Know when to stop and check – stay safe from scams.
+    </h2>
+    <p class="readme-banner__desc">
+        Check common warning signs before you click, reply, or pay. Stay alert and protect yourself online.
+    </p>
+    <div class="readme-banner__cards">
+        <!-- Insights Card -->
+        <a href="insights.html" class="banner-card">
+            <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m13.11 7.664 1.78 2.672"/>
+                    <path d="m14.162 12.788-3.324 1.424"/>
+                    <path d="m20 4-6.06 1.515"/>
+                    <path d="M3 3v16a2 2 0 0 0 2 2h16"/>
+                    <circle cx="12" cy="6" r="2"/>
+                    <circle cx="16" cy="12" r="2"/>
+                    <circle cx="9" cy="15" r="2"/>
+                </svg>
+            </div>
+            <h3>Insights</h3>
+            <p>Explore real-time scam data and analytics.</p>
+        </a>
+
+        <!-- Education Card -->
+        <a href="education.html" class="banner-card">
+            <div class="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                    <path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/>
+                    <path d="M12 17h.01"/>
+                </svg>
+            </div>
+            <h3>Education</h3>
+            <p>Learn how to identify and avoid scams.</p>
+        </a>
+    </div>
+</section>
+
+    <!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="hero-content">
+        <h1 class="hero-title">Every Second, Someone Gets Scammed – Stay Alert, Stay Safe</h1>
+
+        <div class="sc-hero__cards" role="list">
+            <article class="sc-card" role="listitem" aria-live="polite">
+                <header class="sc-card__label">2025 Australians have lost</header>
+                <div class="sc-card__num"><span class="prefix">AU$</span><span id="au-amount" class="odometer">238000000</span></div>
+                <footer class="sc-card__note">that’s about AU$12 every second.</footer>
+            </article>
+            <article class="sc-card" role="listitem" aria-live="polite">
+                <header class="sc-card__label">2025 worldwide, more than</header>
+                <div class="sc-card__num"><span id="world-victims" class="odometer">405,333,336</span></div>
+                <footer class="sc-card__note">people have been scammed，that’s about 19 victims every second. </footer>
+            </article>
+            <article class="sc-card" role="listitem">
+                <header class="sc-card__label">Scam losses have grown</header>
+                <div class="sc-card__num"><span class="odometer">156%</span></div>
+                <footer class="sc-card__note">compared to last year.</footer>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<main class="container">
+    <!-- Section Header -->
+    <div class="section-header">
+        <h2 class="section-title">Active Threat Alerts</h2>
+        <div class="last-updated">
+            <i class="fas fa-clock"></i>
+            <span id="last-update-time">Last Updated: August 28, 2025, 14:30 UTC</span>
+        </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="controls">
+        <div class="filter-section">
+            <span class="filter-label">Filter by threat type:</span>
+            <div class="filter-tabs" id="filter-tabs">
+                <button class="filter-tab active" data-filter="all">
+                    <i class="fas fa-list"></i> All Threats
+                </button>
+                <button class="filter-tab" data-filter="sms">
+                    <i class="fas fa-mobile-alt"></i> SMS
+                </button>
+                <button class="filter-tab" data-filter="phone">
+                    <i class="fas fa-phone"></i> Voice
+                </button>
+                <button class="filter-tab" data-filter="email">
+                    <i class="fas fa-envelope"></i> Email
+                </button>
+                <button class="filter-tab" data-filter="investment">
+                    <i class="fas fa-chart-line"></i> Financial
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alerts Grid -->
+
+    <section class="news-section" aria-labelledby="latest-news-heading">
+        <h2 class="section-title" id="latest-news-heading">Latest news</h2>
+        <div id="news-grid" class="news-grid" role="list"></div>
+
+        <nav class="news-pager" id="news-pager" aria-label="News pagination" hidden>
+            <button id="prev-page" class="pager-btn" aria-label="Previous page">‹</button>
+            <span id="page-info" class="pager-info">1 / 1</span>
+            <button id="next-page" class="pager-btn" aria-label="Next page">›</button>
+        </nav>
+    </section>
+
+    <!-- Loading State -->
+    <div class="loading-container" id="loading-container" style="display: none;">
+        <div class="spinner"></div>
+        <p>Loading threat alerts...</p>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-container" id="error-container" style="display: none;">
+        <div class="error-message">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Unable to load threat data. Please try again later.</p>
+            <button class="retry-btn" id="retry-btn">Retry</button>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="#accessibility">Accessibility</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#sitemap">Site Map</a>
+        </div>
+        <div class="footer-disclaimer">
+            <p>This website is maintained by ScamSafe as a public welfare initiative. Information provided is for educational purposes only. We are dedicated to preventing cybersecurity fraud through community awareness and education.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="./js/config.js"></script>
+<script src="./js/utils.js"></script>
+<script src="./js/components/fontController.js"></script>
+<script src="./js/components/alertManager.js"></script>
+<script src="./js/components/filterController.js"></script>
+<script src="./js/main.js"></script>
+<script src="./js/statsUpdater.js"></script>
+</body>
+<script>
+</script>
+</html>

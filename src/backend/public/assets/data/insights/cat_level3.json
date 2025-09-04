@@ -1,0 +1,12 @@
+[
+  { "category": "Bank Phishing", "reports": 22000 },
+  { "category": "Crypto Investment", "reports": 19000 },
+  { "category": "Online Marketplace", "reports": 14500 },
+  { "category": "Romance - Long Con", "reports": 9400 },
+  { "category": "Tax/ATO Phishing", "reports": 8200 },
+  { "category": "Tech Support RA", "reports": 7800 },
+  { "category": "Account Takeover", "reports": 6400 },
+  { "category": "Lottery/Prize", "reports": 5200 },
+  { "category": "Charity Scam", "reports": 3100 },
+  { "category": "Other", "reports": 2800 }
+]

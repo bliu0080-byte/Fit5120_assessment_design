@@ -1,0 +1,12 @@
+[
+  { "category": "Phishing", "reports": 41000 },
+  { "category": "Investment", "reports": 36000 },
+  { "category": "Shopping", "reports": 29000 },
+  { "category": "Romance", "reports": 17000 },
+  { "category": "Identity Theft", "reports": 15000 },
+  { "category": "Remote Access", "reports": 13000 },
+  { "category": "False Billing", "reports": 12500 },
+  { "category": "Jobs & Employment", "reports": 9200 },
+  { "category": "Threats & Extortion", "reports": 6100 },
+  { "category": "Other", "reports": 4800 }
+]
