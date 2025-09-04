@@ -236,5 +236,6 @@ pre code {
         --text-muted: #ffffff;
     }
 }
-/* base.css 顶部或 html 选择器里加 */
-html { font-size: calc(16px * var(--fs-scale, 1)); }
+
+:root{ --fs-scale: 1; }
+html{ font-size: calc(16px * var(--fs-scale, 1)); }

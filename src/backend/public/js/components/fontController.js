@@ -1,54 +1,49 @@
 // js/components/fontController.js
 (() => {
-    // --- constants ---
     const LS_KEY = 'scamsafe_font_scale';
-    const SCALES = { small: 1.0, normal: 1.2, large: 1.3 }; // 你可微调
+    const SCALES = { small: 1.0, normal: 1.2, large: 1.3 }; // you can tweak
 
-    // --- helpers ---
     function applyScale(scale) {
-        // Use CSS variables to control root font size (more stable, affects rem)
         document.documentElement.style.setProperty('--fs-scale', String(scale || 1));
-        // High contrast or extreme browser pockets
         document.documentElement.style.fontSize = `calc(16px * var(--fs-scale, 1))`;
     }
-
     function saveScale(scale) {
         try { localStorage.setItem(LS_KEY, String(scale)); } catch {}
     }
-
     function loadScale() {
         const v = Number(localStorage.getItem(LS_KEY));
-        return Number.isFinite(v) && v > 0 ? v : 1;
+        return Number.isFinite(v) && v > 0 ? v : null; // null means "not set yet"
     }
-
     function setActive(btns, key) {
         btns.forEach(b => b.classList.toggle('active', b.dataset.size === key));
     }
 
-    // --- init when DOM ready ---
     document.addEventListener('DOMContentLoaded', () => {
         const container = document.querySelector('.font-controls');
-        if (!container) return;
+        if (!container) { console.warn('[font] .font-controls not found'); return; }
 
         const btns = Array.from(container.querySelectorAll('.font-btn'));
-        if (!btns.length) return;
+        if (!btns.length) { console.warn('[font] .font-btn not found'); return; }
 
-        // 读取与应用上次选择
-        const lastScale = loadScale();
-        applyScale(lastScale);
-// Setting the button activation state
-        const currentKey =
-            Object.entries(SCALES).find(([, v]) => Math.abs(v - lastScale) < 0.001)?.[0] || 'normal';
-        setActive(btns, currentKey);
+        // default to SCALES.normal on first load
+        const stored = loadScale();
+        const initialScale = stored ?? SCALES.normal;
+        applyScale(initialScale);
 
-        // Binding Click
+        const initialKey =
+            Object.entries(SCALES).find(([, v]) => Math.abs(v - initialScale) < 0.001)?.[0] || 'normal';
+        setActive(btns, initialKey);
+
+        console.log('[font] init scale =', initialScale, 'key =', initialKey);
+
         btns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const key = btn.dataset.size; // 'small' | 'normal' | 'large'
-                const scale = SCALES[key] ?? 1;
+                const scale = SCALES[key] ?? SCALES.normal;
                 applyScale(scale);
                 saveScale(scale);
                 setActive(btns, key);
+                console.log('[font] set', key, scale);
             });
         });
     });

@@ -518,3 +518,5 @@
     max-width: 800px;
     color: #ffebee;
 }
+:root{ --fs-scale: 1; }
+html{ font-size: calc(16px * var(--fs-scale, 1)); }
