@@ -46,33 +46,62 @@
 </main>
 
 <script>
-    const API = (window.SCAMSAFE_CONFIG?.apiBackend?.baseUrl) || 'http://localhost:3001/api';
+    // 统一获取 API base，优先用 config.js，fallback 用当前域名 + /api
+    const API_BASE =
+        (window.SCAMSAFE_CONFIG?.apiBackend?.baseUrl) || `${location.origin}/api`;
+
     const id = new URLSearchParams(location.search).get('id');
 
     async function loadDetail() {
-        const r = await fetch(`${API}/news`);
-        const { items=[] } = await r.json();
-        const news = items.find(n => n.id === id);
         const el = document.getElementById('news-detail');
-        if (!news) { el.innerHTML = "<p>News not found.</p>"; return; }
+        if (!id) {
+            el.innerHTML = '<p>Missing news id.</p>';
+            return;
+        }
 
-        el.innerHTML = `
-        <h1 class="section-title">${news.title}</h1>
+        try {
+            const r = await fetch(`${API_BASE}/news`, { cache: 'no-store' });
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            const { items = [] } = await r.json();
+
+            const news = items.find(n => String(n.id) === String(id));
+            if (!news) {
+                el.innerHTML = '<p>News not found.</p>';
+                return;
+            }
+
+            // 图片地址补全：如果是 /uploads/...，拼上域名
+            let imgSrc = '';
+            if (news.image) {
+                imgSrc = news.image.startsWith('http')
+                    ? news.image
+                    : `${location.origin}${news.image}`;
+            }
+
+            el.innerHTML = `
+        <h1 class="section-title">${news.title || ''}</h1>
         <p class="news-date" style="color:#94a3b8;margin:4px 0 16px;">
-          ${new Date(news.timestamp).toLocaleString()}
+          ${news.timestamp ? new Date(news.timestamp).toLocaleString() : ''}
         </p>
-        <img src="${news.image || './assets/images/news-placeholder.jpg'}"
-             alt="news image" class="news-image" style="width:100%;max-height:420px;object-fit:cover;border-radius:12px;margin:12px 0;">
+        ${imgSrc ? `
+          <img src="${imgSrc}" alt="news image" class="news-image"
+               style="width:100%;max-height:420px;object-fit:cover;border-radius:12px;margin:12px 0;">
+        ` : ''}
         <div class="news-body" style="font-size:1.05rem;line-height:1.7;color:var(--text-primary);">
           ${(news.content || news.description || '').replace(/\n/g, '<br>')}
         </div>
         <p class="news-source" style="margin-top:16px;color:#94a3b8;text-align:right;">
-          source ：${news.source || 'ScamSafe Admin'}
+          Source: ${news.source || 'ScamSafe Admin'}
         </p>
-        ${news.url ? `<p style="text-align:right"><a href="${news.url}" target="_blank" class="alert-link">原文链接</a></p>` : ''}
+        ${news.url ? `<p style="text-align:right"><a href="${news.url}" target="_blank" class="alert-link">Original Link</a></p>` : ''}
       `;
+        } catch (err) {
+            console.error('loadDetail error:', err);
+            el.innerHTML = `<p>Failed to load news. ${err.message || ''}</p>`;
+        }
     }
-    loadDetail();
+
+    document.addEventListener('DOMContentLoaded', loadDetail);
 </script>
 
 <!-- dependencies -->
