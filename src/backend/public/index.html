@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="./css/layout.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/news-ticker.css">
 
 </head>
 <body>
@@ -145,15 +146,15 @@
 
     <!-- Alerts Grid -->
 
-    <section class="news-section" aria-labelledby="latest-news-heading">
-        <h2 class="section-title" id="latest-news-heading">Latest news</h2>
-        <div id="news-grid" class="news-grid" role="list"></div>
+    <section class="sc-news-ticker" aria-labelledby="latest-news-heading">
+        <div class="sc-news__header">
+            <h2 class="section-title" id="latest-news-heading">🚨 Australian Scam Alerts</h2>
+            <span class="sc-live"><span class="sc-live__dot"></span>LIVE UPDATES</span>
+        </div>
 
-        <nav class="news-pager" id="news-pager" aria-label="News pagination" hidden>
-            <button id="prev-page" class="pager-btn" aria-label="Previous page">‹</button>
-            <span id="page-info" class="pager-info">1 / 1</span>
-            <button id="next-page" class="pager-btn" aria-label="Next page">›</button>
-        </nav>
+        <div class="sc-ticker" id="news-ticker">
+            <div class="sc-ticker__list" id="news-ticker-list"></div>
+        </div>
     </section>
 
     <!-- Loading State -->
@@ -197,6 +198,7 @@
 <script src="./js/components/filterController.js"></script>
 <script src="./js/main.js"></script>
 <script src="./js/statsUpdater.js"></script>
+<script src="./js/news-ticker.js" defer></script>
 </body>
 <script>
 </script>
