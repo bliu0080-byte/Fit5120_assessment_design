@@ -101,6 +101,7 @@ function setupEventListeners() {
 
 // Start a quiz module
 function startModule(moduleType) {
+    console.log("Start Quiz clicked, module =", moduleType);
     currentModule = moduleType;
     currentQuestionIndex = 0;
     score = 0;
@@ -108,8 +109,7 @@ function startModule(moduleType) {
     hasAnswered = false;
 
     // Show quiz container, hide module selection
-    document.getElementById('moduleSelection').style.display = 'none';
-    document.getElementById('quizContainer').style.display = 'block';
+    document.getElementById('quizModal').style.display = 'block';
     document.getElementById('resultsContainer').style.display = 'none';
     document.getElementById('questionContainer').style.display = 'block';
     document.getElementById('nextButton').style.display = 'block';
@@ -315,8 +315,7 @@ function showResults() {
 // Return to module selection
 function backToModules() {
     // Show module selection, hide quiz
-    document.getElementById('moduleSelection').style.display = 'grid';
-    document.getElementById('quizContainer').style.display = 'none';
+    document.getElementById('quizModal').style.display = 'none';
     document.getElementById('questionContainer').style.display = 'block';
     document.getElementById('nextButton').style.display = 'block';
 
@@ -368,3 +367,17 @@ function getProgressHistory() {
     }
     return [];
 }
+// 关闭按钮
+document.getElementById('closeQuizModal').onclick = function() {
+    document.getElementById('quizModal').style.display = 'none';
+    backToModules();
+};
+
+// 点击背景关闭
+window.onclick = function(event) {
+    const modal = document.getElementById('quizModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+        backToModules();
+    }
+};

@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ScamSafe - Scam Awareness Education">
-    <meta name="keywords" content="scam protection, fraud awareness, cybersecurity education">
-    <meta name="author" content="ScamSafe Team">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ScamSafe - Scam Awareness Education" />
+    <meta name="keywords" content="scam protection, fraud awareness, cybersecurity education" />
+    <meta name="author" content="ScamSafe Team" />
     <title>ScamSafe - Education</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
 
     <!-- External Libraries -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 
     <!-- Shared Styles -->
-    <link rel="stylesheet" href="./css/variables.css">
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/layout.css">
-    <link rel="stylesheet" href="./css/responsive.css">
-    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/variables.css" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/responsive.css" />
+    <link rel="stylesheet" href="./css/components.css" />
 
     <!-- Page Specific -->
-    <link rel="stylesheet" href="./css/education.css">
+    <link rel="stylesheet" href="./css/education.css" />
 </head>
 <body>
-<!-- Navigation (same as Home) -->
+<!-- Navigation -->
 <nav class="navbar" id="navbar">
     <div class="nav-container">
         <a href="index.html#home" class="logo">
-            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img">
+            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img" />
         </a>
-
         <div class="nav-controls">
             <ul class="nav-links">
                 <li><a href="index.html#home" class="nav-link">Home</a></li>
@@ -40,71 +38,57 @@
                 <li><a href="education.html" class="nav-link active">Education</a></li>
                 <li><a href="index.html#contact" class="nav-link">Contact</a></li>
             </ul>
-
-            <!-- Font size controls -->
             <div class="font-controls">
-                <button class="font-btn" data-size="small"  type="button" title="Smaller"><i class="fa-solid fa-minus"></i></button>
+                <button class="font-btn" data-size="small" type="button" title="Smaller"><i class="fa-solid fa-minus"></i></button>
                 <button class="font-btn active" data-size="normal" type="button" title="Default"><i class="fa-solid fa-rotate-left"></i></button>
-                <button class="font-btn" data-size="large"  type="button" title="Larger"><i class="fa-solid fa-plus"></i></button>
+                <button class="font-btn" data-size="large" type="button" title="Larger"><i class="fa-solid fa-plus"></i></button>
             </div>
         </div>
     </div>
 </nav>
 
-<section class="readme-education" id="readme-education" role="region" aria-label="ScamSafe education announcement">
+<section class="readme-education" id="readme-education">
     <h2 class="readme-education__title">
         Your scam radar: sharp or rusty? Test it in 2 minutes
     </h2>
 </section>
-<!-- Main Content -->
+
+<!-- Main -->
 <main class="container">
-
-
     <!-- Module Selection -->
-    <div id="moduleSelection" class="modules-container">
-        <!-- Modules will be dynamically added by JavaScript -->
-    </div>
+    <div id="moduleSelection" class="modules-container"></div>
 
-    <!-- Quiz Container -->
-    <div id="quizContainer" class="quiz-container">
-        <div class="quiz-header">
-            <h2 id="quizTitle" class="quiz-title"></h2>
-            <button class="nav-button back-button" id="backToModulesBtn">Back to Modules</button>
-        </div>
-
-        <div class="progress-bar">
-            <div id="progressFill" class="progress-fill"></div>
-        </div>
-
-        <div id="questionContainer" class="question-container"></div>
-
-        <div id="feedbackContainer" class="feedback-container"></div>
-
-        <div class="navigation-buttons">
-            <button id="nextButton" class="nav-button next-button" disabled>
-                Next Question
-            </button>
-        </div>
-
-        <!-- Results Screen -->
-        <div id="resultsContainer" class="results-container">
-            <h2 class="results-title">Quiz Complete! 🎉</h2>
-            <div class="score-circle">
-                <div id="scoreText" class="score-text"></div>
+    <!-- === Quiz Modal === -->
+    <div id="quizModal" class="modal">
+        <div class="modal-content">
+            <div id="quizContainer" class="quiz-container">
+                <div class="quiz-header">
+                    <h2 id="quizTitle" class="quiz-title"></h2>
+                    <button class="nav-button back-button" id="backToModulesBtn">Back to Modules</button>
+                </div>
+                <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+                <div id="questionContainer" class="question-container"></div>
+                <div id="feedbackContainer" class="feedback-container"></div>
+                <div class="navigation-buttons">
+                    <button id="nextButton" class="nav-button next-button" disabled>Next Question</button>
+                </div>
+                <div id="resultsContainer" class="results-container">
+                    <h2 class="results-title">Quiz Complete! 🎉</h2>
+                    <div class="score-circle"><div id="scoreText" class="score-text"></div></div>
+                    <div id="resultsMessage" class="results-message"></div>
+                    <div class="results-breakdown">
+                        <div class="breakdown-title">Key Takeaways:</div>
+                        <div id="breakdownContent"></div>
+                    </div>
+                    <button class="nav-button next-button" id="tryAnotherBtn">Try Another Module</button>
+                </div>
             </div>
-            <div id="resultsMessage" class="results-message"></div>
-            <div class="results-breakdown">
-                <div class="breakdown-title">Key Takeaways:</div>
-                <div id="breakdownContent"></div>
-            </div>
-            <button class="nav-button next-button" id="tryAnotherBtn">
-                Try Another Module
-            </button>
         </div>
     </div>
+    <!-- === /Quiz Modal === -->
 </main>
 
-<!-- Footer (same as index) -->
+<!-- Footer -->
 <footer class="footer">
     <div class="footer-content">
         <div class="footer-links">

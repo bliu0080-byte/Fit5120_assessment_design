@@ -513,3 +513,86 @@ main.container, .container {
     .mc-body{  grid-column:1/2; grid-row:2/3; }
     .mc-footer{grid-column:1/2; grid-row:3/4; }
 }
+/* === Quiz modal: fill screen & compact === */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 100000;
+}
+.modal-content{
+    position: relative;
+    margin: 2vh auto;
+    width: min(92vw, 1000px);
+    height: 96vh;
+    max-height: 96vh;
+    background: var(--card-bg, #0b1220);
+    color: var(--text, #111);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    overflow: hidden;
+}
+
+.quiz-container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 18px;
+}
+
+/* Top title bar, progress bar do not take up much height */
+.quiz-header{ margin: 0; display:flex; align-items:center; gap:12px; }
+.quiz-title{ margin: 0; font-size: 22px; }
+.progress-bar{ height: 8px; border-radius: 6px; overflow: hidden; }
+
+/* Title area is scalable; avoids overall scrolling */
+.question-container{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Option two-column layout to significantly reduce total height (>=768px in effect) */
+@media (min-width: 768px){
+    .options-container{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+}
+
+/* More compact option buttons */
+.option-button{
+    padding: 12px 14px;
+    min-height: 48px;
+    font-size: 16px;
+}
+
+ .feedback-container{
+    padding: 12px 14px;
+    border-radius: 10px;
+}
+.feedback-title{ font-size: 18px; margin-bottom: 6px; }
+
+/* The bottom button is fixed at the bottom of the viewing area and does not move up with the content */
+.navigation-buttons{
+    flex: 0 0 auto;
+    position: sticky;
+    bottom: 0;
+    padding-top: 6px;
+    background: linear-gradient(to top, rgba(11,18,32,0.95), rgba(11,18,32,0)); /* 轻微过渡 */
+}
+
+/* Close button remains clickable */
+.close{
+    position:absolute; top:10px; right:14px; font-size:24px; cursor:pointer; z-index:2;
+}
+
+/* Mobile: allow scrolling as a pocket (small screens can't guarantee no scrolling at all) */@media (max-width: 767px){
+    .modal-content{ height: 100vh; margin: 0; border-radius: 0; }
+    .quiz-container{ padding: 14px; }
+    .options-container{ display: grid; grid-template-columns: 1fr; } /* 单列，保证可读性 */
+}
