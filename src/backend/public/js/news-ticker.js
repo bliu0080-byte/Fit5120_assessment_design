@@ -54,10 +54,6 @@
         <span class="sc-cat ${n.urgent ? 'sc-cat--urgent' : ''}">${n.category}</span>
         <h3 class="sc-title">${n.title}</h3>
         <p class="sc-desc">${n.description || ''}</p>
-        <div class="sc-meta">
-          <span>⏰ ${n.date}</span>
-          <span class="sc-loss">${n.amount || ''}</span>
-        </div>
       </div>
     </article>
   `;
