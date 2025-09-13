@@ -1,6 +1,6 @@
-// statsUpdater.js —— 平滑动画版（金额 + 人数）
+// statsUpdater.js —— 基于绝对时间（从 2025-09-01 开始累积）
 
-// 初始基数
+// 基准值（2025-09-01 00:00:00 的数据）
 const AU_LOSS_BASE = 238_000_000;
 const WORLD_VICTIMS_BASE = 405_333_336;
 
@@ -8,16 +8,16 @@ const WORLD_VICTIMS_BASE = 405_333_336;
 const AU_LOSS_RATE = 12;    // 每秒 +12 澳元
 const WORLD_VICTIMS_RATE = 19; // 每秒 +19 人
 
-// 记录页面加载时间
-const startTime = Date.now();
+// 固定起始时间（UTC 时间，注意时区问题）
+const BASE_DATE = new Date("2025-09-01T00:00:00Z").getTime();
 
-// 千分位格式化（不带 AU$，前缀在 HTML 写死）
+// 千分位格式化
 const nf = new Intl.NumberFormat('en-US');
 
-// Update function (smoothed version)
+// Update function
 function updateStats() {
     const now = Date.now();
-    const elapsedSeconds = (now - startTime) / 1000; // 精确到小数秒
+    const elapsedSeconds = (now - BASE_DATE) / 1000; // 距离基准时间的秒数
 
     // real time value
     const currentLoss = Math.floor(AU_LOSS_BASE + AU_LOSS_RATE * elapsedSeconds);
@@ -33,5 +33,5 @@ function updateStats() {
     requestAnimationFrame(updateStats); // 持续更新
 }
 
-//activate (a plan)
+// activate
 requestAnimationFrame(updateStats);
