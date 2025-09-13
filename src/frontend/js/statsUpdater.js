@@ -11,7 +11,7 @@ const WORLD_VICTIMS_RATE = 19; // 每秒 +19 人
 // 固定起始时间（UTC 时间，注意时区问题）
 const BASE_DATE = new Date("2025-09-01T00:00:00Z").getTime();
 
-// 千分位格式化
+
 const nf = new Intl.NumberFormat('en-US');
 
 // Update function
