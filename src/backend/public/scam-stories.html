@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Scam Stories</title>
+    <link rel="stylesheet" href="./css/variables.css" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/responsive.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+    <link rel="stylesheet" href="./css/cam-stories.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="index.html#home" class="logo">
+            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img" />
+        </a>
+        <div class="nav-controls">
+            <ul class="nav-links">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="insights.html" class="nav-link">Insights</a></li>
+                <li><a href="education.html" class="nav-link active">Education</a></li>
+                <li><a href="scam-stories.html" class="nav-link">Scame stories</a></li>
+            </ul>
+            <div class="font-controls">
+                <button class="font-btn" data-size="small" type="button" title="Smaller"><i class="fa-solid fa-minus"></i></button>
+                <button class="font-btn active" data-size="normal" type="button" title="Default"><i class="fa-solid fa-rotate-left"></i></button>
+                <button class="font-btn" data-size="large" type="button" title="Larger"><i class="fa-solid fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+</nav>
+<main class="ss-container" aria-labelledby="page-title">
+
+    <!-- ====== HERO：整幅背景图 + 标题/副标题 + 按钮 ====== -->
+    <!-- 把 data-bg 换成你要的图地址（本地或 CDN） -->
+    <section class="ss-hero-img" data-bg="./assets/images/homeback.jpg">
+        <div class="ss-hero-img__overlay">
+            <h1 id="page-title" class="ss-hero-title">
+                Your scam radar: sharp or rusty?
+            </h1>
+            <p class="ss-hero-subtitle">Ending the shame of scams through real stories</p>
+            <button class="ss-btn ss-btn-accent" id="openShare">Share Your Story</button>
+        </div>
+    </section>
+
+    <section class="ss-controls" aria-label="Filters">
+        <div class="ss-pill">
+            <label for="filterType">Filter: </label>
+            <select id="filterType" aria-label="Filter by type">
+                <option value="all">By Type (All)</option>
+                <option value="sms">SMS</option>
+                <option value="phone">Phone</option>
+                <option value="web">Web Phishing</option>
+                <option value="email">Email</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="ss-pill">
+            <label for="sortBy">Sort: </label>
+            <select id="sortBy" aria-label="Sort stories">
+                <option value="newest">Newest</option>
+                <option value="popular">Popular</option>
+            </select>
+        </div>
+    </section>
+
+    <section class="ss-grid" id="storiesGrid" aria-live="polite">
+        <!-- JS 渲染卡片 -->
+    </section>
+
+    <section class="ss-banner" role="note">
+        <strong>Silence helps scams. Sharing stops them.</strong>
+    </section>
+</main>
+
+<!-- ====== Share Modal（已按你的要求改字段） ====== -->
+<div class="ss-modal" id="shareModal" aria-hidden="true" role="dialog" aria-labelledby="shareTitle">
+    <div class="ss-modal__backdrop" data-close></div>
+    <div class="ss-modal__dialog">
+        <header class="ss-modal__header">
+            <h2 id="shareTitle">Share Your Story</h2>
+            <button class="ss-close" title="Close" aria-label="Close" data-close>&times;</button>
+        </header>
+
+        <form id="shareForm" class="ss-form">
+            <label class="ss-label" for="storyText">Please describe what happened…</label>
+            <textarea id="storyText" required minlength="20" maxlength="1200"
+                      placeholder="Write your story…"></textarea>
+
+            <div class="ss-form__row">
+                <div class="ss-field">
+                    <label for="storyType">Scam Type</label>
+                    <select id="storyType" required>
+                        <option value="" disabled selected>Select a type</option>
+                        <option value="sms">SMS</option>
+                        <option value="phone">Phone</option>
+                        <option value="web">Web Phishing</option>
+                        <option value="email">Email</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <!-- 取消 Date；Location 改为澳洲州下拉 -->
+                <div class="ss-field">
+                    <label for="storyState">Location (AU State/Territory)</label>
+                    <select id="storyState">
+                        <option value="" selected>Optional</option>
+                        <option value="ACT">ACT</option>
+                        <option value="NSW">NSW</option>
+                        <option value="NT">NT</option>
+                        <option value="QLD">QLD</option>
+                        <option value="SA">SA</option>
+                        <option value="TAS">TAS</option>
+                        <option value="VIC">VIC</option>
+                        <option value="WA">WA</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="ss-btn ss-btn-primary" id="submitStory">SUBMIT MY STORY</button>
+            <p class="ss-help">Please avoid names, account numbers, or links to active scams.</p>
+        </form>
+    </div>
+</div>
+<script src="./js/config.js"></script>
+<script src="./js/utils.js"></script>
+<script src="./js/components/fontController.js?v=20250905"></script>
+<script src="./js/scam-stories.js" defer></script>
