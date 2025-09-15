@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ScamSafe - Play & Learn mini games to build scam awareness">
+    <title>ScamSafe - Play & Learn</title>
+
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/play.css">
+</head>
+<body>
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="index.html#home" class="logo">
+            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img">
+        </a>
+
+        <div class="nav-controls">
+            <ul class="nav-links">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="insights.html" class="nav-link">Insights</a></li>
+                <li><a href="education.html" class="nav-link">Education</a></li>
+                <li><a href="play.html" class="nav-link">Play &amp; Learn</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="font-controls" role="group" aria-label="Font size controls">
+                <button class="font-btn" data-size="small" type="button" aria-label="Decrease font size" title="Smaller text"><i class="fa-solid fa-minus"></i></button>
+                <button class="font-btn active" data-size="normal" type="button" aria-label="Reset to default size" title="Default size"><i class="fa-solid fa-rotate-left"></i></button>
+                <button class="font-btn" data-size="large" type="button" aria-label="Increase font size" title="Larger text"><i class="fa-solid fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+    </nav>
+
+<main class="container">
+    <section class="pl-section" aria-label="Play & Learn mini games">
+
+        <div class="pl-hero">
+            <h3>Test Your Scam Smarts</h3>
+            <p>Quick, fun games to help you spot scams and build safe online habits.</p>
+        </div>
+
+        <div class="pl-grid">
+            <article class="pl-card" role="group" aria-label="Inbox Clean-Up game">
+                <h4>Inbox Clean-Up</h4>
+                <p>Drag suspicious emails into the trash and keep the safe ones.</p>
+                <div class="pl-actions">
+                    <a class="pl-play" href="game-inbox.html" aria-label="Play Inbox Clean-Up">Play</a>
+                </div>
+            </article>
+
+            <article class="pl-card" role="group" aria-label="URL Detective game">
+                <h4>URL Detective</h4>
+                <p>Pick the safe link between two options and learn why.</p>
+                <div class="pl-actions">
+                    <a class="pl-play" href="#" aria-label="Play URL Detective">Play</a>
+                </div>
+            </article>
+        </div>
+    </section>
+    <script>
+        // Only block placeholder links
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pl-play[href="#"]').forEach(btn => {
+                btn.addEventListener('click', (e) => e.preventDefault());
+            });
+        });
+    </script>
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="#accessibility">Accessibility</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#sitemap">Site Map</a>
+        </div>
+        <div class="footer-disclaimer">
+            <p>This website is maintained by ScamSafe as a public welfare initiative. Information provided is for educational purposes only. We are dedicated to preventing cybersecurity fraud through community awareness and education.</p>
+        </div>
+    </div>
+    </footer>
+
+<script src="./js/config.js"></script>
+<script src="./js/utils.js"></script>
+<script src="./js/components/fontController.js"></script>
+</body>
+</html>

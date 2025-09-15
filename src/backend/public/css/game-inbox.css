@@ -1,0 +1,45 @@
+/* Inbox Clean-Up game styles */
+.game-wrap{ background: var(--card-bg); border:2px solid var(--border-color); border-radius:16px; padding:var(--spacing-2xl); box-shadow:var(--shadow-sm); position:relative; overflow:hidden; }
+.game-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--spacing-xl); }
+.game-title{ margin:0; }
+.game-sub{ color:var(--text-secondary); }
+.game-actions{ display:flex; gap:.5rem; }
+.btn-pill{ padding:.55rem 1rem; border-radius:999px; border:1.5px solid var(--border-color); background:#fff; color:var(--text-secondary); font-weight:600; }
+.btn-primary{ background: var(--secondary-blue); color:#fff; border-color: var(--secondary-blue); }
+.btn-primary:hover{ background: var(--primary-blue); border-color: var(--primary-blue); }
+
+.mail-list{ display:flex; flex-direction:column; gap:18px; margin: var(--spacing-xl) 0 var(--spacing-2xl); }
+.mail{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 18px 18px 22px; background:#fff; border:2px solid var(--border-color); border-radius:999px; box-shadow:var(--shadow-sm); cursor:grab; user-select:none; transition: transform .12s ease, box-shadow .2s ease, background .2s; }
+.mail:active{ cursor:grabbing; }
+.mail:hover{ box-shadow: var(--shadow-md); }
+.mail.dragging{ opacity:.85; transform: scale(.98); }
+.mail-label{ display:flex; align-items:center; gap:10px; color:var(--text-primary); font-weight:600; }
+.mail-text{ color:var(--text-secondary); font-weight:500; }
+.drag-tag{ padding:.55rem 1.1rem; border-radius:999px; border:2px solid var(--border-color); background:#fff; color:var(--text-secondary); font-weight:700; }
+
+.trash-area{ display:flex; justify-content:center; }
+.bin{ width:160px; height:160px; border-radius:50%; border:3px solid var(--border-color); background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-primary); font-weight:800; gap:.25rem; position:relative; box-shadow:var(--shadow-sm); }
+.bin svg{ opacity:.6; }
+.bin.highlight{ box-shadow:0 0 0 6px rgba(37,99,235,.15), 0 12px 28px rgba(2,6,23,.18); border-color: var(--secondary-blue); }
+
+/* Drop feedback */
+.poof{ position:absolute; width:8px; height:8px; background:#f97316; border-radius:50%; pointer-events:none; animation: poof 600ms ease-out forwards; }
+@keyframes poof{ from{ transform:translate(0,0) scale(.8); opacity:1;} to{ transform:translate(var(--dx,40px), var(--dy,-40px)) scale(0); opacity:0; } }
+
+/* Result overlay */
+.result-overlay{ position:absolute; inset:0; display:none; align-items:center; justify-content:center; backdrop-filter: blur(2px); }
+.result-card{ background:#fff; border:2px solid var(--border-color); border-radius:16px; padding:28px 32px; text-align:center; box-shadow:var(--shadow-lg); }
+.result-overlay.show{ display:flex; }
+.result-card.success{ border-color:#10b981; }
+.result-card.fail{ border-color:#ef4444; }
+.result-title{ margin:0 0 .5rem; }
+.result-sub{ color:var(--text-secondary); }
+
+/* canvas for confetti */
+#confetti{ position:absolute; inset:0; pointer-events:none; }
+
+.shake{ animation: shake .4s ease-in-out; }
+@keyframes shake{ 0%,100%{ transform:translateX(0);} 25%{ transform:translateX(-6px);} 50%{ transform:translateX(6px);} 75%{ transform:translateX(-3px);} }
+
+@media(max-width: 900px){ .bin{ width:140px; height:140px; } }
+
