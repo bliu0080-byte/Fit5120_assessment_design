@@ -1,32 +1,23 @@
-import Database from "better-sqlite3";
+// src/routes/News.js
+import express from 'express';
+import { pool } from '../db.js';
 
-const db = new Database("./scamsafe.db");
+const router = express.Router();
 
-db.exec(`
-CREATE TABLE IF NOT EXISTS news (
-  id TEXT PRIMARY KEY,
-  title TEXT NOT NULL,
-  description TEXT,
-  content TEXT,
-  type TEXT CHECK(type IN ('sms','phone','email','investment','social','shopping','all')) NOT NULL,
-  severity TEXT CHECK(severity IN ('low','medium','high','critical')) NOT NULL DEFAULT 'medium',
-  url TEXT,
-  image TEXT,
-  source TEXT DEFAULT 'admin',
-  timestamp TEXT NOT NULL
-)`);
-
-export default {
-    all() {
-        return db.prepare(`SELECT * FROM news ORDER BY datetime(timestamp) DESC`).all();
-    },
-    create(n) {
-        db.prepare(`INSERT INTO news
-      (id,title,description,content,type,severity,url,image,source,timestamp)
-      VALUES (@id,@title,@description,@content,@type,@severity,@url,@image,@source,@timestamp)`).run(n);
-        return n;
-    },
-    delete(id) {
-        return db.prepare(`DELETE FROM news WHERE id=?`).run(id);
+router.get('/news', async (_req, res) => {
+    try {
+        const { rows } = await pool.query(`
+            SELECT id, title, description, content, "type", severity,
+                   url, image, "source", "timestamp"
+            FROM news
+            ORDER BY "timestamp" DESC, id DESC
+                LIMIT 50
+        `);
+        res.json({ items: rows }); // 返回 items，方便前端和拦截器处理
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: 'DB query failed' });
     }
-};
+});
+
+export default router;

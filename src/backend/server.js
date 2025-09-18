@@ -1,17 +1,24 @@
 // server.js
-import dotenv from 'dotenv';
-dotenv.config(); // Load .env first
-
+// src/index.js 或 app.js 顶部
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import path from 'node:path';
 import fs from 'node:fs';
 import multer from 'multer';
 import { fileURLToPath } from 'url';
-
+import healthRouter from './src/routes/health.js';
+import newsRouter from './src/models/News.js';
 import adminRoutes from './src/routes/adminRoutes.js';
 
 const app = express();
+
+app.use(cors());
+app.use(express.json({ limit: '2mb' }));
+
+app.use('/api', healthRouter);   // GET /api/health/db
+app.use('/api', newsRouter);     // GET /api/news   → { items: [...] }
+app.use('/api', adminRoutes);    // /api/admin/news (GET/POST/DELETE)
 
 /* --- Trust proxy (Render 需要，才能拿到正确的 https) --- */
 app.set('trust proxy', 1);
@@ -142,10 +149,9 @@ app.use((req, res, next) => {
     next();
 });
 
-/* --- 你原有的业务路由 --- */
-app.use('/api', adminRoutes);
 
-// 你这段“示例 API”是空数据，建议删掉；留着会覆盖真实的 /api/news：
+
+
 // app.get('/api/news', (req, res) => { res.json({ items: [] }); });
 
 /* --- Health --- */
@@ -160,8 +166,5 @@ if (fs.existsSync(publicDir)) {
     });
 }
 
-/* --- Start --- */
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`✅ Backend running at http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
