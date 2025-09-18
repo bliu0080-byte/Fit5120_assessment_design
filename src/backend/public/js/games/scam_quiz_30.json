@@ -1,0 +1,212 @@
+[
+  {
+    "id": "s1",
+    "text": "You have won a $50,000 prize. Click here to claim now!",
+    "type": "scam",
+    "emoji": "🎉",
+    "aria": "Lottery scam targeting seniors"
+  },
+  {
+    "id": "s2",
+    "text": "Urgent: confirm your bank login or your account will be suspended",
+    "type": "scam",
+    "emoji": "⚠️",
+    "aria": "Bank login phishing"
+  },
+  {
+    "id": "s3",
+    "text": "Your pension payment is delayed. Update your details to receive it",
+    "type": "scam",
+    "emoji": "💰",
+    "aria": "Fake pension update"
+  },
+  {
+    "id": "s4",
+    "text": "Medicare: pay $5 fee to keep your benefits active",
+    "type": "scam",
+    "emoji": "🏥",
+    "aria": "Medicare phishing request"
+  },
+  {
+    "id": "s5",
+    "text": "Australia Post: Pay $3.99 to release your parcel",
+    "type": "scam",
+    "emoji": "📦",
+    "aria": "Delivery fee scam"
+  },
+  {
+    "id": "s6",
+    "text": "ATO: You owe $2,500 in tax. Pay immediately with gift cards",
+    "type": "scam",
+    "emoji": "💳",
+    "aria": "Fake tax payment scam"
+  },
+  {
+    "id": "s7",
+    "text": "Grandchild in trouble: send money urgently",
+    "type": "scam",
+    "emoji": "👶",
+    "aria": "Grandparent emergency scam"
+  },
+  {
+    "id": "s8",
+    "text": "Charity appeal: donate now to help disaster victims (via link)",
+    "type": "scam",
+    "emoji": "🙏",
+    "aria": "Fake charity donation scam"
+  },
+  {
+    "id": "s9",
+    "text": "Your Telstra bill is overdue. Service will be cut unless you pay now",
+    "type": "scam",
+    "emoji": "📞",
+    "aria": "Fake telco bill scam"
+  },
+  {
+    "id": "s10",
+    "text": "Confirm your MyGov login details or benefits will stop",
+    "type": "scam",
+    "emoji": "🛑",
+    "aria": "myGov phishing email"
+  },
+  {
+    "id": "s11",
+    "text": "Bank alert: unusual login detected. Verify your password immediately",
+    "type": "scam",
+    "emoji": "🔑",
+    "aria": "Fake unusual login scam"
+  },
+  {
+    "id": "s12",
+    "text": "Win a free mobility scooter – just pay delivery fee",
+    "type": "scam",
+    "emoji": "🦽",
+    "aria": "Mobility aid scam"
+  },
+  {
+    "id": "s13",
+    "text": "Fake pharmacy: order cheap medicines now with special senior discount",
+    "type": "scam",
+    "emoji": "💊",
+    "aria": "Pharmacy scam email"
+  },
+  {
+    "id": "s14",
+    "text": "Government rebate available: click to enter your bank details",
+    "type": "scam",
+    "emoji": "🏛️",
+    "aria": "Fake government rebate scam"
+  },
+  {
+    "id": "s15",
+    "text": "Congratulations! You have been selected for a free holiday cruise",
+    "type": "scam",
+    "emoji": "🚢",
+    "aria": "Travel prize scam"
+  },
+  {
+    "id": "n1",
+    "text": "Reminder: doctor’s appointment on 20 Sep at 10 AM",
+    "type": "normal",
+    "emoji": "📅",
+    "aria": "Legitimate medical appointment reminder"
+  },
+  {
+    "id": "n2",
+    "text": "Your quarterly bank statement is ready. Log in via the official bank website",
+    "type": "normal",
+    "emoji": "🏦",
+    "aria": "Official bank notification"
+  },
+  {
+    "id": "n3",
+    "text": "Medicare claim approved. Payment sent to your bank account",
+    "type": "normal",
+    "emoji": "✅",
+    "aria": "Official Medicare claim approval"
+  },
+  {
+    "id": "n4",
+    "text": "New message in your myGov inbox from Centrelink",
+    "type": "normal",
+    "emoji": "📩",
+    "aria": "Legitimate myGov notification"
+  },
+  {
+    "id": "n5",
+    "text": "Weekly supermarket specials from Coles",
+    "type": "normal",
+    "emoji": "🛒",
+    "aria": "Retail supermarket newsletter"
+  },
+  {
+    "id": "n6",
+    "text": "Community centre: Invitation to seniors’ yoga class",
+    "type": "normal",
+    "emoji": "🧘",
+    "aria": "Community event invite"
+  },
+  {
+    "id": "n7",
+    "text": "Library: reminder your borrowed books are due next week",
+    "type": "normal",
+    "emoji": "📚",
+    "aria": "Library due date reminder"
+  },
+  {
+    "id": "n8",
+    "text": "Electricity provider: Your monthly bill is available online",
+    "type": "normal",
+    "emoji": "💡",
+    "aria": "Utility bill notification"
+  },
+  {
+    "id": "n9",
+    "text": "Neighbourhood watch update: safety tips for older residents",
+    "type": "normal",
+    "emoji": "👮",
+    "aria": "Community neighbourhood watch email"
+  },
+  {
+    "id": "n10",
+    "text": "Newsletter: local seniors club activities this month",
+    "type": "normal",
+    "emoji": "👴",
+    "aria": "Seniors club newsletter"
+  },
+  {
+    "id": "n11",
+    "text": "Bunnings: Thank you for your recent purchase, eReceipt attached",
+    "type": "normal",
+    "emoji": "🧰",
+    "aria": "Retail purchase receipt"
+  },
+  {
+    "id": "n12",
+    "text": "Pharmacy: Your prescription refill is ready for collection",
+    "type": "normal",
+    "emoji": "💊",
+    "aria": "Legitimate pharmacy reminder"
+  },
+  {
+    "id": "n13",
+    "text": "Council: Reminder of bin collection day change",
+    "type": "normal",
+    "emoji": "🚮",
+    "aria": "Local council service update"
+  },
+  {
+    "id": "n14",
+    "text": "Weather warning from the Bureau of Meteorology",
+    "type": "normal",
+    "emoji": "🌧️",
+    "aria": "Official weather warning"
+  },
+  {
+    "id": "n15",
+    "text": "Invitation to your grandchild’s school concert",
+    "type": "normal",
+    "emoji": "🎶",
+    "aria": "School event invite"
+  }
+]

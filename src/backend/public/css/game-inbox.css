@@ -18,9 +18,22 @@
 .drag-tag{ padding:.55rem 1.1rem; border-radius:999px; border:2px solid var(--border-color); background:#fff; color:var(--text-secondary); font-weight:700; }
 
 .trash-area{ display:flex; justify-content:center; }
-.bin{ width:160px; height:160px; border-radius:50%; border:3px solid var(--border-color); background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-primary); font-weight:800; gap:.25rem; position:relative; box-shadow:var(--shadow-sm); }
-.bin svg{ opacity:.6; }
-.bin.highlight{ box-shadow:0 0 0 6px rgba(37,99,235,.15), 0 12px 28px rgba(2,6,23,.18); border-color: var(--secondary-blue); }
+.bin{ width:100%; max-width:760px; min-height:180px; border-radius:18px; border:2px solid #f7b4b4; background: linear-gradient(135deg, #ffd6d6, #ffc6c6); display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; color:var(--text-primary); gap:.5rem; position:relative; box-shadow:0 8px 24px rgba(248,113,113,.25) inset, var(--shadow-sm); padding:16px 18px; }
+.bin svg{ opacity:.9; }
+.bin.highlight{ outline: 3px solid rgba(248,113,113,.35); box-shadow:0 8px 24px rgba(248,113,113,.25) inset, 0 0 0 6px rgba(248,113,113,.18); }
+
+.bin-header{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.bin-title{ display:flex; align-items:center; font-weight:800; gap:10px; color:#0f172a; }
+.bin-title svg{ width:24px; height:24px; }
+.bin-hint{ color:#334155; font-weight:600; opacity:.9; }
+
+/* Bin items layout */
+.bin-list{ display:flex; flex-direction:column; gap:10px; margin-top:6px; overflow:auto; min-height:120px; max-height:320px; padding:6px; }
+.bin .mail{ position:relative; width:100%; padding:12px 14px; border-radius:16px; box-shadow:none; border:none; cursor:grab; background:#d9d6e9; }
+.bin .mail::before{ content:""; position:absolute; left:10px; top:12px; width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-top:10px solid #c2bed8; }
+.bin .mail .mail-label{ gap:10px; font-size:14px; }
+.bin .mail .mail-text{ font-size:14px; }
+.bin .mail .drag-tag{ display:none; }
 
 /* Drop feedback */
 .poof{ position:absolute; width:8px; height:8px; background:#f97316; border-radius:50%; pointer-events:none; animation: poof 600ms ease-out forwards; }
@@ -34,12 +47,12 @@
 .result-card.fail{ border-color:#ef4444; }
 .result-title{ margin:0 0 .5rem; }
 .result-sub{ color:var(--text-secondary); }
+.result-actions{ display:flex; justify-content:center; gap:8px; margin-top:12px; }
 
 /* canvas for confetti */
-#confetti{ position:absolute; inset:0; pointer-events:none; }
+#confetti{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
 
 .shake{ animation: shake .4s ease-in-out; }
 @keyframes shake{ 0%,100%{ transform:translateX(0);} 25%{ transform:translateX(-6px);} 50%{ transform:translateX(6px);} 75%{ transform:translateX(-3px);} }
 
 @media(max-width: 900px){ .bin{ width:140px; height:140px; } }
-

@@ -28,7 +28,7 @@
                 <li><a href="index.html" class="nav-link active">Home</a></li>
                 <li><a href="insights.html" class="nav-link">Insights</a></li>
                 <li><a href="education.html" class="nav-link">Education</a></li>
-                <li><a href="play.html" class="nav-link">Play &amp; Learn</a></li>
+                <li><a href="game-inbox.html" class="nav-link">Play &amp; Learn</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
             <div class="font-controls">
@@ -75,6 +75,46 @@
         <p id="insights-status" class="ins-status"></p>
     </section>
 
+    <!-- How to Read These Charts -->
+    <section class="ins-guide" aria-label="Chart explanations">
+        <div class="ins-guide-header">
+            <h2 class="section-title">How to Read These Charts</h2>
+            <p class="section-subtitle">A quick guide to what each diagram shows and how to interpret it.</p>
+        </div>
+        <div class="ins-guide-grid">
+            <article class="ins-guide-card">
+                <div class="ins-guide-icon" aria-hidden="true">📈</div>
+                <h3 class="ins-guide-title">Monthly Reports</h3>
+                <p class="ins-guide-text">A line chart showing the number of reports each month. Change the <b>Scale</b> above to view totals in thousands, millions, or as a percentage of the peak month. Hover to see exact values.</p>
+            </article>
+            <article class="ins-guide-card">
+                <div class="ins-guide-icon" aria-hidden="true">🥧</div>
+                <h3 class="ins-guide-title">Contact Modes</h3>
+                <p class="ins-guide-text">A pie chart showing the share of scam contacts by channel (e.g., phone, SMS, social, email). The legend lists each mode with its proportion.</p>
+            </article>
+            <article class="ins-guide-card">
+                <div class="ins-guide-icon" aria-hidden="true">📊</div>
+                <h3 class="ins-guide-title">Top Categories</h3>
+                <p class="ins-guide-text">A bar chart of the top Level‑2 scam categories by reports. Taller bars mean more reports. The Y‑axis follows your selected scale.</p>
+            </article>
+            <article class="ins-guide-card">
+                <div class="ins-guide-icon" aria-hidden="true">👥</div>
+                <h3 class="ins-guide-title">Age Groups</h3>
+                <p class="ins-guide-text">A bar chart summarising reports by age group. Use it to spot which age ranges lodge the most reports.</p>
+            </article>
+            <article class="ins-guide-card">
+                <div class="ins-guide-icon" aria-hidden="true">🧭</div>
+                <h3 class="ins-guide-title">Scam Tracker</h3>
+                <p class="ins-guide-text">Four mini‑panels highlight the current leaders: top state, age group, contact mode, and category. They update with the latest data.</p>
+            </article>
+            <article class="ins-guide-card">
+                <div class="ins-guide-icon" aria-hidden="true">🎯</div>
+                <h3 class="ins-guide-title">KPIs</h3>
+                <p class="ins-guide-text">Summary tiles with key numbers and deltas to give a fast snapshot before diving into the charts.</p>
+            </article>
+        </div>
+    </section>
+
     <div id="insights-root"></div>
 </main>
 
@@ -113,6 +153,7 @@
         color: #94a3b8;
         margin: 1rem 0;
     }
+    .ins-status:empty{ display:none; }
 
     .ins-section {
         margin: 2rem 0;
@@ -139,7 +180,9 @@
         border: 1px solid var(--border-color, #334155);
         border-radius: 12px;
         padding: 1rem;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
     }
+    .ins-col:hover{ transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: rgba(59,130,246,.35); background: rgba(15,23,42,.68); }
 
     .ins-kpi-grid {
         display: grid;
@@ -155,7 +198,9 @@
         display: flex;
         flex-direction: column;
         gap: .25rem;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
+    .ins-kpi-card:hover{ transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: rgba(59,130,246,.35); }
 
     .ins-kpi-value {
         font-size: 1.5rem;
@@ -202,11 +247,13 @@
         border-radius: 9999px;
         height: 12px;
         overflow: hidden;
+        transition: background .18s ease, box-shadow .18s ease;
     }
 
     .ins-bar {
         height: 100%;
         background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        transition: transform .18s ease, filter .18s ease;
     }
 
     .ins-bar-value {
@@ -215,12 +262,15 @@
         min-width: 72px;
         text-align: right;
     }
+    .ins-bar-row:hover .ins-bar-wrap{ background: rgba(51,65,85,.65); box-shadow: inset 0 0 0 1px rgba(59,130,246,.25); }
+    .ins-bar-row:hover .ins-bar{ transform: scaleX(1.01); filter: brightness(1.08); }
 
     /* Chart canvas wrapper */
     .ins-chart {
         display: block;
         width: auto;
         height: auto;
+        cursor: crosshair;
     }
 
     .ins-chart-wrap {
@@ -228,7 +278,9 @@
         justify-content: center;
         overflow-x: auto;
         padding: .5rem 0;
+        transition: transform .18s ease, box-shadow .18s ease;
     }
+    .ins-chart-wrap:hover{ transform: translateY(-1px); box-shadow: var(--shadow-sm); }
 
     /* 2x2 Tracker Grid */
     .ins-tracker-grid {
@@ -242,7 +294,9 @@
         border: 1px solid var(--border-color, #334155);
         border-radius: 12px;
         padding: .75rem;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
     }
+    .ins-grid-cell:hover{ transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: rgba(59,130,246,.35); background: rgba(15,23,42,.68); }
 
     .ins-grid-cell .ins-subtitle {
         margin: 0 0 .5rem 0;
@@ -284,6 +338,14 @@
         flex-direction: column;
         gap: .25rem;
         min-height: 120px;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .ins-card:hover{ transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: rgba(59,130,246,.35); background: rgba(59,130,246,.10); }
+    .ins-summary-grid{ position:relative; }
+    .ins-summary-grid::before{ content:''; position:absolute; inset:-8px; border-radius:16px; background:
+        radial-gradient(140px 140px at 20% 20%, rgba(59,130,246,.12), transparent 60%),
+        radial-gradient(180px 180px at 80% 60%, rgba(96,165,250,.10), transparent 60%);
+        pointer-events:none; filter: blur(8px); z-index:-1;
     }
 
     .ins-card-title {
@@ -323,7 +385,9 @@
         align-items: center;
         justify-content: center;
         min-height: 120px;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
     }
+    .ins-pill:hover{ transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: rgba(59,130,246,.35); background: rgba(59,130,246,.12); }
 
     .ins-pill-title {
         color: var(--text-secondary, #94a3b8);
@@ -395,6 +459,27 @@
     .ins-error {
         color: #f87171;
     }
+    /* Tighten header-to-guide spacing on Insights */
+    header.page-header .container { padding-bottom: var(--spacing-md); }
+    main.container { padding-top: .25rem; }
+
+    /* Guide styles */
+    .ins-guide{ position:relative; overflow:hidden; margin: .25rem 0 1.5rem; background: linear-gradient(135deg, rgba(59,130,246,.08), rgba(96,165,250,.05)); border:1px solid var(--border-color, #334155); border-radius: 16px; padding: 1.25rem; box-shadow: var(--shadow-sm); }
+    .ins-guide::before{ content:''; position:absolute; inset:-10%; background:
+        radial-gradient(120px 120px at 10% 20%, rgba(59,130,246,.18), transparent 60%),
+        radial-gradient(160px 160px at 85% 30%, rgba(96,165,250,.16), transparent 60%),
+        radial-gradient(200px 200px at 40% 90%, rgba(56,189,248,.14), transparent 60%);
+        pointer-events:none; filter: blur(6px);
+    }
+    .ins-guide-header{ margin-bottom: .75rem; }
+    .ins-guide-grid{ display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: .9rem; }
+    .ins-guide-card{ background: var(--card-bg, rgba(15,23,42,.6)); border:1px solid var(--border-color, #334155); border-radius: 12px; padding: .9rem; display:flex; gap:.9rem; align-items:flex-start; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+    .ins-guide-card:hover{ transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: rgba(59,130,246,.35); background: rgba(59,130,246,.08); }
+    .ins-guide-icon{ width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:10px; background: rgba(59,130,246,.12); font-size:1.2rem; }
+    .ins-guide-title{ margin:.1rem 0 .25rem; font-size:1.05rem; }
+    .ins-guide-text{ color: var(--text-secondary, #94a3b8); font-size:.92rem; margin:0; }
+    @media (max-width: 900px){ .ins-guide-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 600px){ .ins-guide-grid{ grid-template-columns: 1fr; } }
 </style>
 
 <script src="./js/config.js"></script>
