@@ -232,16 +232,35 @@ function showFeedback(isCorrect, explanation) {
     `;
     feedbackContainer.style.display = 'block';
 
+    // === 插入 GIF 动画 ===
+    const gifContainer = document.getElementById('gifContainer');
+    if (gifContainer) gifContainer.innerHTML = ""; // 清空旧的 GIF
+    const gifPath = isCorrect ? './assets/images/correct.gif' : './assets/images/error.gif';
+    gifContainer.innerHTML = `<img src="${gifPath}" alt="Feedback Animation" />`;
+
     // Scroll to feedback for mobile users
     setTimeout(() => {
         feedbackContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 100);
 }
 
+
 // Move to next question
 function nextQuestion() {
     const module = quizData[currentModule];
     currentQuestionIndex++;
+
+    // 👇 每次切换题目前先清空反馈和 gif
+    const feedbackContainer = document.getElementById("feedbackContainer");
+    if (feedbackContainer) {
+        feedbackContainer.style.display = "none";
+        feedbackContainer.innerHTML = "";
+    }
+
+    const gifContainer = document.getElementById("gifContainer");
+    if (gifContainer) {
+        gifContainer.innerHTML = "";
+    }
 
     if (currentQuestionIndex < module.questions.length) {
         loadQuestion();
@@ -249,6 +268,7 @@ function nextQuestion() {
         showResults();
     }
 }
+
 
 // Show quiz results
 function showResults() {

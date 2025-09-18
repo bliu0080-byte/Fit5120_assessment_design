@@ -596,3 +596,14 @@ main.container, .container {
     .quiz-container{ padding: 14px; }
     .options-container{ display: grid; grid-template-columns: 1fr; } /* 单列，保证可读性 */
 }
+/* gif container
+.gif-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.gif-container img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 12px; /* 可选，让图片圆角 */
+}
