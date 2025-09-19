@@ -109,7 +109,7 @@
 
       new Chart(ctx, {
         type: 'line',
-        data: { labels, datasets: [{ label: 'Reports', data, borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,.25)', tension: 0.25, pointRadius: 2, fill: true }] },
+        data: { labels, datasets: [{ label: 'Reports', data, borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,.25)', tension: 0.25, pointRadius: 2, pointHoverRadius: 6, pointHitRadius: 10, pointHoverBackgroundColor: '#60a5fa', pointHoverBorderColor: '#fff', pointHoverBorderWidth: 2, fill: true }] },
         options: {
           responsive: false,
           maintainAspectRatio: true,
@@ -135,7 +135,7 @@
       const colors = ['#60a5fa','#c084fc','#34d399','#f472b6','#f59e0b','#38bdf8','#a3e635','#fb7185','#22d3ee','#fbbf24'];
       new Chart(ctx, {
         type: 'pie',
-        data: { labels, datasets: [{ data: values, backgroundColor: colors.slice(0, values.length) }] },
+        data: { labels, datasets: [{ data: values, backgroundColor: colors.slice(0, values.length), hoverOffset: 10 }] },
         options: { responsive: false, maintainAspectRatio: true, plugins: { legend: { position: 'right', labels: { color: GRAPH_TEXT_COLOR } }, tooltip: { callbacks: { label: (c) => `${c.label}: ${numberFmt.format(c.parsed)} (${(c.parsed / values.reduce((s,x)=>s+x,0) * 100).toFixed(1)}%)` } } } },
       });
     });
@@ -167,7 +167,7 @@
 
       new Chart(ctx, {
         type: 'bar',
-        data: { labels, datasets: [{ label: 'Reports', data: values, backgroundColor: '#60a5fa' }] },
+        data: { labels, datasets: [{ label: 'Reports', data: values, backgroundColor: '#60a5fa', hoverBackgroundColor: '#93c5fd', hoverBorderColor: '#ffffff55', hoverBorderWidth: 1 }] },
         options: { responsive: false, maintainAspectRatio: true, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: GRAPH_TEXT_COLOR }, grid: { display: false } }, y: { type: 'linear', beginAtZero: true, min: axis.min, max: axis.max, bounds: 'ticks', ticks: { color: GRAPH_TEXT_COLOR, stepSize: axis.step, callback: axis.tickCb }, grid: { color: GRID_COLOR }, title: { display: true, text: axis.label, color: GRAPH_TEXT_COLOR } } } },
       });
     });
@@ -198,7 +198,7 @@
 
       new Chart(ctx, {
         type: 'bar',
-        data: { labels, datasets: [{ label: 'Reports', data: values, backgroundColor: '#3b82f6' }] },
+        data: { labels, datasets: [{ label: 'Reports', data: values, backgroundColor: '#3b82f6', hoverBackgroundColor: '#60a5fa', hoverBorderColor: '#ffffff55', hoverBorderWidth: 1 }] },
         options: { responsive: false, maintainAspectRatio: true, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: GRAPH_TEXT_COLOR }, grid: { display: false } }, y: { type: 'linear', beginAtZero: true, min: axis.min, max: axis.max, bounds: 'ticks', ticks: { color: GRAPH_TEXT_COLOR, stepSize: axis.step, callback: axis.tickCb }, grid: { color: GRID_COLOR }, title: { display: true, text: axis.label, color: GRAPH_TEXT_COLOR } } } },
       });
     });
