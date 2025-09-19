@@ -1,0 +1,72 @@
+{
+  "emails": [
+    {
+      "id": "s1",
+      "text": "You have won a $50,000 prize. Click here to claim now!",
+      "type": "scam",
+      "emo i": "🎉",
+      "aria": "Lottery scam targeting seniors"
+    },
+    {
+      "id": "s2",
+      "text": "Update your password immediately to avoid account suspension",
+      "type": "scam",
+      "emoji": "🔒",
+      "aria": "Phishing scam email"
+    },
+    {
+      "id": "s3",
+      "text": "Claim your free vacation today! Limited offer!",
+      "type": "scam",
+      "emoji": "🏝️",
+      "aria": "Travel scam email"
+    },
+    {
+      "id": "s4",
+      "text": "Urgent: Your tax refund is waiting, confirm details now",
+      "type": "scam",
+      "emoji": "💰",
+      "aria": "Fake tax refund"
+    },
+    {
+      "id": "n1",
+      "text": "Reminder: doctor’s appointment on 20 Sep at 10 AM",
+      "type": "normal",
+      "emoji": "📅",
+      "aria": "Legitimate medical reminder"
+    },
+    {
+      "id": "n2",
+      "text": "Your electricity bill is ready for viewing",
+      "type": "normal",
+      "emoji": "💡",
+      "aria": "Utility bill notification"
+    },
+    {
+      "id": "n3",
+      "text": "Invitation: Parent-teacher meeting on Friday",
+      "type": "normal",
+      "emoji": "🏫",
+      "aria": "School message"
+    },
+    {
+      "id": "n4",
+      "text": "Your package has been shipped and will arrive tomorrow",
+      "type": "normal",
+      "emoji": "📦",
+      "aria": "Order delivery update"
+    }
+  ],
+  "gameSettings": {
+    "initialTime": 120,
+    "correctPoints": 10,
+    "incorrectPenalty": 5,
+    "streakBonus": 2
+  },
+  "gameTips": [
+    "Look out for urgent language, prizes, and threats",
+    "Sorting scam emails correctly earns points",
+    "Consecutive correct answers increase streak bonus",
+    "Mistakes reduce your score"
+  ]
+}
