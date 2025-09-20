@@ -7,7 +7,7 @@ class EmailSortingGame {
         this.correct = 0;
         this.total = 0;
         this.streak = 0;
-        this.lives = 3; // ✅ 初始命数
+        this.lives = 3;
         this.timeLeft = 120;
         this.gameActive = false;
         this.timer = null;
@@ -17,12 +17,21 @@ class EmailSortingGame {
             this.initializeGame();
         });
     }
+    selectRandomEmails(allEmails, scamCount = 6, normalCount = 4) {
+    const scamEmails = allEmails.filter(e => e.type === "scam");
+    const normalEmails = allEmails.filter(e => e.type !== "scam");
 
+    const randomScam = scamEmails.sort(() => 0.5 - Math.random()).slice(0, scamCount);
+    const randomNormal = normalEmails.sort(() => 0.5 - Math.random()).slice(0, normalCount);
+
+    // 合并后再打乱
+    return [...randomScam, ...randomNormal].sort(() => 0.5 - Math.random());
+}
     async loadGameData() {
         try {
             const response = await fetch('js/games/game-data.json');
             this.gameData = await response.json();
-            this.emails = [...this.gameData.emails];
+            this.emails = this.selectRandomEmails(this.gameData.emails, 6, 4);
             this.originalEmails = [...this.gameData.emails];
             this.timeLeft = this.gameData.gameSettings.initialTime;
         } catch (error) {
@@ -320,7 +329,7 @@ class EmailSortingGame {
     }
 
     resetGame() {
-        this.emails = [...this.originalEmails];
+        this.emails = this.selectRandomEmails(this.gameData.emails, 6, 4);
         this.score = 0;
         this.correct = 0;
         this.total = 0;
