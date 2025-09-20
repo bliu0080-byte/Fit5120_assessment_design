@@ -7,6 +7,7 @@ class EmailSortingGame {
         this.correct = 0;
         this.total = 0;
         this.streak = 0;
+        this.lives = 3; // ✅ 初始命数
         this.timeLeft = 120;
         this.gameActive = false;
         this.timer = null;
@@ -34,21 +35,21 @@ class EmailSortingGame {
                         sender: 'Council',
                         subject: 'Reminder of bin collection day change',
                         icon: '🏛️',
-                        suspicious: false,
+                        type: "normal"
                     },
                     {
                         id: '2',
                         sender: 'Weather warning from the Bureau of Meteorology',
                         subject: 'Severe weather alert for your area',
                         icon: '🌧️',
-                        suspicious: false,
+                        type: "normal"
                     },
                     {
                         id: '3',
                         sender: 'security@fakebank.com',
                         subject: 'Urgent: Your account has been compromised!',
                         icon: '🛡️',
-                        suspicious: true,
+                        type: "scam"
                     }
                 ],
                 gameSettings: {
@@ -87,6 +88,7 @@ class EmailSortingGame {
             accuracyValue: document.getElementById('accuracyValue'),
             streakValue: document.getElementById('streakValue'),
             timeValue: document.getElementById('timeValue'),
+            livesValue: document.getElementById('livesValue'), // ✅ 绑定 Lives
             emailCount: document.getElementById('emailCount'),
             emailsContainer: document.getElementById('emailsContainer'),
             completionMessage: document.getElementById('completionMessage'),
@@ -147,7 +149,7 @@ class EmailSortingGame {
     }
 
     createEmailCard(email) {
-        const isScam = email.type === "scam"; // 判断是不是诈骗邮件
+        const isScam = email.type === "scam";
         const card = document.createElement('div');
         card.className = `email-card ${isScam ? 'suspicious' : ''}`;
         card.draggable = true;
@@ -162,11 +164,11 @@ class EmailSortingGame {
             
             <div class="email-content">
                 <div class="email-icon ${isScam ? 'suspicious' : ''}">
-                    ${email.emoji}
+                    ${email.emoji || email.icon || "📧"}
                 </div>
                 <div class="email-text">
-                    <p class="email-sender">${email.aria}</p>
-                    <h3 class="email-subject">${email.text}</h3>
+                    <p class="email-sender">${email.aria || email.sender}</p>
+                    <h3 class="email-subject">${email.text || email.subject}</h3>
                 </div>
             </div>
 
@@ -219,11 +221,11 @@ class EmailSortingGame {
     }
 
     showSuccessAnimation() {
-    this.elements.successAnimation.classList.add('show');
-    setTimeout(() => {
-        this.elements.successAnimation.classList.remove('show');
-    }, 1000);
-}
+        this.elements.successAnimation.classList.add('show');
+        setTimeout(() => {
+            this.elements.successAnimation.classList.remove('show');
+        }, 1000);
+    }
 
     handleEmailDrop(emailId) {
         const email = this.emails.find(e => e.id === emailId);
@@ -239,9 +241,15 @@ class EmailSortingGame {
             this.streak += 1;
             this.showSuccessAnimation();
         } else {
-            // 正常邮件被误拖，扣分
-            this.score = Math.max(0, this.score - this.gameData.gameSettings.incorrectPenalty);
+            // 拖错正常邮件，扣命
+            this.lives -= 1;
+            this.elements.livesValue.textContent = this.lives;
             this.streak = 0;
+
+            if (this.lives <= 0) {
+                this.endGame();
+                return;
+            }
         }
 
         // 移除已处理的邮件
@@ -255,7 +263,8 @@ class EmailSortingGame {
         this.elements.trashScoreValue.textContent = this.score;
         this.elements.streakValue.textContent = this.streak;
         this.elements.timeValue.textContent = `${this.timeLeft}s`;
-        
+        this.elements.livesValue.textContent = this.lives;
+
         const accuracy = this.total > 0 ? Math.round((this.correct / this.total) * 100) : 0;
         this.elements.accuracyValue.textContent = `${accuracy}%`;
     }
@@ -316,6 +325,7 @@ class EmailSortingGame {
         this.correct = 0;
         this.total = 0;
         this.streak = 0;
+        this.lives = 3; // ✅ 重置命数
         this.timeLeft = this.gameData.gameSettings.initialTime;
         this.gameActive = false;
         
