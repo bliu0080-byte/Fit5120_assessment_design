@@ -745,3 +745,19 @@ body {
 }
 
 
+.stat-lives {
+    background: linear-gradient(135deg, #fee2e2, #fecaca); /* 粉红背景 */
+    border-color: #fca5a5;
+}
+
+.stat-lives .stat-icon {
+    background: #ef4444; /* 红色心形背景 */
+}
+
+.stat-lives .stat-value {
+    color: #b91c1c; /* 深红色数字 */
+}
+
+.stat-lives .stat-label {
+    color: #dc2626; /* 标签颜色 */
+}
