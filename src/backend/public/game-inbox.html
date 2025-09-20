@@ -140,6 +140,12 @@
                         <!-- Tips will be loaded from JSON -->
                     </ul>
                 </div>
+                <!-- Music Control -->
+                <div class="music-control">
+                    <button id="toggleMusic" class="btn btn-outline">
+                        🎵 Music On/Off
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -166,7 +172,10 @@
             </div>
         </div>
     </div>
-
+    <audio id="bgm" autoplay loop>
+        <source src="assets/music/bgm.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
     <script src="./js/games/inbox.js"></script>
 </body>
 </html>

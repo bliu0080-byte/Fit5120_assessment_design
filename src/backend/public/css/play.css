@@ -729,3 +729,19 @@ body {
 .hidden {
     display: none;
 }
+
+.music-control {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #ffffffaa;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.music-control .btn {
+    font-size: 14px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+

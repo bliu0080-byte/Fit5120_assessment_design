@@ -217,7 +217,7 @@ class EmailSortingGame {
             this.handleEmailDrop(emailId);
         }
     }
-    
+
     showSuccessAnimation() {
     this.elements.successAnimation.classList.add('show');
     setTimeout(() => {
@@ -333,6 +333,21 @@ class EmailSortingGame {
 }
 
 // Initialize the game when the page loads
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     new EmailSortingGame();
+
+    const bgm = document.getElementById("bgm");
+    const toggleMusic = document.getElementById("toggleMusic");
+
+    if (toggleMusic && bgm) {
+        toggleMusic.addEventListener("click", () => {
+            if (bgm.paused) {
+                bgm.play();
+                toggleMusic.textContent = "🔇 Mute Music";
+            } else {
+                bgm.pause();
+                toggleMusic.textContent = "🎵 Play Music";
+            }
+        });
+    }
 });
