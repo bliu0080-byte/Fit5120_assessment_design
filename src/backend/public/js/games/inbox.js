@@ -236,7 +236,7 @@ class EmailSortingGame {
             this.elements.successAnimation.classList.remove('show');
         }, 1000);
     }
-    
+
     showErrorAnimation() {
         this.elements.errorAnimation.classList.add('show');
         setTimeout(() => {
@@ -247,6 +247,11 @@ class EmailSortingGame {
     handleEmailDrop(emailId) {
         const email = this.emails.find(e => e.id === emailId);
         if (!email) return;
+
+        // ✅ 如果游戏未开始，第一次拖动时自动开始倒计时
+        if (!this.gameActive) {
+            this.toggleGame(); 
+        }
 
         this.total += 1;
 
@@ -275,6 +280,7 @@ class EmailSortingGame {
         this.renderEmails();
         this.updateStats();
     }
+
 
     updateStats() {
         this.elements.scoreValue.textContent = this.score;
