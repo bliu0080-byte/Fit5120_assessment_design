@@ -11,9 +11,13 @@
     --current-font-scale: var(--font-size-normal);
 
     /* Color Palette - Professional Dark Theme */
-    --primary-blue: #1e40af;
+    --primary-blue: #c2410c;   /* 深橙 (原主蓝 #1e40af) */
+    --secondary-blue: #f97316; /* 次橙 (原次蓝 #2563eb) */
+    --accent-blue: #fb923c;    /* 强调橙 (原强调蓝 #3b82f6) */
+
+    /*--primary-blue: #1e40af;
     --secondary-blue: #2563eb;
-    --accent-blue: #3b82f6;
+    --accent-blue: #3b82f6; */
     --dark-bg: #ffffff;
     --card-bg: #f9fafb;
     --border-color: #e5e7eb;
