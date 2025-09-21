@@ -389,7 +389,9 @@ body {
 
 .trash-bin-section {
     position: sticky;
-    top: 2rem;
+    top: 2rem;       /* 距离顶部 2rem 固定 */
+    align-self: start; /* 避免被 grid 拉伸 */
+    height: fit-content; /* 根据内容自适应高度 */
 }
 
 .trash-bin {
