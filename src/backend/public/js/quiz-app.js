@@ -362,7 +362,36 @@ function showResults() {
 
     // Scroll to top of results
     document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // ⭐ 新增：完成一次 quiz 后，参与人数 +1
+    const counter = document.getElementById(`count-${currentModule}`);
+    if (counter) {
+        let current = parseInt(counter.textContent.replace(/,/g, ""), 10);
+        current++;
+        counter.textContent = current.toLocaleString();
+    }
 }
+
+    // Update results display
+    document.getElementById('resultsMessage').textContent = message;
+
+    // Build takeaways HTML
+    let breakdownHTML = '';
+    takeaways.forEach(takeaway => {
+        const icon = takeaway.substring(0, 2);
+        const text = takeaway.substring(2).trim();
+        breakdownHTML += `
+            <div class="breakdown-item">
+                <div class="breakdown-icon">${icon}</div>
+                <div>${text}</div>
+            </div>
+        `;
+    });
+    document.getElementById('breakdownContent').innerHTML = breakdownHTML;
+
+    // Scroll to top of results
+    document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
 
 // Return to module selection
 function backToModules() {

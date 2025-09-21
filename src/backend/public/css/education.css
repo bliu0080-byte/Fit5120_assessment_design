@@ -546,23 +546,12 @@ main.container, .container {
     color: var(--text, #111);
     border-radius: 16px;
     box-shadow: 0 12px 40px rgba(0,0,0,.35);
-    overflow-y: auto;         /* ✅ 允许竖向滚动 */
+    /*overflow-y: auto;  */       /* ✅ 允许竖向滚动 */
     overflow-x: hidden;       /* 横向不要滚动 */
     padding: 16px 18px;       /* 给点 padding，避免内容贴边 */
 }
 
-/*.modal-content{
-    position: relative;
-    margin: 2vh auto;
-    width: min(92vw, 1000px);
-    height: 96vh;
-    max-height: 96vh;
-    background: var(--card-bg, #0b1220);
-    color: var(--text, #111);
-    border-radius: 16px;
-    box-shadow: 0 12px 40px rgba(0,0,0,.35);
-    overflow: hidden;
-} */
+
 
 .quiz-container{
     height: 100%;
@@ -627,9 +616,21 @@ main.container, .container {
     .options-container{ display: grid; grid-template-columns: 1fr; } /* 单列，保证可读性 */
 }
 
+/* === GIF 显示样式 === */
+.gif-container {
+    margin-top: 20px;
+    text-align: center; /* ✅ 居中 */
+  }
+  
+.gif-container img {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+  
 
-
-/* gif container
+/*
 .gif-container {
     margin-top: 20px;
     text-align: center;
@@ -638,5 +639,5 @@ main.container, .container {
 .gif-container img {
     max-width: 200px;
     height: auto;
-    border-radius: 12px; /* 可选，让图片圆角 */
-}
+    border-radius: 12px; /* 可选，让图片圆角
+} */
