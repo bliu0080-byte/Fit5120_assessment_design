@@ -47,24 +47,47 @@
         </div>
     </section>
 
-    <section class="ss-controls" aria-label="Filters">
-        <div class="ss-pill">
-            <label for="filterType">Filter: </label>
-            <select id="filterType" aria-label="Filter by type">
-                <option value="all">By Type (All)</option>
-                <option value="sms">SMS</option>
-                <option value="phone">Phone</option>
-                <option value="web">Web Phishing</option>
-                <option value="email">Email</option>
-                <option value="other">Other</option>
-            </select>
+    <!-- Filter / Sort / Search controls -->
+    <section class="ss-controls" aria-label="Controls">
+        <!-- Filter -->
+        <div class="ss-pill ss-control">
+            <i class="fa-solid fa-filter ss-control__icon" aria-hidden="true"></i>
+            <label for="filterType" class="ss-control__label">Filter:</label>
+            <div class="ss-select">
+                <select id="filterType" aria-label="Filter by type">
+                    <option value="all">By Type (All)</option>
+                    <option value="sms">SMS</option>
+                    <option value="phone">Phone</option>
+                    <option value="web">Web Phishing</option>
+                    <option value="email">Email</option>
+                    <option value="other">Other</option>
+                </select>
+                <i class="fa-solid fa-angle-down ss-select__chevron" aria-hidden="true"></i>
+            </div>
         </div>
-        <div class="ss-pill">
-            <label for="sortBy">Sort: </label>
-            <select id="sortBy" aria-label="Sort stories">
-                <option value="newest">Newest</option>
-                <option value="popular">Popular</option>
-            </select>
+
+        <!-- Sort -->
+        <div class="ss-pill ss-control">
+            <i class="fa-solid fa-up-down ss-control__icon" aria-hidden="true"></i>
+            <label for="sortBy" class="ss-control__label">Sort:</label>
+            <div class="ss-select">
+                <select id="sortBy" aria-label="Sort stories">
+                    <option value="newest">Newest</option>
+                    <option value="popular">Popular</option>
+                </select>
+                <i class="fa-solid fa-angle-down ss-select__chevron" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="ss-pill ss-search">
+            <div class="ss-search__group">
+                <input type="text" id="searchBox" class="ss-search__input" placeholder="Search stories..." />
+                <button id="searchBtn" class="ss-search__btn" type="button">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <span>Search</span>
+                </button>
+            </div>
         </div>
     </section>
 

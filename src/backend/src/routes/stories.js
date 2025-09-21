@@ -5,10 +5,24 @@ import { moderateStory } from '../utils/moderation.js';
 
 const router = express.Router();
 
-// routes/stories.js (your existing list endpoint)
+
+// routes/stories.js
 router.get('/stories', async (req, res) => {
     try {
-        const { rows } = await pool.query(`
+        const page  = parseInt(req.query.page)  || 1;
+        const limit = parseInt(req.query.limit) || 9;
+        const offset = (page - 1) * limit;
+        const search = (req.query.search || '').trim();
+
+        let whereClause = `WHERE s.moderation_status = 'approved'`;
+        const params = [];
+
+        if (search) {
+            params.push(`%${search}%`);
+            whereClause += ` AND (s.text ILIKE $${params.length} OR s.type ILIKE $${params.length})`;
+        }
+
+        const query = `
       SELECT s.id, s.text, s.type, s.state, s.likes, s.created_at AS "createdAt",
              COALESCE(c.cnt, 0) AS "commentCount"
       FROM stories s
@@ -17,11 +31,24 @@ router.get('/stories', async (req, res) => {
         FROM story_comments
         GROUP BY story_id
       ) c ON s.id = c.story_id
-      WHERE s.moderation_status = 'approved'        -- <<< only show approved
+      ${whereClause}
       ORDER BY s.created_at DESC
-      LIMIT 100
-    `);
-        res.json({ items: rows });
+      LIMIT $${params.length+1} OFFSET $${params.length+2};
+    `;
+        params.push(limit, offset);
+
+        const { rows } = await pool.query(query, params);
+
+        // Count total
+        const countQuery = `SELECT COUNT(*)::int AS total FROM stories s ${whereClause}`;
+        const { rows: countRows } = await pool.query(countQuery, params.slice(0, params.length-2));
+        const total = countRows[0]?.total || 0;
+
+        res.json({
+            page, limit, total,
+            totalPages: Math.ceil(total/limit),
+            items: rows
+        });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'DB query failed' });
