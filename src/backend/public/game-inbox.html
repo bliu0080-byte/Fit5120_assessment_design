@@ -1,105 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Inbox Clean-Up mini game - drag suspicious emails to the trash bin">
-    <title>Inbox Clean-Up • ScamSafe</title>
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/variables.css">
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/layout.css">
-    <link rel="stylesheet" href="./css/components.css">
-    <link rel="stylesheet" href="./css/game-inbox.css">
+    <meta name="description" content="ScamSafe - Email Security Sorting Game" />
+    <meta name="keywords" content="scam protection, fraud awareness, cybersecurity education, email security game" />
+    <meta name="author" content="ScamSafe Team" />
+    <title>ScamSafe - Email Security Sorting Game</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+
+    <!-- External Libraries -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <!-- Shared Styles - 确保与 education.html 完全一致 -->
+    <link rel="stylesheet" href="./css/variables.css" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/responsive.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+
+    <!-- Page Specific -->
+    <link rel="stylesheet" href="./css/play.css" />
 </head>
+
 <body>
-<nav class="navbar" id="navbar">
-    <div class="nav-container">
-        <a href="index.html#home" class="logo">
-            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img">
-        </a>
-        <div class="nav-controls">
-            <ul class="nav-links">
-                <li><a href="index.html#home" class="nav-link">Home</a></li>
-                <li><a href="insights.html" class="nav-link">Insights</a></li>
-                <li><a href="education.html" class="nav-link">Education</a></li>
-                <li><a href="scam-stories.html" class="nav-link">Scam stories</a></li>
-                <li><a href="game-inbox.html" class="nav-link">Play &amp; Learn</a></li>
-            </ul>
-            <div class="font-controls" role="group" aria-label="Font size controls">
-                <button class="font-btn" data-size="small" type="button" aria-label="Decrease font size"><i class="fa-solid fa-minus"></i></button>
-                <button class="font-btn active" data-size="normal" type="button" aria-label="Reset to default size"><i class="fa-solid fa-rotate-left"></i></button>
-                <button class="font-btn" data-size="large" type="button" aria-label="Increase font size"><i class="fa-solid fa-plus"></i></button>
+    <!-- Navigation - 与 education.html 保持完全一致 -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html#home" class="logo">
+                <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img" />
+            </a>
+            <div class="nav-controls">
+                <ul class="nav-links">
+                    <li><a href="index.html#home" class="nav-link">Home</a></li>
+                    <li><a href="insights.html" class="nav-link">Insights</a></li>
+                    <li><a href="education.html" class="nav-link">Education</a></li>
+                    <li><a href="scam-stories.html" class="nav-link">Scam stories</a></li>
+                    <li><a href="game-inbox.html" class="nav-link active">Play &amp; Learn</a></li>
+                </ul>
+                <div class="font-controls">
+                    <button class="font-btn" data-size="small" type="button" title="Smaller"><i
+                            class="fa-solid fa-minus"></i></button>
+                    <button class="font-btn active" data-size="normal" type="button" title="Default"><i
+                            class="fa-solid fa-rotate-left"></i></button>
+                    <button class="font-btn" data-size="large" type="button" title="Larger"><i
+                            class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="background-decorations">
+        <div class="decoration decoration-1"></div>
+        <div class="decoration decoration-2"></div>
+        <div class="decoration decoration-3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Game Header -->
+        <div class="game-header">
+            <h1 class="game-title">Email Security Sorting Game</h1>
+            <p class="game-description">
+                Identify suspicious emails and drag them to the trash to protect your information security!
+            </p>
+
+            <div class="control-buttons">
+                <button id="toggleGame" class="btn btn-primary">
+                    <span id="playIcon">▶</span>
+                    <span id="pauseIcon" class="hidden">⸸</span>
+                    <span id="gameButtonText">Start Game</span>
+                </button>
+                <button id="resetGame" class="btn btn-outline">
+                    <span>🔄</span>
+                    Restart
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Statistics -->
+        <!-- Game Statistics -->
+        <div class="game-stats">
+            <!-- Score - Trophy -->
+            <div class="stat-card stat-score">
+                <div class="trophy-wrapper">
+                    <svg class="trophy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                        <path d="M4 22h16" />
+                        <path
+                            d="M10 14.66V17c0 .55.47.98.97 1.21C11.25 18.48 11.61 18.75 12 18.75s.75-.27 1.03-.54c.5-.23.97-.66.97-1.21v-2.34" />
+                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+                    </svg>
+                    <svg class="trophy-sparkle" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="12,2 15,9 22,9 17,14 19,22 12,18 5,22 7,14 2,9 9,9" />
+                    </svg>
+                </div>
+                <div class="stat-value" id="scoreValue">0</div>
+                <div class="stat-label">Total Score</div>
+            </div>
+
+            <!-- Accuracy - Target -->
+            <div class="stat-card stat-accuracy">
+                <div class="accuracy-wrapper">
+                    <div class="accuracy-target">
+                        <div class="accuracy-crosshair"></div>
+                    </div>
+                </div>
+                <div class="stat-value" id="accuracyValue">0%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+
+            <!-- Streak - Lightning -->
+            <div class="stat-card stat-streak">
+                <div class="lightning-wrapper">
+                    <svg class="lightning-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="13,2 3,14 12,14 11,22 21,10 12,10" />
+                    </svg>
+                </div>
+                <div class="stat-value" id="streakValue">0</div>
+                <div class="stat-label">Streak</div>
+            </div>
+
+            <!-- Lives - Hearts -->
+            <div class="stat-card stat-lives">
+                <div class="lives-display">
+                    <!-- Big Heart Icon -->
+                    <div class="main-heart-wrapper">
+                        <svg class="main-heart-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
+                    </div>
+
+                    <!-- Small Hearts (JS will render here) -->
+                    <div class="small-hearts-wrapper" id="heartsWrapper"></div>
+                </div>
+                <div class="stat-value" id="livesValue"></div>
+                <div class="stat-label">Lives</div>
+            </div>
+
+
+            <!-- Time - Clock -->
+            <div class="stat-card stat-time">
+                <div class="clock-wrapper">
+                    <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12,6 12,12 16,14" />
+                    </svg>
+                </div>
+                <div class="stat-value" id="timeValue">120s</div>
+                <div class="stat-label">Time Left</div>
+            </div>
+        </div>
+
+
+        <div class="main-grid">
+            <!-- Email List -->
+            <div class="inbox-section">
+                <h2 class="inbox-header">
+                    📧 Inbox
+                    <span class="inbox-count" id="emailCount">(6 emails)</span>
+                </h2>
+
+                <div id="emailsContainer" class="emails-container">
+                    <!-- Email cards will be generated here -->
+                </div>
+
+                <div id="completionMessage" class="completion-message hidden">
+                    <div class="completion-icon">🎉</div>
+                    <h3 class="completion-title">
+                        Congratulations! All emails have been processed
+                    </h3>
+                    <p class="completion-score">
+                        Your final score: <span id="finalScore">0</span> points
+                    </p>
+                </div>
+            </div>
+
+            <!-- Trash Bin Area -->
+            <div class="trash-bin-section">
+                <div id="trashBin" class="trash-bin">
+                    <div class="trash-decorations">
+                        <div class="trash-decoration trash-decoration-1"></div>
+                        <div class="trash-decoration trash-decoration-2"></div>
+                        <div class="trash-decoration trash-decoration-3"></div>
+                    </div>
+
+                    <div class="success-animation" id="successAnimation">
+                        <div class="success-content">
+                            <svg class="success-icon" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="m9 12 2 2 4-4"></path>
+                            </svg>
+                            <p class="success-text">Correct Sorting!</p>
+                        </div>
+                    </div>
+                    <div class="error-animation" id="errorAnimation">
+                        <div class="error-content">
+                            <svg class="error-icon" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                            </svg>
+                            <p class="error-text">Wrong Sorting!</p>
+                        </div>
+                    </div>
+                    <div class="trash-content">
+                        <div class="trash-icon-container">
+                            <svg class="trash-icon" viewBox="0 0 24 24">
+                                <polyline points="3,6 5,6 21,6"></polyline>
+                                <path
+                                    d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2">
+                                </path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </div>
+
+                        <h2 class="trash-title">Trash Bin</h2>
+                        <p class="trash-description" id="trashDescription">
+                            Drag suspicious emails here
+                        </p>
+
+                        <div class="trash-warning" id="trashWarning">
+                            <svg class="warning-icon" viewBox="0 0 24 24">
+                                <path
+                                    d="m21.73,18l-8,-14a2,2 0 0,0 -3.46,0l-8,14A2,2 0 0,0 4,21H20A2,2 0 0,0 21.73,18Z">
+                                </path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                            <span>Confirm delete suspicious email</span>
+                        </div>
+
+                        <div class="trash-score">
+                            <p class="score-label">Current Score</p>
+                            <p class="score-value" id="trashScoreValue">0</p>
+                        </div>
+                    </div>
+
+                    <div class="drag-border"></div>
+                </div>
+
+                <!-- Game Tips -->
+                <div class="game-tips">
+                    <h3 class="tips-title">🎯 Game Tips</h3>
+                    <ul class="tips-list" id="tipsList">
+                        <!-- Tips will be loaded from JSON -->
+                    </ul>
+                </div>
+
+                <!-- Music Control -->
+                <div class="music-control">
+                    <button id="toggleMusic" class="btn btn-outline">
+                        🎵 Music On/Off
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Status Notification -->
+        <div id="gameStatus" class="game-status hidden">
+            <p class="status-text">
+                ⏸️ Game paused, click 'Start Game' to continue
+            </p>
+        </div>
+
+        <!-- Game Over Modal -->
+        <div id="gameOverModal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <div class="modal-icon">😈</div>
+                <h2 class="modal-title">Oops! Not This Time</h2>
+                <div class="modal-stats">
+                    <p class="modal-stat">Final Score: <span class="final-score" id="modalFinalScore">0</span></p>
+                    <p class="modal-stat">Accuracy: <span id="modalAccuracy">0%</span></p>
+                    <p class="modal-stat">Best Streak: <span id="modalStreak">0</span></p>
+                </div>
+                <button id="playAgainBtn" class="btn btn-primary">
+                    Play Again
+                </button>
+            </div>
+        </div>
+        <!-- Victory Modal -->
+        <div id="victoryModal" class="modal-overlay hidden">
+            <div class="modal-content victory">
+                <div class="modal-icon">🏆</div>
+                <h2 class="modal-title">🎉 Victory!</h2>
+                <div class="modal-stats">
+                    <p class="modal-stat">Final Score: <span class="final-score" id="victoryFinalScore">0</span></p>
+                    <p class="modal-stat">Accuracy: <span id="victoryAccuracy">0%</span></p>
+                    <p class="modal-stat">Best Streak: <span id="victoryStreak">0</span></p>
+                </div>
+                <button id="playAgainBtnWin" class="btn btn-primary">
+                    Play Again
+                </button>
             </div>
         </div>
     </div>
-</nav>
 
-<main class="container">
-    <section class="game-wrap">
-        <canvas id="confetti"></canvas>
-        <div class="game-top">
-            <div>
-                <h2 class="game-title">Inbox Clean-Up</h2>
-                <p class="game-sub">Drag suspicious emails into the trash and keep the safe ones.</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#accessibility">Accessibility</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#sitemap">Site Map</a>
             </div>
-            <div class="game-actions">
-                <button id="returnBtn" class="btn-pill" type="button">Return</button>
-                <button id="submitBtn" class="btn-pill btn-primary" type="button">Submit</button>
+            <div class="footer-disclaimer">
+                <p>This website is maintained by ScamSafe as a public welfare initiative. Information provided is for
+                    educational purposes only. We are dedicated to preventing cybersecurity fraud through community
+                    awareness and education.</p>
             </div>
         </div>
+    </footer>
 
-        <div class="mail-list" role="list">
-            <div class="mail" id="m1" data-type="scam" role="listitem" aria-label="Parcel waiting email">
-                <div class="mail-label"><span>🚚</span><span class="mail-text">Your parcel is waiting, click here to pay fee</span></div>
-                <div class="drag-tag">Drag</div>
-            </div>
-            <div class="mail" id="m2" data-type="safe" role="listitem" aria-label="Bank statement email">
-                <div class="mail-label"><span>💳</span><span class="mail-text">ANZ: New statement available in your account</span></div>
-                <div class="drag-tag">Drag</div>
-            </div>
-            <div class="mail" id="m3" data-type="scam" role="listitem" aria-label="Gift card email">
-                <div class="mail-label"><span>🏆</span><span class="mail-text">You’ve won $500 gift card! Claim now</span></div>
-                <div class="drag-tag">Drag</div>
-            </div>
-        </div>
+    <!-- Scripts -->
+    <script src="./js/config.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/components/fontController.js?v=20250905"></script>
+    <script src="./js/games/inbox.js"></script>
+    <audio id="bgm" src="assets/music/bgm.mp3" loop></audio>
 
-        <div class="trash-area">
-            <div class="bin" aria-label="Trash Bin" tabindex="0" role="group">
-                <div class="bin-header">
-                    <div class="bin-title">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <polyline points="3 6 5 6 21 6"></polyline>
-                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                            <path d="M10 11v6"></path>
-                            <path d="M14 11v6"></path>
-                            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
-                        </svg>
-                        <span>Trash Bin</span>
-                    </div>
-                    <div class="bin-hint">Drag the suspicious mail into trash bin</div>
-                </div>
-                <div class="bin-list" role="list" aria-label="Emails moved to trash"></div>
-            </div>
-        </div>
-
-        <div class="result-overlay" role="dialog" aria-live="polite">
-            <div class="result-card">
-                <h3 class="result-title">Congrats!</h3>
-                <p class="result-sub">All suspicious emails were binned.</p>
-                <div class="result-actions" style="margin-top:10px;display:flex;gap:8px;">
-                    <button id="playAgainBtn" class="btn-pill" type="button">Play Again</button>
-                </div>
-                <p style="margin-top:10px;color:#64748b;">Click anywhere to close</p>
-            </div>
-        </div>
-    </section>
-</main>
-
-<script src="./js/config.js"></script>
-<script src="./js/utils.js"></script>
-<script src="./js/components/fontController.js"></script>
-<script src="./js/games/inbox.js"></script>
 </body>
+
 </html>
