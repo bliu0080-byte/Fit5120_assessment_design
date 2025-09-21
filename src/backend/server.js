@@ -10,6 +10,8 @@ import { fileURLToPath } from 'url';
 import healthRouter from './src/routes/health.js';
 import newsRouter from './src/models/News.js';
 import adminRoutes from './src/routes/adminRoutes.js';
+import storiesRouter from './src/routes/stories.js';
+import admin from './src/routes/admin.js';
 
 const app = express();
 
@@ -19,6 +21,8 @@ app.use(express.json({ limit: '2mb' }));
 app.use('/api', healthRouter);   // GET /api/health/db
 app.use('/api', newsRouter);     // GET /api/news   → { items: [...] }
 app.use('/api', adminRoutes);    // /api/admin/news (GET/POST/DELETE)
+app.use('/api', storiesRouter);
+app.use('/api/admin', admin);
 
 /* --- Trust proxy (Render 需要，才能拿到正确的 https) --- */
 app.set('trust proxy', 1);
