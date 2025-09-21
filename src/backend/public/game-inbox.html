@@ -42,9 +42,12 @@
                     <li><a href="game-inbox.html" class="nav-link active">Play &amp; Learn</a></li>
                 </ul>
                 <div class="font-controls">
-                    <button class="font-btn" data-size="small" type="button" title="Smaller"><i class="fa-solid fa-minus"></i></button>
-                    <button class="font-btn active" data-size="normal" type="button" title="Default"><i class="fa-solid fa-rotate-left"></i></button>
-                    <button class="font-btn" data-size="large" type="button" title="Larger"><i class="fa-solid fa-plus"></i></button>
+                    <button class="font-btn" data-size="small" type="button" title="Smaller"><i
+                            class="fa-solid fa-minus"></i></button>
+                    <button class="font-btn active" data-size="normal" type="button" title="Default"><i
+                            class="fa-solid fa-rotate-left"></i></button>
+                    <button class="font-btn" data-size="large" type="button" title="Larger"><i
+                            class="fa-solid fa-plus"></i></button>
                 </div>
             </div>
         </div>
@@ -78,33 +81,81 @@
         </div>
 
         <!-- Game Statistics -->
+        <!-- Game Statistics -->
         <div class="game-stats">
+            <!-- Score - Trophy -->
             <div class="stat-card stat-score">
-                <div class="stat-icon">🏆</div>
+                <div class="trophy-wrapper">
+                    <svg class="trophy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                        <path d="M4 22h16" />
+                        <path
+                            d="M10 14.66V17c0 .55.47.98.97 1.21C11.25 18.48 11.61 18.75 12 18.75s.75-.27 1.03-.54c.5-.23.97-.66.97-1.21v-2.34" />
+                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+                    </svg>
+                    <svg class="trophy-sparkle" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="12,2 15,9 22,9 17,14 19,22 12,18 5,22 7,14 2,9 9,9" />
+                    </svg>
+                </div>
                 <div class="stat-value" id="scoreValue">0</div>
                 <div class="stat-label">Total Score</div>
             </div>
+
+            <!-- Accuracy - Target -->
             <div class="stat-card stat-accuracy">
-                <div class="stat-icon">🎯</div>
+                <div class="accuracy-wrapper">
+                    <div class="accuracy-target">
+                        <div class="accuracy-crosshair"></div>
+                    </div>
+                </div>
                 <div class="stat-value" id="accuracyValue">0%</div>
                 <div class="stat-label">Accuracy</div>
             </div>
+
+            <!-- Streak - Lightning -->
             <div class="stat-card stat-streak">
-                <div class="stat-icon">⚡</div>
+                <div class="lightning-wrapper">
+                    <svg class="lightning-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="13,2 3,14 12,14 11,22 21,10 12,10" />
+                    </svg>
+                </div>
                 <div class="stat-value" id="streakValue">0</div>
                 <div class="stat-label">Streak</div>
             </div>
+
+            <!-- Lives - Hearts -->
             <div class="stat-card stat-lives">
-                <div class="stat-icon">❤️</div>
-                <div class="stat-value" id="livesValue">3</div>
+                <div class="lives-display">
+                    <!-- Big Heart Icon -->
+                    <div class="main-heart-wrapper">
+                        <svg class="main-heart-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
+                    </div>
+
+                    <!-- Small Hearts (JS will render here) -->
+                    <div class="small-hearts-wrapper" id="heartsWrapper"></div>
+                </div>
+                <div class="stat-value" id="livesValue"></div>
                 <div class="stat-label">Lives</div>
             </div>
+
+
+            <!-- Time - Clock -->
             <div class="stat-card stat-time">
-                <div class="stat-icon">⏰</div>
+                <div class="clock-wrapper">
+                    <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12,6 12,12 16,14" />
+                    </svg>
+                </div>
                 <div class="stat-value" id="timeValue">120s</div>
                 <div class="stat-label">Time Left</div>
             </div>
         </div>
+
 
         <div class="main-grid">
             <!-- Email List -->
@@ -221,14 +272,29 @@
         <!-- Game Over Modal -->
         <div id="gameOverModal" class="modal-overlay hidden">
             <div class="modal-content">
-                <div class="modal-icon">⏰</div>
-                <h2 class="modal-title">Time's Up!</h2>
+                <div class="modal-icon">😈</div>
+                <h2 class="modal-title">Oops! Not This Time</h2>
                 <div class="modal-stats">
                     <p class="modal-stat">Final Score: <span class="final-score" id="modalFinalScore">0</span></p>
                     <p class="modal-stat">Accuracy: <span id="modalAccuracy">0%</span></p>
                     <p class="modal-stat">Best Streak: <span id="modalStreak">0</span></p>
                 </div>
                 <button id="playAgainBtn" class="btn btn-primary">
+                    Play Again
+                </button>
+            </div>
+        </div>
+        <!-- Victory Modal -->
+        <div id="victoryModal" class="modal-overlay hidden">
+            <div class="modal-content victory">
+                <div class="modal-icon">🏆</div>
+                <h2 class="modal-title">🎉 Victory!</h2>
+                <div class="modal-stats">
+                    <p class="modal-stat">Final Score: <span class="final-score" id="victoryFinalScore">0</span></p>
+                    <p class="modal-stat">Accuracy: <span id="victoryAccuracy">0%</span></p>
+                    <p class="modal-stat">Best Streak: <span id="victoryStreak">0</span></p>
+                </div>
+                <button id="playAgainBtnWin" class="btn btn-primary">
                     Play Again
                 </button>
             </div>
@@ -247,7 +313,9 @@
                 <a href="#sitemap">Site Map</a>
             </div>
             <div class="footer-disclaimer">
-                <p>This website is maintained by ScamSafe as a public welfare initiative. Information provided is for educational purposes only. We are dedicated to preventing cybersecurity fraud through community awareness and education.</p>
+                <p>This website is maintained by ScamSafe as a public welfare initiative. Information provided is for
+                    educational purposes only. We are dedicated to preventing cybersecurity fraud through community
+                    awareness and education.</p>
             </div>
         </div>
     </footer>
