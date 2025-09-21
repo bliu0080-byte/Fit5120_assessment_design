@@ -1,23 +1,26 @@
 // routes/stories.js
 import express from 'express';
 import { pool } from '../db.js';
+import { moderateStory } from '../utils/moderation.js';
+
 const router = express.Router();
 
-// Get Story List
+// routes/stories.js (your existing list endpoint)
 router.get('/stories', async (req, res) => {
     try {
         const { rows } = await pool.query(`
-            SELECT s.id, s.text, s.type, s.state, s.likes, s.created_at AS "createdAt",
-                   COALESCE(c.cnt, 0) AS "commentCount"
-            FROM stories s
-                     LEFT JOIN (
-                SELECT story_id, COUNT(*)::int AS cnt
-                FROM story_comments
-                GROUP BY story_id
-            ) c ON s.id = c.story_id
-            ORDER BY s.created_at DESC
-                LIMIT 100
-        `);
+      SELECT s.id, s.text, s.type, s.state, s.likes, s.created_at AS "createdAt",
+             COALESCE(c.cnt, 0) AS "commentCount"
+      FROM stories s
+      LEFT JOIN (
+        SELECT story_id, COUNT(*)::int AS cnt
+        FROM story_comments
+        GROUP BY story_id
+      ) c ON s.id = c.story_id
+      WHERE s.moderation_status = 'approved'        -- <<< only show approved
+      ORDER BY s.created_at DESC
+      LIMIT 100
+    `);
         res.json({ items: rows });
     } catch (err) {
         console.error(err);
@@ -25,22 +28,46 @@ router.get('/stories', async (req, res) => {
     }
 });
 
-//New Stories
+// Create story (with moderation)
 router.post('/stories', async (req, res) => {
-    const { text, type, state } = req.body;
-    if (!text || !type) return res.status(400).json({ error: 'Missing fields' });
     try {
-        const { rows } = await pool.query(`
-      INSERT INTO stories (text, type, state)
-      VALUES ($1, $2, $3)
-      RETURNING id, text, type, state, likes, created_at AS "createdAt"
-    `, [text, type, state]);
-        res.json(rows[0]);
+        const { text, type, state } = req.body || {};
+        if (!text) return res.status(400).json({ error: 'Missing text' });
+
+        // Run moderation
+        const mod = moderateStory(text);
+
+        // Immediate reject path (e.g., profanity)
+        if (mod.action === 'reject') {
+            return res.status(400).json({
+                error: 'Content violates our rules.',
+                details: mod
+            });
+        }
+
+        // Decide final type (fallback to guessed category if not provided)
+        const finalType = type || mod.categoryGuess || 'other';
+        const moderationStatus = mod.action === 'allow' ? 'approved' : 'pending';
+
+        const { rows } = await pool.query(
+            `INSERT INTO stories (text, type, state, likes, moderation_status, moderation_score, moderation_reasons, created_at)
+       VALUES ($1,$2,$3,0,$4,$5,$6,NOW())
+       RETURNING id, moderation_status`,
+            [mod.cleanText, finalType, state || null, moderationStatus, mod.score, JSON.stringify(mod.reasons)]
+        );
+
+        return res.json({
+            id: rows[0].id,
+            moderationStatus: rows[0].moderation_status,
+            moderation: mod
+        });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Insert failed' });
+        res.status(500).json({ error: 'DB insert failed' });
     }
 });
+
+
 
 // LIKE STORY
 router.post('/stories/:id/like', async (req, res) => {
