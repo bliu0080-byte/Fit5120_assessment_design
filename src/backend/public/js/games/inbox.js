@@ -250,7 +250,7 @@ class EmailSortingGame {
 
         // ✅ 如果游戏未开始，第一次拖动时自动开始倒计时
         if (!this.gameActive) {
-            this.toggleGame(); 
+            this.toggleGame();
         }
 
         this.total += 1;
@@ -279,6 +279,12 @@ class EmailSortingGame {
         this.emails = this.emails.filter(e => e.id !== emailId);
         this.renderEmails();
         this.updateStats();
+
+        // ✅ 检查剩余邮件中是否还有 scam
+        const hasScam = this.emails.some(e => e.type === "scam");
+        if (!hasScam) {
+            this.endGame(true);
+        }
     }
 
 
@@ -331,17 +337,36 @@ class EmailSortingGame {
         }
     }
 
-    endGame() {
+    endGame(isVictory = false) {
         this.gameActive = false;
         this.stopTimer();
-        
+
+        // 更新分数和统计
         this.elements.modalFinalScore.textContent = this.score;
         const accuracy = this.total > 0 ? Math.round((this.correct / this.total) * 100) : 0;
         this.elements.modalAccuracy.textContent = `${accuracy}%`;
         this.elements.modalStreak.textContent = this.streak;
-        
+
+        // 修改 Modal 样式和文字
+        const modalContent = this.elements.gameOverModal.querySelector('.modal-content');
+        modalContent.classList.remove('victory'); // 每次先清除
+
+        if (isVictory) {
+            // ✅ 游戏胜利
+            modalContent.classList.add('victory');
+            modalContent.querySelector('.modal-icon').textContent = "🏆";
+            modalContent.querySelector('.modal-title').textContent = "You Win!";
+        } else {
+            // ❌ 游戏失败（超时 / 命用完）
+            modalContent.classList.remove('victory');
+            modalContent.querySelector('.modal-icon').textContent = "⏰";
+            modalContent.querySelector('.modal-title').textContent = "Time's Up!";
+        }
+
+        // 显示 Modal
         this.elements.gameOverModal.classList.remove('hidden');
     }
+
 
     resetGame() {
         this.emails = this.selectRandomEmails(this.gameData.emails, 6, 4);

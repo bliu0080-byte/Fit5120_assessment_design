@@ -42,9 +42,12 @@
                     <li><a href="game-inbox.html" class="nav-link active">Play &amp; Learn</a></li>
                 </ul>
                 <div class="font-controls">
-                    <button class="font-btn" data-size="small" type="button" title="Smaller"><i class="fa-solid fa-minus"></i></button>
-                    <button class="font-btn active" data-size="normal" type="button" title="Default"><i class="fa-solid fa-rotate-left"></i></button>
-                    <button class="font-btn" data-size="large" type="button" title="Larger"><i class="fa-solid fa-plus"></i></button>
+                    <button class="font-btn" data-size="small" type="button" title="Smaller"><i
+                            class="fa-solid fa-minus"></i></button>
+                    <button class="font-btn active" data-size="normal" type="button" title="Default"><i
+                            class="fa-solid fa-rotate-left"></i></button>
+                    <button class="font-btn" data-size="large" type="button" title="Larger"><i
+                            class="fa-solid fa-plus"></i></button>
                 </div>
             </div>
         </div>
@@ -233,6 +236,21 @@
                 </button>
             </div>
         </div>
+        <!-- Victory Modal -->
+        <div id="victoryModal" class="modal-overlay hidden">
+            <div class="modal-content victory">
+                <div class="modal-icon">🏆</div>
+                <h2 class="modal-title">🎉 Victory!</h2>
+                <div class="modal-stats">
+                    <p class="modal-stat">Final Score: <span class="final-score" id="victoryFinalScore">0</span></p>
+                    <p class="modal-stat">Accuracy: <span id="victoryAccuracy">0%</span></p>
+                    <p class="modal-stat">Best Streak: <span id="victoryStreak">0</span></p>
+                </div>
+                <button id="playAgainBtnWin" class="btn btn-primary">
+                    Play Again
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
@@ -247,7 +265,9 @@
                 <a href="#sitemap">Site Map</a>
             </div>
             <div class="footer-disclaimer">
-                <p>This website is maintained by ScamSafe as a public welfare initiative. Information provided is for educational purposes only. We are dedicated to preventing cybersecurity fraud through community awareness and education.</p>
+                <p>This website is maintained by ScamSafe as a public welfare initiative. Information provided is for
+                    educational purposes only. We are dedicated to preventing cybersecurity fraud through community
+                    awareness and education.</p>
             </div>
         </div>
     </footer>

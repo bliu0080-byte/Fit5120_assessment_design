@@ -658,6 +658,23 @@ body {
     color: #ea580c;
 }
 
+.modal-content.victory {
+    border: 2px solid #86efac;   /* 绿色边框 */
+    background: linear-gradient(135deg, #ecfdf5, #bbf7d0); 
+}
+
+.modal-content.victory .modal-icon {
+    background: #bbf7d0;
+}
+
+.modal-content.victory .modal-title {
+    color: #15803d; /* 深绿色标题 */
+}
+
+.modal-content.victory .final-score {
+    color: #16a34a; /* 绿色分数 */
+}
+
 .success-animation {
     position: absolute;
     inset: 0;
