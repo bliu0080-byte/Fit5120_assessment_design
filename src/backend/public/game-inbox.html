@@ -81,41 +81,95 @@
         </div>
 
         <!-- Game Statistics -->
+        <!-- Game Statistics -->
         <div class="game-stats">
+            <!-- Score - Trophy -->
             <div class="stat-card stat-score">
                 <div class="trophy-wrapper">
-                    <!-- 奖杯 SVG -->
-                    <svg class="trophy-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="trophy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                        <path d="M4 22h16" />
                         <path
-                            d="M6 4V2h12v2h3v2c0 2.21-1.79 4-4 4h-1.35c-.44 1.72-1.9 3.05-3.65 3.45V17h5v2H8v-2h5v-3.55c-1.75-.4-3.21-1.73-3.65-3.45H8c-2.21 0-4-1.79-4-4V4h2zm12 2h-2v.5c0 1.38-1.12 2.5-2.5 2.5S11 7.88 11 6.5V6H9v.5C9 8.43 10.57 10 12.5 10S16 8.43 16 6.5V6h2v2z" />
+                            d="M10 14.66V17c0 .55.47.98.97 1.21C11.25 18.48 11.61 18.75 12 18.75s.75-.27 1.03-.54c.5-.23.97-.66.97-1.21v-2.34" />
+                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
                     </svg>
-                    <!-- 闪光效果 -->
-                    <div class="sparkle">✨</div>
+                    <svg class="trophy-sparkle" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="12,2 15,9 22,9 17,14 19,22 12,18 5,22 7,14 2,9 9,9" />
+                    </svg>
                 </div>
                 <div class="stat-value" id="scoreValue">0</div>
                 <div class="stat-label">Total Score</div>
             </div>
+
+            <!-- Accuracy - Target -->
             <div class="stat-card stat-accuracy">
-                <div class="stat-icon">🎯</div>
+                <div class="accuracy-wrapper">
+                    <div class="accuracy-target">
+                        <div class="accuracy-crosshair"></div>
+                    </div>
+                </div>
                 <div class="stat-value" id="accuracyValue">0%</div>
                 <div class="stat-label">Accuracy</div>
             </div>
+
+            <!-- Streak - Lightning -->
             <div class="stat-card stat-streak">
-                <div class="stat-icon">⚡</div>
+                <div class="lightning-wrapper">
+                    <svg class="lightning-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="13,2 3,14 12,14 11,22 21,10 12,10" />
+                    </svg>
+                </div>
                 <div class="stat-value" id="streakValue">0</div>
                 <div class="stat-label">Streak</div>
             </div>
+
+            <!-- Lives - Hearts -->
             <div class="stat-card stat-lives">
-                <div class="stat-icon">❤️</div>
-                <div class="stat-value" id="livesValue">3</div>
+                <div class="lives-display">
+                    <!-- Big Heart Icon -->
+                    <div class="main-heart-wrapper">
+                        <svg class="main-heart-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
+                    </div>
+
+                    <!-- Small Hearts (show remaining lives) -->
+                    <div class="small-hearts-wrapper">
+                        <svg class="small-heart-icon heart-full" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
+                        <svg class="small-heart-icon heart-full" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
+                        <svg class="small-heart-icon heart-empty" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="stat-value" id="livesValue">2/3</div>
                 <div class="stat-label">Lives</div>
             </div>
+
+
+            <!-- Time - Clock -->
             <div class="stat-card stat-time">
-                <div class="stat-icon">⏰</div>
+                <div class="clock-wrapper">
+                    <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12,6 12,12 16,14" />
+                    </svg>
+                </div>
                 <div class="stat-value" id="timeValue">120s</div>
                 <div class="stat-label">Time Left</div>
             </div>
         </div>
+
 
         <div class="main-grid">
             <!-- Email List -->
