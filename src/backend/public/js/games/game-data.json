@@ -5,165 +5,105 @@
       "text": "You have won a $50,000 prize. Click here to claim now!",
       "type": "scam",
       "emoji": "🎉",
-<<<<<<< HEAD
       "aria": "Lottery targeting seniors"
-=======
-      "aria": "Lottery scam targeting seniors"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s2",
       "text": "Update your password immediately to avoid account suspension",
       "type": "scam",
       "emoji": "🔒",
-<<<<<<< HEAD
       "aria": "Email"
-=======
-      "aria": "Phishing scam email"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s3",
       "text": "Claim your free vacation today! Limited offer!",
       "type": "scam",
       "emoji": "🏝️",
-<<<<<<< HEAD
       "aria": "Travel email"
-=======
-      "aria": "Travel scam email"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s4",
       "text": "Urgent: Your tax refund is waiting, confirm details now",
       "type": "scam",
       "emoji": "💰",
-<<<<<<< HEAD
       "aria": "Tax refund"
-=======
-      "aria": "Fake tax refund"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s5",
       "text": "Australia Post: Pay $3.99 to release your parcel",
       "type": "scam",
       "emoji": "📦",
-<<<<<<< HEAD
       "aria": "Delivery fee"
-=======
-      "aria": "Delivery fee scam"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s6",
       "text": "ATO: You owe $2,500 in tax. Pay immediately with gift cards",
       "type": "scam",
       "emoji": "💳",
-<<<<<<< HEAD
       "aria": "Tax payment"
-=======
-      "aria": "Fake tax payment scam"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s7",
       "text": "Grandchild in trouble: send money urgently",
       "type": "scam",
       "emoji": "👶",
-<<<<<<< HEAD
       "aria": "Grandparent emergency"
-=======
-      "aria": "Grandparent emergency scam"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s8",
       "text": "Charity appeal: donate now to help disaster victims (via link)",
       "type": "scam",
       "emoji": "🙏",
-<<<<<<< HEAD
       "aria": "Charity donation"
-=======
-      "aria": "Fake charity donation scam"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s9",
       "text": "Your Telstra bill is overdue. Service will be cut unless you pay now",
       "type": "scam",
       "emoji": "📞",
-<<<<<<< HEAD
       "aria": "Telco bill"
-=======
-      "aria": "Fake telco bill scam"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s10",
       "text": "Confirm your MyGov login details or benefits will stop",
       "type": "scam",
       "emoji": "🛑",
-<<<<<<< HEAD
       "aria": "myGov email"
-=======
-      "aria": "myGov phishing email"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s11",
       "text": "Bank alert: unusual login detected. Verify your password immediately",
       "type": "scam",
       "emoji": "🔑",
-<<<<<<< HEAD
       "aria": "Unusual login"
-=======
-      "aria": "Fake unusual login scam"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s12",
       "text": "Win a free mobility scooter – just pay delivery fee",
       "type": "scam",
       "emoji": "🦽",
-<<<<<<< HEAD
       "aria": "Mobility aid"
-=======
-      "aria": "Mobility aid scam"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s13",
       "text": "Fake pharmacy: order cheap medicines now with special senior discount",
       "type": "scam",
       "emoji": "💊",
-<<<<<<< HEAD
       "aria": "Pharmacy email"
-=======
-      "aria": "Pharmacy scam email"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s14",
       "text": "Government rebate available: click to enter your bank details",
       "type": "scam",
       "emoji": "🏛️",
-<<<<<<< HEAD
       "aria": "Government rebate"
-=======
-      "aria": "Fake government rebate scam"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "s15",
       "text": "Congratulations! You have been selected for a free holiday cruise",
       "type": "scam",
       "emoji": "🚢",
-<<<<<<< HEAD
       "aria": "Travel prize"
-=======
-      "aria": "Travel prize scam"
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
     },
     {
       "id": "n1",
@@ -202,11 +142,7 @@
     },
     {
       "id": "n6",
-<<<<<<< HEAD
       "text": "Community centre: Invitation to seniors' yoga class",
-=======
-      "text": "Community centre: Invitation to seniors’ yoga class",
->>>>>>> 61aa4962dfbb3cdf23a621f4cbe7be14353d9cfc
       "type": "normal",
       "emoji": "🧘",
       "aria": "Community event invite"
