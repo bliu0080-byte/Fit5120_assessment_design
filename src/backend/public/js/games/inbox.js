@@ -113,6 +113,7 @@ class EmailSortingGame {
             modalStreak: document.getElementById('modalStreak'),
             playAgainBtn: document.getElementById('playAgainBtn'),
             successAnimation: document.getElementById('successAnimation'),
+            errorAnimation: document.getElementById('errorAnimation'),
             tipsList: document.getElementById('tipsList')
         };
     }
@@ -235,6 +236,13 @@ class EmailSortingGame {
             this.elements.successAnimation.classList.remove('show');
         }, 1000);
     }
+    
+    showErrorAnimation() {
+        this.elements.errorAnimation.classList.add('show');
+        setTimeout(() => {
+            this.elements.errorAnimation.classList.remove('show');
+        }, 1000);
+    }
 
     handleEmailDrop(emailId) {
         const email = this.emails.find(e => e.id === emailId);
@@ -254,6 +262,7 @@ class EmailSortingGame {
             this.lives -= 1;
             this.elements.livesValue.textContent = this.lives;
             this.streak = 0;
+            this.showErrorAnimation();
 
             if (this.lives <= 0) {
                 this.endGame();

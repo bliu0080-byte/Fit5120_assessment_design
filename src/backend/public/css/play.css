@@ -695,6 +695,54 @@ body {
     font-weight: 500;
 }
 
+/* 错误动画背景 */
+.error-animation {
+    position: absolute;
+    inset: 0;
+    background: #f87171; /* 红色背景 */
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.error-animation.show {
+    opacity: 1;
+}
+
+.error-content {
+    text-align: center;
+}
+
+.error-icon {
+    width: 3rem;
+    height: 3rem;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+    margin: 0 auto 0.5rem;
+    animation: shake 1s infinite; /* 无限抖动 */
+}
+
+.error-text {
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+/* 抖动动画 */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+
+
+
 .drag-border {
     position: absolute;
     inset: 0.5rem;
