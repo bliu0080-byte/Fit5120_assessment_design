@@ -14,73 +14,105 @@ const moduleInfo = [
         icon: '📱',
         title: 'Phone Scams',
         description: 'Learn to identify fake calls from ATO, banks, tech support, and family emergencies',
-        questions: '10 Questions'
+        questions: '10 Questions',
+        duration: '3 min',        // 🆕 时长
+        participants: 500         // 🆕 初始人数
+
+
     },
     {
         id: 'web',
         icon: '🌐',
         title: 'Web Phishing',
         description: 'Spot fake websites, malicious links, and fraudulent online shops',
-        questions: '10 Questions'
+        questions: '10 Questions',
+        duration: '4 min',        // 🆕 时长
+        participants: 400         // 🆕 初始人数
+
     },
     {
         id: 'email',
         icon: '✉️',
         title: 'Email & Message Scams',
         description: 'Recognize phishing emails, fake prizes, and suspicious attachments',
-        questions: 'Start answering'
+        questions: 'Start answering',
+        duration: '5 min',        // 🆕 时长
+        participants: 300         // 🆕 初始人数
+
     }
 ];
 
 // Initialize the app when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeModules();
     setupEventListeners();
 });
 
 // Initialize module cards
 function initializeModules() {
-    const moduleSelection = document.getElementById('moduleSelection');
+    const moduleSelection = document.getElementById("moduleSelection");
     const moduleImages = {
-        phone: './assets/images/phone.png',
-        web:   './assets/images/web.png',
-        email: './assets/images/email.png'
+      phone: "./assets/images/phone.png",
+      web: "./assets/images/web.png",
+      email: "./assets/images/email.png",
     };
-
-    moduleSelection.innerHTML = moduleInfo.map(m => `
-    <div class="module-card" data-module="${m.id}" role="button" tabindex="0" aria-label="${m.title}">
-      <div class="mc-topbar"></div>
-      <div class="mc-grid">
-        <div class="mc-body">
-          <div class="mc-title">${m.title}</div>
-          <div class="mc-desc">${m.description}</div>
-        </div>
-
-        <div class="mc-media">
-          ${
-        moduleImages[m.id]
-            ? `<img src="${moduleImages[m.id]}" alt="${m.title} illustration" class="mc-img" />`
-            : `<div class="mc-emoji" aria-hidden="true">${m.icon || '🛡️'}</div>`
-    }
-        </div>
-
-        <div class="mc-footer">
-          <button class="mc-cta" data-module="${m.id}" type="button">Start Quiz</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-    document.querySelectorAll('.module-card').forEach(card => {
-        const id = card.getAttribute('data-module');
-        card.addEventListener('click', () => startModule(id));
-        card.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startModule(id); }
-        });
-        card.querySelector('.mc-cta')?.addEventListener('click', e => {
-            e.stopPropagation(); startModule(id);
-        });
+  
+    moduleSelection.innerHTML = moduleInfo
+      .map(
+        (m) => `
+          <div class="module-card" data-module="${m.id}" role="button" tabindex="0" aria-label="${m.title}">
+            <div class="mc-topbar"></div>
+            <div class="mc-grid">
+              
+              <div class="mc-body">
+                <div class="mc-title">${m.title}</div>
+                <div class="mc-desc">${m.description}</div>
+              </div>
+    
+              <div class="mc-media">
+                ${
+                  moduleImages[m.id]
+                    ? `<img src="${moduleImages[m.id]}" alt="${m.title} illustration" class="mc-img" />`
+                    : `<div class="mc-emoji" aria-hidden="true">${m.icon || "🛡️"}</div>`
+                }
+              </div>
+            
+              <div class="mc-footer">
+                <button class="mc-cta" data-module="${m.id}" type="button">🕵️‍♂️ Try Now!</button>
+                <div class="module-meta">
+                  <span class="meta-item">
+                    <i class="fa-solid fa-clock"></i> ${m.duration}
+                  </span>
+                  <span class="meta-item">
+                    <i class="fa-solid fa-users"></i> 
+                    <span class="participant-count" id="count-${m.id}">${m.participants}</span> users
+                  </span>
+                </div>
+              </div>
+    
+            </div>
+          </div>
+        `
+      )
+      .join("");
+  
+    document.querySelectorAll(".module-card").forEach((card) => {
+      const id = card.getAttribute("data-module");
+      card.addEventListener("click", () => startModule(id));
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          startModule(id);
+        }
+      });
+      card.querySelector(".mc-cta")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        startModule(id);
+      });
     });
-}
+  }
+  
+  
 
 // Setup event listeners
 function setupEventListeners() {
@@ -89,7 +121,7 @@ function setupEventListeners() {
     document.getElementById('tryAnotherBtn').addEventListener('click', backToModules);
 
     // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (currentModule && hasAnswered) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -165,7 +197,7 @@ function loadQuestion() {
 
     // Add click handlers to options
     document.querySelectorAll('.option-button').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const index = parseInt(this.getAttribute('data-index'));
             selectAnswer(index);
         });
@@ -359,7 +391,7 @@ function getModuleStats(moduleId) {
 
 // Optional: Add function to track progress in localStorage
 function saveProgress() {
-    if (currentModule && typeof(Storage) !== "undefined") {
+    if (currentModule && typeof (Storage) !== "undefined") {
         const progress = {
             module: currentModule,
             score: score,
@@ -382,19 +414,19 @@ function saveProgress() {
 
 // Optional: Add function to get user's progress history
 function getProgressHistory() {
-    if (typeof(Storage) !== "undefined") {
+    if (typeof (Storage) !== "undefined") {
         return JSON.parse(localStorage.getItem('scamQuizProgress') || '[]');
     }
     return [];
 }
 // 关闭按钮
-document.getElementById('closeQuizModal').onclick = function() {
+document.getElementById('closeQuizModal').onclick = function () {
     document.getElementById('quizModal').style.display = 'none';
     backToModules();
 };
 
 // 点击背景关闭
-window.onclick = function(event) {
+window.onclick = function (event) {
     const modal = document.getElementById('quizModal');
     if (event.target === modal) {
         modal.style.display = 'none';
