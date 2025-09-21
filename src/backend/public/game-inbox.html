@@ -4,20 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Security Sorting Game</title>
+    <meta name="description" content="ScamSafe - Email Security Sorting Game" />
+    <meta name="keywords" content="scam protection, fraud awareness, cybersecurity education, email security game" />
+    <meta name="author" content="ScamSafe Team" />
+    <title>ScamSafe - Email Security Sorting Game</title>
 
-    <!-- 全局样式，与 education.html 保持一致 -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+
+    <!-- External Libraries -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <!-- Shared Styles - 确保与 education.html 完全一致 -->
     <link rel="stylesheet" href="./css/variables.css" />
     <link rel="stylesheet" href="./css/base.css" />
     <link rel="stylesheet" href="./css/layout.css" />
     <link rel="stylesheet" href="./css/responsive.css" />
     <link rel="stylesheet" href="./css/components.css" />
-    <!-- 页面专属样式 -->
+
+    <!-- Page Specific -->
     <link rel="stylesheet" href="./css/play.css" />
 </head>
 
 <body>
-    <!-- Navigation -->
+    <!-- Navigation - 与 education.html 保持完全一致 -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html#home" class="logo">
@@ -32,12 +42,9 @@
                     <li><a href="game-inbox.html" class="nav-link active">Play &amp; Learn</a></li>
                 </ul>
                 <div class="font-controls">
-                    <button class="font-btn" data-size="small" type="button" title="Smaller"><i
-                            class="fa-solid fa-minus"></i></button>
-                    <button class="font-btn active" data-size="normal" type="button" title="Default"><i
-                            class="fa-solid fa-rotate-left"></i></button>
-                    <button class="font-btn" data-size="large" type="button" title="Larger"><i
-                            class="fa-solid fa-plus"></i></button>
+                    <button class="font-btn" data-size="small" type="button" title="Smaller"><i class="fa-solid fa-minus"></i></button>
+                    <button class="font-btn active" data-size="normal" type="button" title="Default"><i class="fa-solid fa-rotate-left"></i></button>
+                    <button class="font-btn" data-size="large" type="button" title="Larger"><i class="fa-solid fa-plus"></i></button>
                 </div>
             </div>
         </div>
@@ -60,7 +67,7 @@
             <div class="control-buttons">
                 <button id="toggleGame" class="btn btn-primary">
                     <span id="playIcon">▶</span>
-                    <span id="pauseIcon" class="hidden">⏸</span>
+                    <span id="pauseIcon" class="hidden">⸸</span>
                     <span id="gameButtonText">Start Game</span>
                 </button>
                 <button id="resetGame" class="btn btn-outline">
@@ -195,7 +202,6 @@
                     </ul>
                 </div>
 
-                <!-- Music Player -->
                 <!-- Music Control -->
                 <div class="music-control">
                     <button id="toggleMusic" class="btn btn-outline">
@@ -229,7 +235,27 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#accessibility">Accessibility</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#sitemap">Site Map</a>
+            </div>
+            <div class="footer-disclaimer">
+                <p>This website is maintained by ScamSafe as a public welfare initiative. Information provided is for educational purposes only. We are dedicated to preventing cybersecurity fraud through community awareness and education.</p>
+            </div>
+        </div>
+    </footer>
+
     <!-- Scripts -->
+    <script src="./js/config.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/components/fontController.js?v=20250905"></script>
     <script src="./js/games/inbox.js"></script>
     <audio id="bgm" src="assets/music/bgm.mp3" loop></audio>
 
