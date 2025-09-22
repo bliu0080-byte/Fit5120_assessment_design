@@ -127,20 +127,30 @@
         const pager = document.getElementById('pagination');
         if (!pager) return;
 
+        if (!totalPages || totalPages <= 1) {
+            pager.innerHTML = '';
+            return;
+        }
+
         let html = '';
-        if (totalPages > 1) {
-            for (let i=1; i<=totalPages; i++) {
-                html += `<button class="page-btn ${i===currentPage?'active':''}" data-page="${i}">${i}</button>`;
-            }
+        for (let i = 1; i <= totalPages; i++) {
+            html += `<button type="button"
+                     class="pg-btn ${i===currentPage ? 'active' : ''}"
+                     data-page="${i}">${i}</button>`;
         }
         pager.innerHTML = html;
 
-        pager.querySelectorAll('.page-btn').forEach(btn=>{
-            btn.addEventListener('click', ()=>{
-                const page = parseInt(btn.dataset.page);
+
+        if (!pager.__bound) {
+            pager.addEventListener('click', (e) => {
+                const btn = e.target.closest('.pg-btn[data-page]');
+                if (!btn) return;
+                const page = parseInt(btn.getAttribute('data-page'), 10);
+                if (!Number.isFinite(page) || page === currentPage) return;
                 loadStories(page, currentSearch);
             });
-        });
+            pager.__bound = true;
+        }
     }
     document.getElementById('searchBtn')?.addEventListener('click', ()=>{
         const val = document.getElementById('searchBox').value.trim();
