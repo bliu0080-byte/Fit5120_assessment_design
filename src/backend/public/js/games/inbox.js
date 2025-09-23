@@ -107,12 +107,19 @@ class EmailSortingGame {
         this.elements.toggleGame.addEventListener('click', () => this.toggleGame());
         this.elements.resetGame.addEventListener('click', () => this.resetGame());
         this.elements.playAgainBtn.addEventListener('click', () => this.resetGame());
-        this.elements.hardMode.addEventListener('click', () => this.startHardMode());
 
+        // Hard Mode button
+        this.elements.hardMode.addEventListener('click', () => {
+            this.startHardMode();                // your game logic
+            document.body.classList.toggle("hard-mode"); // visual effect
+        });
+
+        // Drag & drop for trash bin
         this.elements.trashBin.addEventListener('dragover', (e) => this.handleDragOver(e));
         this.elements.trashBin.addEventListener('dragleave', () => this.handleDragLeave());
         this.elements.trashBin.addEventListener('drop', (e) => this.handleDrop(e));
 
+        // Music toggle
         this.elements.toggleMusic.addEventListener('click', () => {
             if (this.bgm.paused) {
                 this.bgm.play();
@@ -123,6 +130,7 @@ class EmailSortingGame {
             }
         });
     }
+
 
 
     renderGameTips() {

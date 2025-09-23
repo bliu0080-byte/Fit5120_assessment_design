@@ -1131,3 +1131,9 @@ body {
     75% { transform: scale(1.5) rotate(-8deg) translateX(-2px); }
     100% { transform: scale(1.4) rotate(0deg) translateX(0); }
 }
+
+
+body.hard-mode {
+  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #9a3412 100%);
+  /* Dark Crimson Evil */
+}
