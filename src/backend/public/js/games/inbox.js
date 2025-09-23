@@ -70,6 +70,7 @@ class EmailSortingGame {
     initializeDOM() {
         this.elements = {
             toggleGame: document.getElementById('toggleGame'),
+            toggleMusic: document.getElementById('toggleMusic'),
             resetGame: document.getElementById('resetGame'),
             hardMode: document.getElementById('hardMode'),
             playIcon: document.getElementById('playIcon'),
@@ -99,18 +100,30 @@ class EmailSortingGame {
             tipsList: document.getElementById('tipsList'),
             smallHeartsWrapper: document.querySelector('.small-hearts-wrapper')
         };
+        this.bgm = document.getElementById('bgm');
     }
 
     setupEventListeners() {
         this.elements.toggleGame.addEventListener('click', () => this.toggleGame());
         this.elements.resetGame.addEventListener('click', () => this.resetGame());
         this.elements.playAgainBtn.addEventListener('click', () => this.resetGame());
-
         this.elements.hardMode.addEventListener('click', () => this.startHardMode());
+
         this.elements.trashBin.addEventListener('dragover', (e) => this.handleDragOver(e));
         this.elements.trashBin.addEventListener('dragleave', () => this.handleDragLeave());
         this.elements.trashBin.addEventListener('drop', (e) => this.handleDrop(e));
+
+        this.elements.toggleMusic.addEventListener('click', () => {
+            if (this.bgm.paused) {
+                this.bgm.play();
+                this.elements.toggleMusic.textContent = "🎵 Music On";
+            } else {
+                this.bgm.pause();
+                this.elements.toggleMusic.textContent = "🎵 Music Off";
+            }
+        });
     }
+
 
     renderGameTips() {
         if (this.elements.tipsList && this.gameData.gameTips) {
