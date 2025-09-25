@@ -6,7 +6,7 @@ export const pool = new Pool({
     ssl: { rejectUnauthorized: false }  // Render 需要 SSL
 });
 
-// 定义并导出 dbPing
+// Define and export dbPing
 export async function dbPing() {
     const r = await pool.query('SELECT NOW() as now');
     return r.rows[0].now;

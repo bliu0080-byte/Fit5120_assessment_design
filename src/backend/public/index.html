@@ -2,194 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ScamSafe - Public welfare initiative providing cybersecurity fraud awareness and education">
-    <meta name="keywords" content="scam protection, fraud awareness, cybersecurity education">
-    <meta name="author" content="ScamSafe Team">
-
-    <title>ScamSafe - Cybersecurity Fraud Protection</title>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
-
-    <!-- External Libraries -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="./css/variables.css">
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/layout.css">
-    <link rel="stylesheet" href="./css/responsive.css">
-    <link rel="stylesheet" href="./css/components.css">
-    <link rel="stylesheet" href="./css/news-ticker.css">
-
+    <title>Password Protected</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f0f0;
+        }
+        #login-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1e40af;
+        }
+    </style>
 </head>
 <body>
-<!-- Navigation (same as Home) -->
-<nav class="navbar" id="navbar">
-    <div class="nav-container">
-        <a href="index.html#home" class="logo">
-            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img">
-        </a>
-
-        <div class="nav-controls">
-            <ul class="nav-links">
-                <li><a href="index.html#home" class="nav-link">Home</a></li>
-                <li><a href="insights.html" class="nav-link">Insights</a></li>
-                <li><a href="education.html" class="nav-link">Education</a></li>
-                <li><a href="scam-stories.html" class="nav-link">Scam stories</a></li>
-                <li><a href="game-inbox.html" class="nav-link">Play &amp; Learn</a></li>
-            </ul>
-
-            <!-- Font size controls (same as Home) -->
-            <div class="font-controls">
-                <button class="font-btn" data-size="small"  type="button" title="Smaller"><i class="fa-solid fa-minus"></i></button>
-                <button class="font-btn active" data-size="normal" type="button" title="Default"><i class="fa-solid fa-rotate-left"></i></button>
-                <button class="font-btn" data-size="large"  type="button" title="Larger"><i class="fa-solid fa-plus"></i></button>
-            </div>
-        </div>
-    </div>
-</nav>
-<!-- Announcement / README-style Banner -->
-<section class="readme-banner" id="readme-banner" role="region" aria-label="ScamSafe announcement">
-    <h2 class="readme-banner__title">
-        Think Twice, Stay Scam Wise
-    </h2>
-    <p class="readme-banner__desc">
-        Simple lessons, real examples, and smart tools to help you and your loved ones stay safe and confident online.
-    
-    </p>
-    <div class="readme-banner__cards">
-        <!-- Insights Card -->
-        <a href="insights.html" class="banner-card">
-            <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m13.11 7.664 1.78 2.672"/>
-                    <path d="m14.162 12.788-3.324 1.424"/>
-                    <path d="m20 4-6.06 1.515"/>
-                    <path d="M3 3v16a2 2 0 0 0 2 2h16"/>
-                    <circle cx="12" cy="6" r="2"/>
-                    <circle cx="16" cy="12" r="2"/>
-                    <circle cx="9" cy="15" r="2"/>
-                </svg>
-            </div>
-            <h3>Insights</h3>
-            <p>See real-time scam trend.</p>
-        </a>
-
-        <!-- Education Card -->
-        <a href="education.html#moduleSelection" class="banner-card">
-            <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-                    <path d="M9.1 9a3 3 0 0 1 5.82 1c0 2-3 3-3 3"/>
-                    <path d="M12 17h.01"/>
-                </svg>
-            </div>
-            <h3>Education</h3>
-            <p>Learn to spot scams.</p>
-        </a>
-
-        <!-- Play & Learn Card -->
-        <a href="play.html" class="banner-card">
-            <div class="card-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="7" height="7" rx="1.5"/>
-                    <rect x="14" y="3" width="7" height="7" rx="1.5"/>
-                    <rect x="3" y="14" width="7" height="7" rx="1.5"/>
-                    <rect x="14" y="14" width="7" height="7" rx="1.5"/>
-                </svg>
-            </div>
-            <h3>Play &amp; Learn</h3>
-            <p>Play quick safety games.</p>
-        </a>
-    </div>
-</section>
-
-    <!-- Hero Section -->
-<section class="hero hero--scam">
-<div class="container">
-    <h1 class="hero-title">Every Second, Someone Gets Scammed</h1>
-    <h1 class="hero-title">Stay Alert, Stay Safe</h1>
-    <div class="sc-hero__cards new-layout">
-    <div class="sc-row">
-    <div class="sc-num">AU$<span id="au-amount" class="odometer">238000000</span></div>
-    <div class="sc-text">
-        <div>Australians have already lost</div>
-        <div class="subtext">That’s AU$12 drained every second</div>
-    </div>
-    </div>
-
-    <div class="sc-row">
-    <div class="sc-text">Globally, 19 people fall victim every second in 2025</div>
-    <div class="sc-num">
-        <span id="world-victims" class="odometer">425457504</span> <span class="unit">Victims</span>
-    </div>
-    </div>
-
-    </div>
-<div id="data-meta" class="sc-meta" role="note">
-      Since 1 Jan 2025, estimated.
-
+<div id="login-box">
+    <h2>Enter Password</h2>
+    <input type="password" id="password" placeholder="Password" />
+    <br />
+    <button onclick="checkPassword()">Enter</button>
+    <p id="error" style="color:red;"></p>
 </div>
-</section>
 
-<!-- Main Content -->
-<main class="container">
-    <section class="sc-news-ticker" aria-labelledby="latest-news-heading">
-        <div class="sc-news__header">
-            <h2 class="section-title" id="latest-news-heading">🚨 Australian Scam Alerts</h2>
-            <span class="sc-live"><span class="sc-live__dot"></span>LIVE UPDATES</span>
-        </div>
-
-        <div class="sc-ticker" id="news-ticker">
-            <div class="sc-ticker__list" id="news-ticker-list"></div>
-        </div>
-    </section>
-
-    <!-- Loading State -->
-    <div class="loading-container" id="loading-container" style="display: none;">
-        <div class="spinner"></div>
-        <p>Loading threat alerts...</p>
-    </div>
-
-    <!-- Error State -->
-    <div class="error-container" id="error-container" style="display: none;">
-        <div class="error-message">
-            <i class="fas fa-exclamation-triangle"></i>
-            <p>Unable to load threat data. Please try again later.</p>
-            <button class="retry-btn" id="retry-btn">Retry</button>
-        </div>
-    </div>
-</main>
-
-<!-- Footer -->
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-links">
-            <a href="#privacy">Privacy Policy</a>
-            <a href="#terms">Terms of Service</a>
-            <a href="#accessibility">Accessibility</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-            <a href="#sitemap">Site Map</a>
-        </div>
-        <div class="footer-disclaimer">
-            <p>This website is maintained by ScamSafe as a public welfare initiative. Information provided is for educational purposes only. We are dedicated to preventing cybersecurity fraud through community awareness and education.</p>
-        </div>
-    </div>
-</footer>
-
-<!-- JavaScript -->
-<script src="./js/config.js"></script>
-<script src="./js/utils.js"></script>
-<script src="./js/components/fontController.js?v=20250905"></script>
-<script src="./js/components/alertManager.js"></script>
-<script src="./js/components/filterController.js"></script>
-<script src="./js/main.js"></script>
-<script src="./js/statsUpdater.js"></script>
-<script src="./js/news-ticker.js" defer></script>
-</body>
 <script>
+    function checkPassword() {
+        const pwd = document.getElementById('password').value;
+        const correct = "ta33";
+
+        if (pwd === correct) {
+            window.location.href = "home.html";
+        } else {
+            document.getElementById('error').innerText = "Incorrect password!";
+        }
+    }
 </script>
+</body>
 </html>
