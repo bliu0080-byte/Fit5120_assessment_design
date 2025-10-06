@@ -109,9 +109,20 @@ class EmailSortingGame {
         this.elements.playAgainBtn.addEventListener('click', () => this.resetGame());
 
         // Hard Mode button
+        this.isHardMode = false;  // 新增属性
+
         this.elements.hardMode.addEventListener('click', () => {
-            this.startHardMode();                // your game logic
-            document.body.classList.toggle("hard-mode"); // visual effect
+            this.isHardMode = !this.isHardMode;
+
+            if (this.isHardMode) {
+                this.startHardMode(); // 开启困难模式
+                document.body.classList.add("hard-mode");
+                this.elements.hardMode.textContent = "😈Hard Mode: ON";
+            } else {
+                this.exitHardMode();  // 退出困难模式（新增函数）
+                document.body.classList.remove("hard-mode");
+                this.elements.hardMode.textContent = "😈Hard Mode: OFF";
+            }
         });
 
         // Drag & drop for trash bin
@@ -251,7 +262,14 @@ class EmailSortingGame {
             this.updateHearts();
             this.streak = 0;
             this.showErrorAnimation();
-
+                
+            this.elements.trashBin.classList.add('shake');
+            setTimeout(() => this.elements.trashBin.classList.remove('shake'), 400);
+            
+            const heartLoss = document.getElementById('heartLossAnimation');
+            heartLoss.classList.remove('show');
+            void heartLoss.offsetWidth;
+            heartLoss.classList.add('show');
             if (this.lives <= 0) {
                 this.endGame(false);
                 return;
@@ -401,6 +419,31 @@ class EmailSortingGame {
     this.updateHearts();
     this.updateStats();
 }
+
+    exitHardMode() {
+        this.maxLives = 3;
+        this.lives = this.maxLives;
+        this.emails = this.selectRandomEmails(this.gameData.emails, 6, 4);
+        this.score = 0;
+        this.correct = 0;
+        this.total = 0;
+        this.streak = 0;
+        this.timeLeft = this.gameData.gameSettings.initialTime;
+        this.gameActive = false;
+
+        this.stopTimer();
+
+        this.elements.playIcon.classList.remove('hidden');
+        this.elements.pauseIcon.classList.add('hidden');
+        this.elements.gameButtonText.textContent = 'Start Game';
+        this.elements.gameStatus.classList.add('hidden');
+        this.elements.gameOverModal.classList.add('hidden');
+
+        this.renderEmails();
+        this.updateHearts();
+        this.updateStats();
+}
+
     resetGame() {
         this.lives = this.maxLives;
         this.emails = this.selectRandomEmails(this.gameData.emails, 6, 4);
@@ -424,6 +467,7 @@ class EmailSortingGame {
         this.updateStats();
     }
 }
+
 
 // initial
 document.addEventListener("DOMContentLoaded", () => {
