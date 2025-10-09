@@ -1,3 +1,9 @@
+const API_BASE =
+    (window.SCAMSAFE_CONFIG?.apiBackend?.baseUrl) ||
+    ((location.hostname.includes('localhost') || location.hostname === '127.0.0.1')
+        ? 'http://localhost:3000/api'
+        : 'https://scamsafe.onrender.com/api');
+
 class EmailSortingGame {
     constructor() {
         this.gameData = null;
@@ -32,7 +38,7 @@ class EmailSortingGame {
 
     async loadGameData() {
         try {
-            const response = await fetch('js/games/game-data.json');
+            const response = await fetch(`${API_BASE}/game-data`);
             this.gameData = await response.json();
             this.emails = this.selectRandomEmails(this.gameData.emails, 6, 4);
             this.originalEmails = [...this.gameData.emails];
@@ -108,10 +114,46 @@ class EmailSortingGame {
         this.elements.resetGame.addEventListener('click', () => this.resetGame());
         this.elements.playAgainBtn.addEventListener('click', () => this.resetGame());
 
-        // Hard Mode button
+        // Hard Mode toggle button
         this.elements.hardMode.addEventListener('click', () => {
-            this.startHardMode();                // your game logic
-            document.body.classList.toggle("hard-mode"); // visual effect
+            const isHardMode = document.body.classList.toggle('hard-mode');
+            const emojiSpan = this.elements.hardMode.querySelector('.hard-emoji');
+
+            if (isHardMode) {
+                // Entering Hard Mode
+                this.startHardMode();
+                if (emojiSpan) emojiSpan.textContent = '🙂';
+
+                // Change button text (keep only one)
+                this.elements.hardMode.lastChild.textContent = ' Normal';
+            } else {
+                // Return to Normal mode
+                this.maxLives = 3;
+                this.lives = this.maxLives;
+                this.emails = this.selectRandomEmails(this.gameData.emails, 6, 4);
+                this.score = 0;
+                this.correct = 0;
+                this.total = 0;
+                this.streak = 0;
+                this.timeLeft = this.gameData.gameSettings.initialTime;
+                this.gameActive = false;
+
+                this.stopTimer();
+
+                this.elements.playIcon.classList.remove('hidden');
+                this.elements.pauseIcon.classList.add('hidden');
+                this.elements.gameButtonText.textContent = 'Start Game';
+                this.elements.gameStatus.classList.add('hidden');
+                this.elements.gameOverModal.classList.add('hidden');
+
+                this.renderEmails();
+                this.updateHearts();
+                this.updateStats();
+
+                // Recovery Harder
+                if (emojiSpan) emojiSpan.textContent = '😈';
+                this.elements.hardMode.lastChild.textContent = ' Harder';
+            }
         });
 
         // Drag & drop for trash bin
