@@ -10,11 +10,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <!-- Site Styles -->
-    <link rel="stylesheet" href="/css/variables.css">
-    <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/components.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/responsive.css">
 
     <style>
       body.insights-app-bg {
@@ -356,6 +356,31 @@
         .ins-header-btn { width: 100%; justify-content: center; }
         .ins-alert { flex-direction: column; }
       }
+      .navbar {
+          position: relative;
+          z-index: 1000; /* 让导航浮在 React 背景之上 */
+          background: #fff;
+      }
+
+      .nav-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+      }
+
+      .nav-links li {
+          display: inline-block;
+          margin: 0 10px;
+      }
+
+      .dropdown-menu {
+          background: #fff;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+          border-radius: 8px;
+          z-index: 9999;
+      }
     </style>
 </head>
 <body class="insights-app-bg">
@@ -370,8 +395,13 @@
                 <li><a href="home.html#home" class="nav-link">Home</a></li>
                 <li><a href="insights.html" class="nav-link">Insights</a></li>
                 <li><a href="education.html" class="nav-link">Education</a></li>
-                <li><a href="scam-stories.html" class="nav-link">Scam stories</a></li>
-                <li><a href="game-inbox.html" class="nav-link">Interactive Learning</a></li>
+                <li><a href="scam-stories.html" class="nav-link">Community</a></li>
+                <li><a href="game-inbox.html" class="nav-link">Interactive</a></li>
+                <li><a href="ScamShield_AI.html" class="nav-link">ScamShield AI</a> </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle">More ▾</a>
+                    <ul class="dropdown-menu"></ul>
+                </li>
             </ul>
             <div class="font-controls">
                 <button class="font-btn" data-size="small" type="button" title="Smaller"><i class="fa-solid fa-minus"></i></button>
@@ -790,6 +820,7 @@
 <script src="/js/config.js"></script>
 <script src="/js/utils.js"></script>
 <script src="/js/components/fontController.js"></script>
+<script src="./js/navbar-responsive.js"></script>
 
 </body>
 </html>

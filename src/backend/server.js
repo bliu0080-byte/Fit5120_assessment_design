@@ -14,8 +14,11 @@ import storiesRouter from './src/routes/stories.js';
 import admin from './src/routes/admin.js';
 import gameRoutes from './src/routes/game.js';
 import quizRoutes from './src/routes/quiz.js';
-
+import fetch from "node-fetch";
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
+app.use(express.json());
 
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
@@ -172,6 +175,35 @@ if (fs.existsSync(publicDir)) {
         res.sendFile(path.join(publicDir, 'home.html'));
     });
 }
+console.log("🔑 HF_API_KEY Loaded:", process.env.HF_API_KEY ? "✅ Loaded" : "❌ Missing");
+app.post("/api/analyze-scam", async (req, res) => {
+    const { text } = req.body;
+
+    if (!text || text.trim().length === 0) {
+        return res.status(400).json({ error: "Missing input text." });
+    }
+
+    try {
+        const response = await fetch(
+            "https://api-inference.huggingface.co/models/ealvaradob/bert-finetuned-phishing",
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${process.env.HF_API_KEY}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ inputs: text }),
+            }
+        );
+
+        const result = await response.json();
+        console.log("🧠 Model result:", result);
+        res.json(result);
+    } catch (err) {
+        console.error("❌ Error calling model:", err);
+        res.status(500).json({ error: "Model inference failed." });
+    }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

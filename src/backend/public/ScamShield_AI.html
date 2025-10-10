@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScamShield AI - Protect Against Scams</title>
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="./css/variables.css" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/responsive.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+    <link rel="stylesheet" href="./css/ScameShield.css" />
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            rel="stylesheet"
+    />
+</head>
+<body>
+
+<!-- ✅ Navigation (same as scam-stories) -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="home.html#home" class="logo">
+            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img" />
+        </a>
+        <div class="nav-controls">
+            <ul class="nav-links">
+                <li><a href="home.html#home" class="nav-link">Home</a></li>
+                <li><a href="insights.html" class="nav-link">Insights</a></li>
+                <li><a href="education.html" class="nav-link">Education</a></li>
+                <li><a href="scam-stories.html" class="nav-link">Community</a></li>
+                <li><a href="game-inbox.html" class="nav-link">Interactive</a></li>
+                <li><a href="ScamShield_AI.html" class="nav-link">ScamShield AI</a> </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle">More ▾</a>
+                    <ul class="dropdown-menu"></ul>
+                </li>
+            </ul>
+
+            <div class="font-controls">
+                <button class="font-btn" data-size="small" type="button" title="Smaller">
+                    <i class="fa-solid fa-minus"></i>
+                </button>
+                <button class="font-btn active" data-size="normal" type="button" title="Default">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+                <button class="font-btn" data-size="large" type="button" title="Larger">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ✅ ScamShield Orange Header Section -->
+<header class="header">
+    <div class="header-content">
+        <div class="header-top">
+            <div class="header-title-section">
+                <div class="header-icon">
+                    <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1>ScamShield AI</h1>
+                    <p class="header-subtitle">AI-powered protection against scams and phishing</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature Pills -->
+        <div class="feature-pills">
+            <div class="pill">
+                <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <span>Instant Detection</span>
+            </div>
+            <div class="pill">
+                <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <span>Risk Highlighting</span>
+            </div>
+            <div class="pill">
+                <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>
+                    <path d="M9 18h6"/>
+                    <path d="M10 22h4"/>
+                </svg>
+                <span>Learn & Protect</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ✅ Main Content -->
+<main class="main-content">
+    <div class="container">
+        <!-- Result Display -->
+        <div id="resultCard" class="result-card" style="display: none;">
+            <div class="result-indicator"></div>
+            <div class="result-header">
+                <div class="result-icon-wrapper">
+                    <svg id="resultIcon" class="icon icon-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"></svg>
+                </div>
+                <div class="result-info">
+                    <h2 id="resultTitle">Scam Detected</h2>
+                    <span id="resultBadge" class="badge">Highly Likely Scam</span>
+                </div>
+            </div>
+
+            <div id="highlightSection" class="highlight-section">
+                <h3 class="section-title">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Detected Risks (hover to see details):
+                </h3>
+                <div class="highlighted-text-box" id="highlightedText"></div>
+                <p class="risk-count">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span id="riskCount">Found 0 suspicious elements</span>
+                </p>
+            </div>
+
+            <div class="educational-tip">
+                <i class="fa-solid fa-lightbulb"></i>
+                <div>
+                    <h4>Educational Tip</h4>
+                    <p id="educationalTip"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-card">
+            <div class="input-header">
+                <i class="fa-solid fa-file-lines"></i>
+                <label for="messageInput">Paste Suspicious Message</label>
+            </div>
+
+            <div id="examplesSection" class="examples-section">
+                <p class="examples-label">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Try an example:
+                </p>
+                <div class="example-buttons">
+                    <button class="btn-example" data-example="0">🚨 Scam Example</button>
+                    <button class="btn-example" data-example="1">✅ Safe Example</button>
+                    <button class="btn-example" data-example="2">💰 Prize Scam</button>
+                </div>
+            </div>
+
+            <textarea
+                    id="messageInput"
+                    class="message-textarea"
+                    placeholder="Paste any suspicious email or SMS message here to check if it's a scam..."
+                    rows="10"
+            ></textarea>
+
+            <div class="button-group">
+                <button id="checkBtn" class="btn btn-primary" disabled>
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span id="checkBtnText">Check Message</span>
+                </button>
+                <button id="clearBtn" class="btn btn-secondary" style="display: none;">
+                    <i class="fa-solid fa-rotate-left"></i> Clear
+                </button>
+            </div>
+        </div>
+
+        <!-- Info Card -->
+        <div id="infoCard" class="info-card">
+            <div class="info-icon-wrapper">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div class="info-content">
+                <h3>How It Works</h3>
+                <ul>
+                    <li>• Paste any suspicious message above</li>
+                    <li>• AI analyzes it for scam patterns and red flags</li>
+                    <li>• Get instant results and educational tips</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- ✅ Footer (same as scam-stories) -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="#accessibility">Accessibility</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#sitemap">Site Map</a>
+        </div>
+        <div class="footer-disclaimer">
+            <p>
+                This website is maintained by ScamSafe as a public welfare initiative. Information provided is for educational purposes only.
+                We are dedicated to preventing cybersecurity fraud through community awareness and education.
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- ✅ Scripts -->
+<script src="./js/config.js"></script>
+<script src="./js/utils.js"></script>
+<script src="./js/components/fontController.js"></script>
+<script src="./js/navbar-responsive.js"></script>
+<script src="./js/ScamShield.js"></script>
+
+</body>
+</html>
