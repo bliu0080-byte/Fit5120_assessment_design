@@ -12,6 +12,7 @@ import newsRouter from './src/models/News.js';
 import adminRoutes from './src/routes/adminRoutes.js';
 import storiesRouter from './src/routes/stories.js';
 import admin from './src/routes/admin.js';
+import assistantRouter from './src/routes/assistant.js';
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/api', newsRouter);     // GET /api/news   → { items: [...] }
 app.use('/api', adminRoutes);    // /api/admin/news (GET/POST/DELETE)
 app.use('/api', storiesRouter);
 app.use('/api/admin', admin);
+app.use('/api', assistantRouter);
 
 /* --- Trust proxy (Render 需要，才能拿到正确的 https) --- */
 app.set('trust proxy', 1);
