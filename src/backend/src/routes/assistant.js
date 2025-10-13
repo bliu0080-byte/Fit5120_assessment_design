@@ -23,20 +23,36 @@ const SYSTEM_PROMPT = `You are ScamSafe's friendly AI Safety Assistant.
 - Never reveal API keys or internal system details.`;
 
 async function runChat(model, history) {
-    const resp = await openaiClient.responses.create({
+    const resp = await openaiClient.chat.completions.create({
         model,
-        input: [
+        messages: [
             { role: 'system', content: SYSTEM_PROMPT },
             ...history.map((m) => ({
                 role: m.role === 'assistant' ? 'assistant' : 'user',
                 content: String(m.content || '')
             }))
         ],
-        max_output_tokens: 800
+        max_completion_tokens: 2000
     });
-    const reply = (resp?.output_text || '').trim();
-    if (!reply) throw new Error('Assistant did not return any text.');
-    return { reply, modelUsed: model };
+
+    // GPT-4: string / GPT-5: array structure
+    const message = resp?.choices?.[0]?.message;
+    let reply = '';
+
+    if (typeof message?.content === 'string') {
+        reply = message.content;
+    } else if (Array.isArray(message?.content)) {
+        reply = message.content
+            .map((c) => (typeof c.text === 'string' ? c.text : ''))
+            .join('');
+    }
+
+    if (!reply.trim()) {
+        console.error('[assistant] Empty response (full dump):', JSON.stringify(resp, null, 2));
+        throw new Error('Assistant did not return any text.');
+    }
+
+    return { reply: reply.trim(), modelUsed: model };
 }
 
 function shouldAttemptFallback(err) {
