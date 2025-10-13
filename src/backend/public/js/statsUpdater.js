@@ -2,18 +2,18 @@
 // ScamSafe - Dynamic Stats Updater
 // =============================
 
-// 起始日期：2025年9月1日 00:00:00
+// Start date: 1 September 2025 00:00:00
 const START_DATE = new Date("2025-09-01T00:00:00Z");
 
-// 初始基数（9月1日的起点数值）
-const AU_LOSS_BASE = 238_000_000;      // AU$ 损失基数
-const WORLD_VICTIMS_BASE = 405_333_336; // 全球受害人数基数
+// Initial base figure (starting value as at 1 September)
+const AU_LOSS_BASE = 238_000_000;      // AU$ loss base
+const WORLD_VICTIMS_BASE = 405_333_336; // 全Base number of ball victims
 
 // 增长速率
-const AU_LOSS_RATE = 12;      // 每秒增加12澳元
-const WORLD_VICTIMS_RATE = 19; // 每秒增加19人
+const AU_LOSS_RATE = 12;      // A$12 per second increase
+const WORLD_VICTIMS_RATE = 19; // 19 per second
 
-// 格式化（带千分位分隔符）
+// Formatting (with thousandths separator)
 const nf = new Intl.NumberFormat("en-US");
 
 function updateStats() {
@@ -23,7 +23,7 @@ function updateStats() {
     const currentLoss = Math.floor(AU_LOSS_BASE + AU_LOSS_RATE * elapsedSeconds);
     const currentVictims = Math.floor(WORLD_VICTIMS_BASE + WORLD_VICTIMS_RATE * elapsedSeconds);
 
-    // 更新页面元素
+    // Update page elements
     const auElement = document.getElementById("au-amount");
     const worldElement = document.getElementById("world-victims");
 
@@ -33,5 +33,5 @@ function updateStats() {
     requestAnimationFrame(updateStats);
 }
 
-// 启动
+// activate (a plan)
 document.addEventListener("DOMContentLoaded", updateStats);

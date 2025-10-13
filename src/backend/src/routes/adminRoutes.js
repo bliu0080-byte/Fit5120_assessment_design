@@ -3,10 +3,10 @@ import { getNews, createNews, deleteNews } from "../controllers/adminController.
 
 const router = express.Router();
 
-// 前台：获取新闻列表
+// Frontend: Get News List
 router.get("/news", getNews);
 
-// 管理端：新增 / 删除
+// Administration: Add / Delete
 router.post("/admin/news", createNews);
 router.delete("/admin/news/:id", deleteNews);
 

@@ -531,7 +531,7 @@ html{ font-size: calc(16px * var(--fs-scale, 1)); }
     position: absolute;
     top: 100%;
     left: 0;
-    background: #ffffff; /* 白底 */
+    background: #ffffff; /* white background */
     border: 1px solid #e5e7eb;
     border-radius: 10px;
     min-width: 180px;
@@ -540,7 +540,7 @@ html{ font-size: calc(16px * var(--fs-scale, 1)); }
     z-index: 9999;
 }
 
-/* 悬停时展开菜单 */
+/* Expand menu on hover */
 .dropdown:hover .dropdown-menu {
     display: block;
 }
@@ -551,7 +551,7 @@ html{ font-size: calc(16px * var(--fs-scale, 1)); }
 
 .dropdown-menu a {
     display: block;
-    color: #111827 !important; /* ✅ 深灰色文字 */
+    color: #111827 !important; /*  Dark grey text */
     padding: 10px 18px;
     text-decoration: none;
     font-size: 0.95rem;
@@ -559,7 +559,7 @@ html{ font-size: calc(16px * var(--fs-scale, 1)); }
 }
 
 .dropdown-menu a:hover {
-    background: #f3f4f6; /* ✅ 悬停时灰底 */
+    background: #f3f4f6; /*  Grey background on hover */
 }
 .dropdown-menu .nav-link {
     color: #111827 !important;

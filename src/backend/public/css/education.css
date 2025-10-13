@@ -5,24 +5,21 @@
     box-sizing: border-box;
 }
 
-/* ✅ 不再覆盖全局背景与内边距（从 index 的全局 CSS 继承） */
-/* 之前这里给 body 设置了紫色渐变和 padding:20px; 现在移除 */
 
-/* 页面主容器：给内容预留导航栏高度，避免被吸顶 navbar 遮住 */
 main.container, .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding-top: 96px; /* 根据你 navbar 的真实高度微调：72~104 都可 */
+    padding-top: 96px;
 }
 
-/* ✅ 让导航栏吸顶 */
+
 .navbar {
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-/* Header（教育页标题区，仅作为版心标题，不控制整页背景） */
+/* Header */
 .header {
     text-align: center;
     color: var(--text-color, #111);

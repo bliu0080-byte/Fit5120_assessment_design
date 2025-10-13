@@ -1,5 +1,4 @@
 // server.js
-// src/index.js 或 app.js 顶部
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';

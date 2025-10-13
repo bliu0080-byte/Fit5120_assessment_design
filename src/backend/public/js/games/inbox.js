@@ -365,7 +365,7 @@ class EmailSortingGame {
         el.classList.add('show');
         el.classList.remove('hidden');
 
-    // 动画结束后移除样式
+    // Remove style after animation
         setTimeout(() => {
         el.classList.remove('show');
         el.classList.add('hidden');
@@ -496,7 +496,7 @@ document.addEventListener("DOMContentLoaded", () => {
         resumeBtn.addEventListener("click", () => {
             const toggleButton = document.getElementById("toggleGame");
             if (toggleButton) {
-                toggleButton.click(); // 触发原本的 Start Game 按钮逻辑
+                toggleButton.click(); // Triggers the original Start Game button logic
             }
         });
     }

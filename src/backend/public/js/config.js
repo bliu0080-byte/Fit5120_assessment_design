@@ -3,9 +3,9 @@ class AlertManager {
     constructor() {
         const cfg = window.SCAMSAFE_CONFIG || window.CONFIG || {};
 
-        // === 后端 API 选择（只用后端，不做本地兜底） ===
-        // 如果前端部署在 Render，同一个服务：直接同源 '/api'
-        // 如果前端在 GitHub Pages：请把下面 RENDER_API 改成你的后端域名
+        // === Backend API selection (backend only, no local touting) ===
+        // If the frontend is deployed in Render, same service: directly same source '/api'.
+        // If the frontend is in GitHub Pages: change the RENDER_API below to your backend's domain name.
         const RENDER_API = 'https://scamsafe.onrender.com/api';
 
         if (location.hostname.endsWith('onrender.com')) {
@@ -13,7 +13,7 @@ class AlertManager {
         } else if (location.hostname.endsWith('github.io')) {
             this.api = RENDER_API;
         } else {
-            // 本地开发
+            // local development
             this.api = (cfg.apiBackend && cfg.apiBackend.baseUrl) || `http://${location.hostname}:3001/api`;
         }
 
@@ -37,7 +37,7 @@ class AlertManager {
         console.log('[AlertManager] API =', this.api);
     }
 
-    // ============== 仅请求后端 ==============
+    // ============== Request back-end only ==============
     async loadAlerts() {
         this.state.loading = true;
         try {
@@ -62,7 +62,7 @@ class AlertManager {
         }
     }
 
-    // ============== 过滤 ==============
+    // ============== filtration ==============
     normalize(v) {
         return String(v || '').trim().toLowerCase().replace(/\s+/g, '-');
     }
@@ -91,7 +91,7 @@ class AlertManager {
         });
     }
 
-    // ============== 分页 ==============
+    // ============== subdivision ==============
     pageCount() {
         const total = this.getFilteredData().length;
         return Math.max(1, Math.ceil(total / this.state.pageSize));
@@ -103,7 +103,7 @@ class AlertManager {
         this.renderPage();
     }
 
-    // ============== 渲染 ==============
+    // ============== add washes of ink or colour to a drawing (Chinese painting) ==============
     renderError(msg) {
         if (!this.$grid) return;
         this.$grid.innerHTML = `

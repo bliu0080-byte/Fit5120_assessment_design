@@ -270,7 +270,7 @@
 .pager-btn:disabled{ opacity:.4; cursor:not-allowed; }
 .pager-info{ min-width:100px; text-align:center; color:#1e293b; font-weight:600; font-size:1rem; }
 
-/* 响应式 */
+
 @media (max-width: 1024px){
     .slot-feature{ grid-template-columns:1fr; grid-template-rows:auto auto; }
     .slot-wide{ grid-template-columns:1fr; grid-template-rows:auto auto; }
@@ -298,7 +298,7 @@ html{ font-size: calc(16px * var(--fs-scale, 1)); }
 .new-layout {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem; /* 行间距 */
+    gap: 1.2rem;
     margin: 2rem 0;
     font-family: Arial, sans-serif;
 }
@@ -308,7 +308,7 @@ html{ font-size: calc(16px * var(--fs-scale, 1)); }
     justify-content: flex-start;
     align-items: center;
     gap: 1rem;
-    padding: 0.5rem 0; /* 简单留点上下间距 */
+    padding: 0.5rem 0;
 }
 
 
@@ -316,37 +316,35 @@ html{ font-size: calc(16px * var(--fs-scale, 1)); }
     font-size: 4rem;
     font-weight: bold;
     justify-content: center;
-    min-width: 300px; /* 避免数字跳动时抖动 */
+    min-width: 300px;
     text-align: left;
 
-    /* 橙色渐变数字 */
     background: linear-gradient(135deg, #f59e0b, #f97316);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .sc-text {
-    font-size: 1.5rem; /* 放大说明文字 */
+    font-size: 1.5rem;
     line-height: 1.4;
     flex: 1;
-    color: #222; /* 保持深色 */
+    color: #222;
     font-weight: bold;
-     /* 新增加粗 */
 }
 
 
-/* 只调整 Scam Stats 这个 hero 的宽度 */
+
 .hero.hero--scam .container {
-  max-width: 1200px;   /* 你想要的宽度，比如 1000 / 1200 / 1400 */
-  margin: 0 auto;      /* 保持居中 */
-  padding-left: 2rem;  /* 两边适度留白 */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 2rem;
   padding-right: 2rem;
 }
 
 
 .sc-num .unit {
-  font-size: 2rem;   /* 稍微比数字小 */
-  font-weight: bold;    /* 保持醒目 */
-  color: #444;          /* 用深灰，和黑色说明呼应 */
-  margin-left: 0.25rem; /* 和数字留一点间距 */
+  font-size: 2rem;
+  font-weight: bold;
+  color: #444;
+  margin-left: 0.25rem;
 }

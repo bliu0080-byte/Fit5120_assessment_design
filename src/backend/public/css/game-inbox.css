@@ -314,26 +314,25 @@
         height: 140px;
     }
 }
-/* ==== Pause Overlay ==== */
 /* ==== Pause Overlay (Fixed Full-Screen) ==== */
 .game-status {
-    position: fixed;        /* 关键点1：固定定位，全屏覆盖 */
+    position: fixed;        /* Key point 1: Fixed positioning, full-screen coverage */
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* 关键点2：灰色半透明背景 */
+    background-color: rgba(0, 0, 0, 0.5); /* Key point 2: Grey translucent background */
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2000;          /* 关键点3：足够高，盖住游戏画面 */
+    z-index: 2000;          /* Key Point 3: High enough to cover the game screen */
 }
 
 .game-status.hidden {
-    display: none !important; /* 隐藏时彻底不占位 */
+    display: none !important; /* Completely unobtrusive when hidden */
 }
 
-/* 内部暂停提示框 */
+/* Internal Pause Cue Box */
 .pause-box {
     background: rgba(255, 255, 255, 0.9);
     padding: 2rem 3rem;
@@ -359,7 +358,7 @@
     font-size: 1rem;
 }
 
-/* 淡入动画 */
+/* fade-in animation */
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }

@@ -1,5 +1,5 @@
 import express from 'express';
-import { dbPing } from '../db.js';   // ⚠️ 注意要导入 dbPing
+import { dbPing } from '../db.js';
 
 const router = express.Router();
 

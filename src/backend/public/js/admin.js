@@ -1,6 +1,6 @@
 // Admin page script
 (function () {
-    // 先放工具与常量
+    // Putting tools and constants first
     const $ = (id) => document.getElementById(id);
     const API = (window.SCAMSAFE_CONFIG?.apiBackend?.baseUrl) || 'http://localhost:3001/api';
 

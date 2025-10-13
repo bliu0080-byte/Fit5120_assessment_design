@@ -133,7 +133,7 @@ a:focus-visible,button:focus-visible,.ss-readmore:focus-visible,.ss-comment-btn:
 .ss-comment-btn .c-count,.ss-like .count{ font-weight:800; }
 .ss-card .ss-like i{ font-size:16px; }
 
-/* 点赞状态 */
+/* Liked Status */
 .ss-card .ss-like.liked{ background:#f97316; border-color:#ea580c; color:#fff; }
 
 /* =========================
@@ -146,7 +146,7 @@ a:focus-visible,button:focus-visible,.ss-readmore:focus-visible,.ss-comment-btn:
 .ss-banner strong::before{ content:"📢 "; font-size:20px; }
 
 /* =========================
-   Modal (通用)
+   Modal
    ========================= */
 .ss-modal{
     position:fixed; inset:0; display:none; z-index:9999;
@@ -178,7 +178,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
 }
 .ss-help{ margin-top:10px; color:#475569; font-size:13px; }
 
-/* Submit 橙色 */
+/* Submit orange (colour, colour) */
 .ss-modal .ss-btn[type="submit"],
 .ss-comment-form .ss-btn[type="submit"]{
     background:#ff6600 !important; border-color:#ff6600 !important; color:#fff !important;
@@ -189,7 +189,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
 [aria-hidden="false"].ss-modal ~ *{ pointer-events:none; }
 
 /* =========================
-   Story Detail Modal（复用通用 Modal 外观）
+   Story Detail Modal
    ========================= */
 #storyDetailModal{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(15,23,42,.55); z-index:9999; }
 #storyDetailModal[aria-hidden="true"]{ display:none; }
@@ -197,18 +197,18 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
     width:min(720px,92vw); max-height:86vh; overflow:auto; border-radius:16px; box-shadow:0 24px 64px rgba(2,6,23,.35); padding:20px 22px 18px;
 }
 
-/* 头部 & 元信息 */
+/* Department & Meta Information*/
 .ss-detail__header{ display:flex; flex-direction:column; gap:6px; margin-bottom:8px; }
 .ss-detail__meta{ color:#64748b; font-size:12px; display:flex; align-items:center; gap:10px; }
 .ss-detail__title{ font-size:28px; font-weight:800; margin:12px 0 8px; }
 
-/* 正文块 */
+/* text block */
 .ss-detail__content{
     padding:16px 18px; background:#f8fafc; border-left:4px solid #60a5fa; border-radius:10px;
 }
 [data-detail-text]{ margin:0; white-space:pre-wrap; word-break:break-word; line-height:1.7; font-size:16px; color:#374151; }
 
-/* 类型/州标签 */
+/* Type/State Label */
 .tag--sms{ background:#e0f2fe; color:#0369a1; border:1px solid #7dd3fc; }
 .tag--phone{ background:#ecfdf5; color:#065f46; border:1px solid #6ee7b7; }
 .tag--email{ background:#fff7ed; color:#9a3412; border:1px solid #fdba74; }
@@ -226,7 +226,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
 .state--ACT{ background:#f3f4f6; color:#374151; border:1px solid #d1d5db; }
 .state--NT{ background:#fff1f2; color:#be123c; border:1px solid #fda4af; }
 
-/* 评论区域 */
+/* Comment area */
 .ss-detail__comments{ margin-top:20px; padding-top:10px; border-top:1px solid #e5e7eb; }
 .ss-detail__comments .ss-subtitle{
     display:flex; align-items:center; gap:8px; font-size:18px; font-weight:800; color:#0f172a; margin:20px 0 12px;
@@ -253,7 +253,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
     width:100%; border:1px solid #e5e7eb; border-radius:10px; padding:12px; outline:none; background:#fff; font-size:14px;
 }
 
-/* 评论提交按钮贴底（小屏） */
+/* Comment Submission Button Bottom */
 .ss-comment-form .ss-btn[type="submit"]{ position:sticky; bottom:0; width:100%; }
 
 /* =========================
@@ -266,7 +266,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
 @keyframes ssShimmer{ 0%{ background-position:100% 0; } 100%{ background-position:-100% 0; } }
 
 /* =========================
-   Nav Active (无需改 HTML)
+   Nav Active
    ========================= */
 .nav-link.active,.nav-link[href*="scam-stories.html"]{
     color:var(--brand-600); font-weight:800; position:relative;
@@ -337,11 +337,11 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
     line-height: 1.6;
 }
 
-/* 你可以自定义标题等相对根字号的大小 */
+/* You can customise the size of the relative root font size for headings etc. */
 .ss-hero-title { font-size: 6rem; }
 .ss-hero-subtitle { font-size: 1.5rem; }
 
-/* === Controls layout: 3列 (Filter | Sort | Search更宽) === */
+/* === Controls layout: (Filter | Sort | Search更宽) === */
 .ss-controls{
     display:grid;
     grid-template-columns: 1fr 1fr 2fr;
@@ -353,7 +353,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
     .ss-controls{ grid-template-columns: 1fr; }
 }
 
-/* === 通用胶囊卡片 === */
+/* === Universal Capsule Card === */
 .ss-pill{
     background: linear-gradient(180deg, #fafafa, #f6f8fc);
     border: 1px solid rgba(0,0,0,0.06);
@@ -362,7 +362,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
     padding: 10px 14px;
 }
 
-/* === Filter / Sort 外观（图标 + label + select） === */
+/* === Filter / Sort appearance (icon + label + select) === */
 .ss-control{
     display:flex;
     align-items:center;
@@ -378,7 +378,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
     font-weight:700;
 }
 
-/* 自定义下拉：去系统样式，右侧有chevron */
+/* Custom Dropdown */
 .ss-select{
     position:relative;
     flex:1 1 auto;
@@ -405,7 +405,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
     pointer-events:none;
 }
 
-/* === Search 组合：输入 + 蓝色按钮 === */
+/* === Search Combination: input + blue button === */
 .ss-pill.ss-search{ padding: 10px; }
 .ss-search__group{
     display:flex; width:100%; align-items:center; gap:0;
@@ -435,7 +435,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
 .ss-search__btn:hover{ background:#1e40af; }
 .ss-search__btn:active{ transform: translateY(1px); }
 .ss-search__btn i{ font-size:14px; line-height:1; }
-/* ===== Pagination (改进版) ===== */
+/* ===== Pagination  ===== */
 .ss-pagination {
     display: flex;
     justify-content: center;
@@ -477,7 +477,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
     box-shadow: none;
 }
 
-/* 省略号按钮样式 */
+/* Ellipsis Button Style */
 .ss-pagination .pg-btn[disabled][data-ellipsis] {
     background: transparent;
     box-shadow: none;

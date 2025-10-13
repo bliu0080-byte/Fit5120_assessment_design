@@ -16,7 +16,7 @@ router.get('/stories', async (req, res) => {
         const search = (req.query.search || '').trim();
         const sort = (req.query.sort || 'recent').toLowerCase(); // 'recent' or 'popular'
 
-        // --- 搜索条件 ---
+        // --- Search terms ---
         let whereClause = `WHERE s.moderation_status = 'approved'`;
         const params = [];
 
@@ -25,8 +25,8 @@ router.get('/stories', async (req, res) => {
             whereClause += ` AND (s.text ILIKE $${params.length} OR s.type ILIKE $${params.length})`;
         }
 
-        // --- 排序逻辑 ---
-        // 🔹 按创建时间或点赞数全局排序
+        // --- Sorting logic ---
+        // 🔹 Sort globally by creation time or number of likes
         let orderClause = 'ORDER BY s.created_at DESC';
         if (sort === 'popular') {
             orderClause = `
@@ -64,7 +64,6 @@ router.get('/stories', async (req, res) => {
         const { rows: countRows } = await pool.query(countQuery, params.slice(0, params.length - 2));
         const total = countRows[0]?.total || 0;
 
-        // --- 返回结果 ---
         res.json({
             page,
             limit,
@@ -163,7 +162,7 @@ router.get('/stories/:id/comments', async (req, res) => {
              ORDER BY created_at ASC`,
             [req.params.id]
         );
-        res.json(rows); // 注意：直接返回数组，不是 {items: rows}
+        res.json(rows);
     } catch (e) {
         console.error('GET comments error:', e);
         res.status(500).json({ error: 'DB query failed' });

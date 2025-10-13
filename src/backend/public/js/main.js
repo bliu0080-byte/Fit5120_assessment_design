@@ -5,7 +5,7 @@
 
 class ScamSafeApp {
     constructor() {
-        // 配置与工具兜底
+        // Configuration and tool peddling
         this.config = (window.SCAMSAFE_CONFIG || window.CONFIG || {
             app: { name: 'ScamSafe', version: 'dev' },
             analytics: { enabled: false },

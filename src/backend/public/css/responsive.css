@@ -562,7 +562,7 @@
     z-index: 99999 !important; /* 🚀 核心 */
 }
 
-/* 悬停展开 */
+/* hover */
 .nav-links .dropdown:hover .dropdown-menu {
     display: block;
     animation: fadeIn 0.25s ease-out;
@@ -573,7 +573,7 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* 降低 hero / banner 层级，避免遮挡 */
+
 .hero,
 .readme-banner,
 .readme-education {

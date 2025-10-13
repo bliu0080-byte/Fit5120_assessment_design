@@ -1,6 +1,6 @@
 // =================== Navbar Responsive (Final Stable Version) ===================
 
-// 防抖 + 初始化锁
+// Anti-Shake + Initialisation Lock
 let navInitialized = false;
 let navResizeBound = false;
 let resizeTimeout;
@@ -23,7 +23,7 @@ window.addEventListener("load", () => {
 
 function adjustNav() {
     const now = Date.now();
-    if (now - lastAdjustTime < 400) return; // 防短时间内重复调用
+    if (now - lastAdjustTime < 400) return; // Prevention of repeated calls within a short period of time
     lastAdjustTime = now;
 
     const nav = document.querySelector(".nav-links");
@@ -36,16 +36,16 @@ function adjustNav() {
     const toggle = dropdown?.querySelector(".dropdown-toggle");
     if (!dropdown || !menu || !toggle) return;
 
-    // ✅ Step 1: 清空 More 菜单
+    // ✅ Step 1: Clear the More menu
     menu.innerHTML = "";
 
-    // ✅ Step 2: 恢复所有 li 的可见状态
+    // ✅ Step 2: Restore all li's visibility
     items.forEach(item => item.style.display = "inline-block");
 
-    // ✅ Step 3: 只保留前 4 个，隐藏多余项
+    // ✅ Step 3: Keep only the first 4, hide redundant items
     const overflowItems = items.slice(alwaysVisibleCount);
 
-    // ✅ Step 4: 防止重复克隆 (仅当 clone 尚未存在时添加)
+    // ✅ Step 4: Prevent duplicate clones (add only if clone does not already exist)
     overflowItems.forEach((item, index) => {
         item.style.display = "none";
         const id = item.textContent.trim();
@@ -53,17 +53,17 @@ function adjustNav() {
         if (![...menu.children].some(c => c.textContent.trim() === id)) {
             const clone = item.cloneNode(true);
             clone.style.display = "block";
-            clone.dataset.cloneSource = id; // 添加标记
+            clone.dataset.cloneSource = id; // Add Marker
             menu.appendChild(clone);
         }
     });
 
-    // ✅ Step 5: 更新按钮文字与透明度
+    // ✅ Step 5: Update button text and transparency
     const count = menu.children.length;
     toggle.textContent = count === 0 ? "More" : "More ▾";
     toggle.style.opacity = count === 0 ? 0.6 : 1;
 
-    // ✅ Step 6: 控制台打印（仅首次）
+    // ✅ Step 6: Console Printing
     if (!window.__navLoggedOnce) {
         console.log("✅ Navbar initialized (overflow:", count, ")");
         window.__navLoggedOnce = true;

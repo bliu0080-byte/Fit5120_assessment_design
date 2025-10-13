@@ -1,7 +1,7 @@
 // src/controllers/adminController.js
 import { pool } from '../db.js';
 
-// 管理端获取新闻（返回 { items }）
+// Admin gets news (returns { items })
 export const getNews = async (_req, res) => {
     try {
         const { rows } = await pool.query(`

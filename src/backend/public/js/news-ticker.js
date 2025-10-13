@@ -63,7 +63,7 @@
         const html = [...items, ...items].map(itemHTML).join('');
         listEl.innerHTML = html;
 
-        // 条目越多滚动越久，避免过快
+        // The more entries you have the longer it takes to scroll and avoid going too fast
         const perItemSec = 4.5;
         const duration = Math.max(30, Math.round(items.length * perItemSec));
         listEl.style.animationDuration = `${duration}s`;
@@ -73,10 +73,10 @@
         const listEl = document.getElementById('news-ticker-list');
         if (!listEl) return;
 
-        // 1) 先拿你现有的前端缓存/状态
+        // 1) Take your existing front-end cache/state first
         let items = normalizeItems(getFromAlertManager());
 
-        // 2) 如果还没有就打后端（与原来一样从后端获取）
+
         if (!items || !items.length) {
             try {
                 const data = await fetchFromAPI();
