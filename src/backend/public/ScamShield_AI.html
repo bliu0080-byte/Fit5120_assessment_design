@@ -55,45 +55,35 @@
 </nav>
 
 <!-- ✅ ScamShield Orange Header Section -->
+<!-- Header -->
 <header class="header">
+    <!-- Background Pattern -->
+    <div class="header-pattern"></div>
+
+    <!-- Header Content -->
     <div class="header-content">
         <div class="header-top">
             <div class="header-title-section">
+                <!-- Icon -->
                 <div class="header-icon">
                     <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                     </svg>
                 </div>
-                <div>
-                    <h1>ScamShield AI</h1>
-                    <p class="header-subtitle">AI-powered protection against scams and phishing</p>
-                </div>
-            </div>
-        </div>
 
-        <!-- Feature Pills -->
-        <div class="feature-pills">
-            <div class="pill">
-                <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                    <circle cx="12" cy="12" r="3"/>
-                </svg>
-                <span>Instant Detection</span>
-            </div>
-            <div class="pill">
-                <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                </svg>
-                <span>Risk Highlighting</span>
-            </div>
-            <div class="pill">
-                <svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>
-                    <path d="M9 18h6"/>
-                    <path d="M10 22h4"/>
-                </svg>
-                <span>Learn & Protect</span>
+                <div class="header-text">
+                    <!-- Title -->
+                    <h1 class="header-title">ScamSense</h1>
+
+                    <!-- Subtitle -->
+                    <p class="header-subtitle">Scam Detection Model</p>
+
+                    <!-- Description Box -->
+                    <p class="header-description">
+                        Enter a message or link and ScamSense will tell you whether it looks suspicious,
+                        with a simple percentage score showing how risky it might be.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -116,11 +106,6 @@
             </div>
 
             <div id="highlightSection" class="highlight-section">
-                <h3 class="section-title">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    Detected Risks (hover to see details):
-                </h3>
-                <div class="highlighted-text-box" id="highlightedText"></div>
                 <p class="risk-count">
                     <i class="fa-solid fa-circle-info"></i>
                     <span id="riskCount">Found 0 suspicious elements</span>
