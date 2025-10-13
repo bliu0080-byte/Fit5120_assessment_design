@@ -590,22 +590,7 @@ body {
     font-size: 1.125rem;
 }
 
-.game-status {
-    position: fixed;
-    bottom: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background: white;
-    border-radius: 9999px;
-    padding: 1rem 2rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    border: 1px solid #fdba74;
-}
 
-.status-text {
-    font-size: 1rem;
-    color: #374151;
-}
 
 .modal-overlay {
     position: fixed;
@@ -1186,3 +1171,113 @@ body.hard-mode {
     transform: translate(-50%, -50%) scale(0.8);
   }
 }
+
+
+/* ==== Pause Overlay (Full Screen) ==== */
+/* ==== Pause Overlay (Full Screen Centered) ==== */
+.game-status {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.game-status.hidden {
+    display: none !important;
+}
+
+.pause-box {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem 3rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.4s ease;
+}
+
+.pause-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.pause-title {
+    font-size: 1.8rem;
+    color: #222;
+    margin-bottom: 0.5rem;
+}
+
+.pause-hint {
+    color: #444;
+    font-size: 1rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
+.resume-btn {
+    margin-top: 1.5rem;
+    background: linear-gradient(to right, #f97316, #ea580c);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.resume-btn:hover {
+    background: linear-gradient(to right, #ea580c, #c2410c);
+    transform: scale(1.05);
+}
+
+/* === 💔 Heart Break Animation (New Error Effect) === */
+.heartbreak {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    font-size: 6rem;
+    color: #dc2626; /* red-600 */
+    opacity: 0;
+    z-index: 4000;
+    pointer-events: none;
+}
+
+.heartbreak.show {
+    animation: heartBreakPop 1.2s ease-in-out forwards;
+}
+
+@keyframes heartBreakPop {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+    }
+    20% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2) rotate(-10deg);
+    }
+    40% {
+        transform: translate(-50%, -50%) scale(1) rotate(10deg);
+    }
+    60% {
+        transform: translate(-50%, -50%) scale(1.1) rotate(-6deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+    }
+}
+
+

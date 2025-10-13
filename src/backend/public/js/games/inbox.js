@@ -103,6 +103,7 @@ class EmailSortingGame {
             playAgainBtn: document.getElementById('playAgainBtn'),
             successAnimation: document.getElementById('successAnimation'),
             errorAnimation: document.getElementById('errorAnimation'),
+            heartBreakAnimation: document.getElementById('heartBreakAnimation'),
             tipsList: document.getElementById('tipsList'),
             smallHeartsWrapper: document.querySelector('.small-hearts-wrapper')
         };
@@ -293,6 +294,7 @@ class EmailSortingGame {
             this.updateHearts();
             this.streak = 0;
             this.showErrorAnimation();
+            this.showHeartBreakAnimation();
 
             if (this.lives <= 0) {
                 this.endGame(false);
@@ -354,6 +356,20 @@ class EmailSortingGame {
     showErrorAnimation() {
         this.elements.errorAnimation.classList.add('show');
         setTimeout(() => this.elements.errorAnimation.classList.remove('show'), 1000);
+    }
+    
+    showHeartBreakAnimation() {
+        const el = this.elements.heartBreakAnimation;
+        if (!el) return;
+
+        el.classList.add('show');
+        el.classList.remove('hidden');
+
+    // 动画结束后移除样式
+        setTimeout(() => {
+        el.classList.remove('show');
+        el.classList.add('hidden');
+        }, 1200);
     }
 
     toggleGame() {
@@ -473,4 +489,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+// === Resume Game Button (for Pause Overlay) ===
+document.addEventListener("DOMContentLoaded", () => {
+    const resumeBtn = document.getElementById("resumeGameBtn");
+    if (resumeBtn) {
+        resumeBtn.addEventListener("click", () => {
+            const toggleButton = document.getElementById("toggleGame");
+            if (toggleButton) {
+                toggleButton.click(); // 触发原本的 Start Game 按钮逻辑
+            }
+        });
+    }
+});
 

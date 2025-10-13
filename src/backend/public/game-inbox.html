@@ -273,10 +273,14 @@
 
         <!-- Game Status Notification -->
         <div id="gameStatus" class="game-status hidden">
-            <p class="status-text">
-                ⏸️ Game paused, click 'Start Game' to continue
-            </p>
+            <div class="pause-box">
+                <div class="pause-icon">⏸️</div>
+                <h2 class="pause-title">Game Paused</h2>
+                <p class="pause-hint">Click “Start Game” to continue</p>
+                <button id="resumeGameBtn" class="resume-btn">▶ Start Game</button>
+            </div>
         </div>
+
 
         <!-- Game Over Modal -->
         <div id="gameOverModal" class="modal-overlay hidden">
@@ -293,6 +297,7 @@
                 </button>
             </div>
         </div>
+        <div id="errorAnimation" class="error-animation hidden">💔</div>
         <!-- Victory Modal -->
         <div id="victoryModal" class="modal-overlay hidden">
             <div class="modal-content victory">
