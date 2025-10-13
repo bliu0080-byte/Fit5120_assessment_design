@@ -62,7 +62,7 @@ router.post('/stories', async (req, res) => {
         if (!text) return res.status(400).json({ error: 'Missing text' });
 
         // Run moderation
-        const mod = moderateStory(text);
+        const mod = await moderateStory(text);
 
         // Immediate reject path (e.g., profanity)
         if (mod.action === 'reject') {

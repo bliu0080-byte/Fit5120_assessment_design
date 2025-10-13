@@ -61,14 +61,8 @@
     // ================= Utils =================
     // ================= Error reason mapping (short, single-line) =================
     const REASON_MESSAGES = {
-        too_short: "Your story is too short.",
-        no_spaces: "Your story looks like a long string without spaces.",
-        repetitive_pattern: "Your story has too many repeated patterns.",
-        low_diversity: "Your story has very low character variety.",
-        unnatural_language: "Your story doesn't look like natural language.",
-        profanity: "Inappropriate language is not allowed.",
-        links_detected: "Your story contains suspicious links.",
-        phone_detected: "Your story contains suspicious phone numbers."
+        not_sentence: "Please write a full sentence describing your story.",
+        toxic_content: "Your story contains offensive or inappropriate language.",
     };
 
     // Choose ONE most specific reason to show (highest priority first)
