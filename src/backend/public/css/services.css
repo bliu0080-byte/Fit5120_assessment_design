@@ -1,0 +1,85 @@
+/* ============================================
+   ScamSafe Services Page Styling
+   ============================================ */
+
+/* Hero Section */
+.hero--services {
+    background: linear-gradient(to right, #ea580c, #d97706);
+    color: #fff;
+    text-align: center;
+    padding: 4rem 1rem 3rem 1rem; /* Top, Right, Bottom, Left spacing */
+    box-shadow: inset 0 -4px 12px rgba(0, 0, 0, 0.1); /* Soft inner shadow for depth */
+}
+
+/* Main Title */
+.hero--services .hero-title {
+    font-size: 3rem;          /* Large title size */
+    font-weight: 800;         /* Extra bold font */
+    color: #ffffff;           /* White text */
+    letter-spacing: 1px;      /* Slight letter spacing */
+    margin-bottom: 0.6rem;    /* Space below title */
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.25); /* Subtle glow for readability */
+}
+
+/* Subtitle */
+.hero--services .hero-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.85); /* Soft white tone */
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Main Content Container */
+.service-content {
+    max-width: 1100px;     /* Restrict content width for readability */
+    margin: 3rem auto;     /* Center the section */
+    padding: 0 1.5rem;     /* Add side spacing */
+}
+
+/* Grid Layout for Cards */
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Responsive column layout */
+    gap: 2rem; /* Space between cards */
+}
+
+/* Individual Service Card */
+.service-card {
+    background: #ffffff;
+    border-radius: 16px; /* Rounded corners */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); /* Soft card shadow */
+    padding: 2rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease; /* Smooth hover effect */
+    border-top: 4px solid #2563eb; /* Blue accent bar on top */
+}
+
+/* Hover Animation */
+.service-card:hover {
+    transform: translateY(-6px); /* Slight lift on hover */
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+}
+
+/* Card Headings */
+.service-card h2 {
+    font-size: 1.4rem;
+    color: #1e3a8a; /* Deep blue text */
+    margin-bottom: 0.8rem;
+}
+
+/* Card Text */
+.service-card p {
+    font-size: 1rem;
+    color: #444; /* Neutral gray for readability */
+    line-height: 1.7;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero--services .hero-title {
+        font-size: 2.2rem; /* Smaller title on mobile */
+    }
+    .service-card {
+        padding: 1.5rem; /* Reduce padding on smaller screens */
+    }
+}

@@ -1,0 +1,36 @@
+/* Hero Section Styling */
+.hero--static {
+    background:linear-gradient(to right, #ea580c, #d97706);
+    color: #fff;
+    text-align: center;
+    padding: 1rem 1rem 1rem 1rem;
+    box-shadow: inset 0 -4px 12px rgba(0,0,0,0.1);
+}
+
+.hero--static .hero-title {
+    font-size: 3.2rem;        /* bigger for visibility */
+    font-weight: 800;         /* extra bold */
+    color: #ffffff;           /* pure white for clarity */
+    letter-spacing: 1px;
+    margin-bottom: 0.8rem;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.25); /* subtle glow */
+}
+
+.hero--static .hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 400;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Responsive: smaller screens */
+@media (max-width: 768px) {
+    .hero--static .hero-title {
+        font-size: 2.2rem;
+    }
+    .hero--static .hero-subtitle {
+        font-size: 1.05rem;
+    }
+}
