@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ScamSafe AI Assistant - Personal safety coach for online fraud prevention">
+    <meta name="keywords" content="AI assistant, scam safety, guided help, cybersecurity education">
+    <meta name="author" content="ScamSafe Team">
+
+    <title>ScamSafe – AI Safety Assistant</title>
+
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/variables.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/components.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/ai-assistant.css">
+</head>
+<body class="ai-assistant-page">
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="home.html#home" class="logo">
+            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img">
+        </a>
+
+        <div class="nav-controls">
+            <ul class="nav-links">
+                <li><a href="home.html#home" class="nav-link">Home</a></li>
+                <li><a href="insights.html" class="nav-link">Insights</a></li>
+                <li><a href="education.html" class="nav-link">Education</a></li>
+                <li><a href="scam-stories.html" class="nav-link">Community</a></li>
+                <li><a href="game-inbox.html" class="nav-link">Interactive</a></li>
+                <li><a href="ai-assistant.html" class="nav-link active">AI Assistant</a></li>
+                <li><a href="ScamShield_AI.html" class="nav-link">ScamShield AI</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle">More ▾</a>
+                    <ul class="dropdown-menu"></ul>
+                </li>
+            </ul>
+
+            <div class="font-controls">
+                <button class="font-btn" data-size="small" type="button" title="Smaller"><i class="fa-solid fa-minus"></i></button>
+                <button class="font-btn" data-size="normal" type="button" title="Default"><i class="fa-solid fa-rotate-left"></i></button>
+                <button class="font-btn" data-size="large" type="button" title="Larger"><i class="fa-solid fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<header class="assistant-hero" id="assistant-header">
+    <div class="assistant-hero__decor"></div>
+    <div class="assistant-hero__container">
+        <div class="assistant-hero__identity">
+            <div class="assistant-hero__icon">
+                <i class="fa-solid fa-shield-heart"></i>
+            </div>
+            <div>
+                <p class="assistant-hero__eyebrow">Personal safety coach</p>
+                <h1 class="assistant-hero__title">AI Safety Assistant</h1>
+                <p class="assistant-hero__subtitle">
+                    Ask questions, practise spotting scams, or take a guided tour of ScamSafe tools.
+                </p>
+            </div>
+        </div>
+        <div class="assistant-hero__actions">
+            <button class="assistant-btn" data-start-tour type="button">
+                <i class="fa-solid fa-circle-question"></i>
+                <span>Start tutorial</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="assistant-main">
+    <div class="assistant-layout">
+        <section class="assistant-chat-card">
+            <div class="assistant-chat-card__wrap">
+                <div class="assistant-chat-card__header">
+                    <div class="assistant-chat-card__badge">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h2 class="assistant-chat-card__title">How can I help today?</h2>
+                        <p class="assistant-chat-card__desc">Type a question and I’ll walk you through staying safe online.</p>
+                    </div>
+                </div>
+
+                <div class="assistant-chat-card__body" id="assistantMessages" aria-live="polite"></div>
+
+
+                <div class="assistant-chat-card__input" id="input-area">
+                    <label for="assistantInput" class="sr-only">Message the assistant</label>
+                    <input id="assistantInput"
+                           type="text"
+                           placeholder="Ask about scams, using the site, or staying safe online..."
+                           autocomplete="off">
+                    <button id="assistantSend" class="assistant-btn" type="button">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Send</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <aside class="assistant-sidebar" aria-label="Assistant tips and learning modules">
+            <section class="assistant-info-card" id="features">
+                <header>
+                    <h3><span>🎓</span> Tutorial</h3>
+                    <p>Learn the ScamSafe website with a friendly walkthrough.</p>
+                </header>
+                <button class="assistant-btn assistant-btn--full" data-start-tour type="button">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Start tutorial</span>
+                </button>
+                <ul class="assistant-feature-list">
+                    <li>
+                        <div class="assistant-feature-icon"><i class="fa-solid fa-compass"></i></div>
+                        <div>
+                            <h4>Navigating ScamSafe</h4>
+                            <p>We highlight each page and explain what you can do there.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="assistant-feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div>
+                            <h4>Staying Safe</h4>
+                            <p>Ask “Is this safe?” and we’ll show quick checks and red flags.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="assistant-feature-icon"><i class="fa-solid fa-person-chalkboard"></i></div>
+                        <div>
+                            <h4>Practise together</h4>
+                            <p>Use the tutorial to practise tasks such as reporting scams.</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="assistant-info-card">
+                <header>
+                    <h3><span>💡</span> Helpful tips</h3>
+                </header>
+                <ul class="assistant-tip-list">
+                    <li>
+                        <span class="assistant-tip-icon">🛡️</span>
+                        <p>Ask the assistant to double‑check websites, emails, or phone calls.</p>
+                    </li>
+                    <li>
+                        <span class="assistant-tip-icon">📍</span>
+                        <p>Say “guide me” whenever you want the site to highlight the right buttons.</p>
+                    </li>
+                    <li>
+                        <span class="assistant-tip-icon">💬</span>
+                        <p>Practice conversations and learn wording to report scams safely.</p>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="assistant-info-card">
+                <header>
+                    <h3><span>ℹ️</span> About this assistant</h3>
+                </header>
+                <p class="assistant-about">
+                    The AI Safety Assistant is designed to support ScamSafe visitors of all confidence levels.
+                    It offers gentle guidance, real-time safety tips, and step-by-step practice. Live AI integration
+                    will let you chat with the assistant directly very soon.
+                </p>
+            </section>
+        </aside>
+    </div>
+</main>
+
+<footer class="assistant-footer">
+    <p>Need a different tool? Jump to <a href="insights.html">Insights</a>, <a href="education.html">Education</a>, or <a href="scam-stories.html">Scam stories</a>.</p>
+</footer>
+
+<div class="assistant-toast" id="assistantToast" role="status" aria-live="polite"></div>
+
+<div class="assistant-tour" id="assistantTour" role="dialog" aria-modal="true" aria-labelledby="tourTitle" hidden>
+    <div class="assistant-tour__backdrop"></div>
+    <div class="assistant-tour__card">
+        <button class="assistant-tour__close" id="tourSkip" type="button" aria-label="Skip tutorial">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="assistant-tour__stage">
+            <div class="assistant-tour__step-circle" id="tourStepNumber">1</div>
+            <div>
+                <h2 class="assistant-tour__title" id="tourTitle">Welcome to the Safety Assistant</h2>
+                <p class="assistant-tour__description" id="tourDescription">
+                    This is your AI assistant that will help keep you safe online and teach you how to use the website.
+                </p>
+            </div>
+        </div>
+        <div class="assistant-tour__nav">
+            <div class="assistant-tour__dots" id="tourDots"></div>
+            <div class="assistant-tour__buttons">
+                <button class="assistant-btn assistant-btn--ghost" id="tourSkipSecondary" type="button">Skip tour</button>
+                <button class="assistant-btn" id="tourNext" type="button">
+                    <span>Next</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./js/config.js"></script>
+<script src="./js/utils.js"></script>
+<script src="./js/components/fontController.js"></script>
+<script src="./js/navbar-responsive.js"></script>
+<script src="./js/ai-assistant.js" defer></script>
+</body>
+</html>

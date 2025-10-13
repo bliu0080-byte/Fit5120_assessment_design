@@ -14,6 +14,7 @@ import storiesRouter from './src/routes/stories.js';
 import admin from './src/routes/admin.js';
 import gameRoutes from './src/routes/game.js';
 import quizRoutes from './src/routes/quiz.js';
+import assistantRouter from './src/routes/assistant.js';
 import fetch from "node-fetch";
 import dotenv from "dotenv";
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api', storiesRouter);
 app.use('/api/admin', admin);
 app.use('/api', gameRoutes);
 app.use('/api', quizRoutes);
+app.use('/api', assistantRouter);
 
 app.set('trust proxy', 1);
 
