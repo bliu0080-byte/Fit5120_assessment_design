@@ -1,6 +1,5 @@
 // js/news-ticker.js
 (function () {
-    // A) 优先复用你项目中已拉取的数据（AlertManager）
     function getFromAlertManager() {
         const am = window.alertManager || window.AlertManagerInstance;
         if (!am) return null;
@@ -12,7 +11,7 @@
         return null;
     }
 
-    // B) 兜底：直接走你后端 API（路径来自全局配置，与你原逻辑一致）
+    // B) Under the hood: go directly to your backend API (the path comes from the global configuration and is consistent with your original logic)
     async function fetchFromAPI() {
         const url = (window.SCAMSAFE_CONFIG?.api?.news) || '/api/news?limit=20';
         const res = await fetch(url + (url.includes('?') ? '&' : '?') + 't=' + Date.now(), {
@@ -22,7 +21,7 @@
         return await res.json();
     }
 
-    // C) 统一映射：把后端字段名 → 滚动卡片字段（保持可读性，不改后端）
+    // C) Unified mapping: put backend field names → roll card fields (keep readability, don't change backend)
     function normalizeItems(raw) {
         const arr = (raw?.items || raw?.data || raw) || [];
         return arr.map(x => ({
@@ -38,7 +37,7 @@
         })).filter(it => it.title);
     }
 
-    // D) 生成卡片
+    // D) Generating Cards
     function itemHTML(n){
         const imgHtml = n.image ? `
     <div class="sc-thumb-wrap" aria-hidden="true">
@@ -59,7 +58,7 @@
   `;
     }
 
-    // E) 渲染 + 无缝循环（复制一份列表）
+    // E) Rendering + seamless looping (copying a list)
     function render(listEl, items) {
         const html = [...items, ...items].map(itemHTML).join('');
         listEl.innerHTML = html;
@@ -92,7 +91,6 @@
         }
         render(listEl, items);
 
-        // 3) 每 60s 轻量刷新（删除/新增能及时体现在前端）
         setInterval(async () => {
             try {
                 const preferAM = normalizeItems(getFromAlertManager());
@@ -105,7 +103,7 @@
             }
         }, 60000);
 
-        // 4) 点击卡片打开详情（如果后端有 url）
+        // 4) Click on the card to open the details (if there is a url on the back end)
         document.getElementById('news-ticker').addEventListener('click', e=>{
             const card = e.target.closest('.sc-item');
             if(!card) return;
@@ -120,7 +118,6 @@
         });
     }
 
-    // DOM 就绪即跑；若你有 “alertsLoaded” 事件，这里也监听一次
     if (document.readyState !== 'loading') init();
     else document.addEventListener('DOMContentLoaded', init);
     document.addEventListener('alertsLoaded', init, {once: true});

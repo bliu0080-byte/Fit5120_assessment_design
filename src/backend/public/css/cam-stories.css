@@ -340,3 +340,147 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
 /* 你可以自定义标题等相对根字号的大小 */
 .ss-hero-title { font-size: 6rem; }
 .ss-hero-subtitle { font-size: 1.5rem; }
+
+/* === Controls layout: 3列 (Filter | Sort | Search更宽) === */
+.ss-controls{
+    display:grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap:16px;
+    align-items:center;
+    margin-block: 16px 8px;
+}
+@media (max-width: 900px){
+    .ss-controls{ grid-template-columns: 1fr; }
+}
+
+/* === 通用胶囊卡片 === */
+.ss-pill{
+    background: linear-gradient(180deg, #fafafa, #f6f8fc);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 28px;
+    box-shadow: 0 4px 16px rgba(17,24,39,.06);
+    padding: 10px 14px;
+}
+
+/* === Filter / Sort 外观（图标 + label + select） === */
+.ss-control{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-height: 48px;
+}
+.ss-control__icon{
+    color:#475569;
+    font-size:18px;
+}
+.ss-control__label{
+    color:#334155;
+    font-weight:700;
+}
+
+/* 自定义下拉：去系统样式，右侧有chevron */
+.ss-select{
+    position:relative;
+    flex:1 1 auto;
+}
+.ss-select select{
+    width:100%;
+    height:42px;
+    padding:0 36px 0 14px;
+    border:1px solid var(--border, #e5e7eb);
+    border-radius:12px;
+    background:#fff;
+    color:#111827;
+    font-size:14px;
+    outline:none;
+    appearance:none;            /* Safari/Chrome */
+    -moz-appearance:none;       /* Firefox */
+    -webkit-appearance:none;
+}
+.ss-select__chevron{
+    position:absolute;
+    right:12px; top:50%;
+    transform:translateY(-50%);
+    color:#9ca3af;
+    pointer-events:none;
+}
+
+/* === Search 组合：输入 + 蓝色按钮 === */
+.ss-pill.ss-search{ padding: 10px; }
+.ss-search__group{
+    display:flex; width:100%; align-items:center; gap:0;
+}
+.ss-search__input{
+    flex:1 1 auto;
+    height:42px;
+    padding:0 14px;
+    border:1px solid var(--border, #e5e7eb);
+    border-right:none;
+    border-top-left-radius:12px; border-bottom-left-radius:12px;
+    border-top-right-radius:0;   border-bottom-right-radius:0;
+    background:#f9fafb; color:#111827; font-size:14px; outline:none;
+}
+.ss-search__input::placeholder{ color:#9ca3af; }
+
+.ss-search__btn{
+    flex:0 0 auto;
+    height:42px; padding:0 16px;
+    border:1px solid #2563eb; border-left:none;
+    border-top-right-radius:12px; border-bottom-right-radius:12px;
+    background:#2563eb; color:#fff; font-weight:600;
+    display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+    box-shadow:0 6px 14px rgba(37,99,235,.25);
+    transition: background .15s ease, transform .05s ease;
+}
+.ss-search__btn:hover{ background:#1e40af; }
+.ss-search__btn:active{ transform: translateY(1px); }
+.ss-search__btn i{ font-size:14px; line-height:1; }
+/* ===== Pagination (改进版) ===== */
+.ss-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 24px 0 32px;
+}
+
+.ss-pagination .pg-btn {
+    min-width: 44px;
+    height: 40px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 9999px;
+    background: #f3f4f6;
+    color: #374151;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.ss-pagination .pg-btn:hover {
+    background: #e5e7eb;
+    transform: translateY(-1px);
+}
+
+.ss-pagination .pg-btn.active {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.35);
+}
+
+.ss-pagination .pg-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f9fafb;
+    box-shadow: none;
+}
+
+/* 省略号按钮样式 */
+.ss-pagination .pg-btn[disabled][data-ellipsis] {
+    background: transparent;
+    box-shadow: none;
+    cursor: default;
+    font-weight: bold;
+}

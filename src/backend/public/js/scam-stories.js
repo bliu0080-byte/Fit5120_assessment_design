@@ -8,6 +8,13 @@
     // ================= State =================
     let stories = [];
     let currentDetailId = null; // always a string
+    // state
+    let currentPage = 1;
+    let totalPages = 1;
+    let currentSearch = '';
+
+    // API
+
 
     // Normalize any id to string for stable comparisons
     const toId = (v) => String(v || '');
@@ -71,7 +78,6 @@
         'no_spaces',
         'repetitive_pattern',
         'low_diversity',
-        'unnatural_language',
         'links_detected',
         'phone_detected'
     ];
@@ -95,12 +101,63 @@
     }
 
     // ================= API =================
-    async function apiGetStories() {
-        const res = await fetch(`${API_BASE}/stories`);
+    async function apiGetStories(page=1, limit=9, search='') {
+        const params = new URLSearchParams({ page, limit });
+        if (search) params.append('search', search);
+
+        const res = await fetch(`${API_BASE}/stories?${params.toString()}`);
         if (!res.ok) throw new Error(`GET /stories ${res.status}`);
-        const data = await res.json();
-        return Array.isArray(data) ? data : (data.items || []);
+        return await res.json(); // {page,limit,total,totalPages,items}
     }
+    async function loadStories(page=1, search='') {
+        try {
+            const data = await apiGetStories(page, 9, search);
+            stories = data.items || [];
+            currentPage = data.page;
+            totalPages = data.totalPages;
+            renderCards();
+            renderPagination();
+        } catch (e) {
+            console.error('load stories failed:', e);
+            stories = [];
+            renderCards();
+        }
+    }
+    function renderPagination() {
+        const pager = document.getElementById('pagination');
+        if (!pager) return;
+
+        if (!totalPages || totalPages <= 1) {
+            pager.innerHTML = '';
+            return;
+        }
+
+        let html = '';
+        for (let i = 1; i <= totalPages; i++) {
+            html += `<button type="button"
+                     class="pg-btn ${i===currentPage ? 'active' : ''}"
+                     data-page="${i}">${i}</button>`;
+        }
+        pager.innerHTML = html;
+
+
+        if (!pager.__bound) {
+            pager.addEventListener('click', (e) => {
+                const btn = e.target.closest('.pg-btn[data-page]');
+                if (!btn) return;
+                const page = parseInt(btn.getAttribute('data-page'), 10);
+                if (!Number.isFinite(page) || page === currentPage) return;
+                loadStories(page, currentSearch);
+            });
+            pager.__bound = true;
+        }
+    }
+    document.getElementById('searchBtn')?.addEventListener('click', ()=>{
+        const val = document.getElementById('searchBox').value.trim();
+        currentSearch = val;
+        loadStories(1, currentSearch);
+    });
+
     async function apiCreateStory(payload) {
         const res = await fetch(`${API_BASE}/stories`, {
             method: 'POST',
@@ -516,10 +573,9 @@
             // Backend may return only { id, moderationStatus, moderation }
             // We DO NOT push into UI from this response to avoid "blank card".
             if (saved?.moderationStatus === 'approved') {
-                // Close modal first to avoid stacking alerts behind the modal
                 closeModal();
-                // Re-fetch approved list from backend so we always render canonical data
-                stories = await apiGetStories();
+                const data = await apiGetStories();
+                stories = data.items || [];
                 renderCards();
                 alert('Thanks for sharing your story!');
             } else if (saved?.moderationStatus === 'pending') {
@@ -541,9 +597,18 @@
 
     // ================= Init =================
     (async function init(){
-        try { stories = await apiGetStories(); }
-        catch (e) { console.error('load stories failed:', e); stories = []; }
-        renderCards();
+        try {
+            const data = await apiGetStories(1);
+            stories = data.items || [];
+            currentPage = data.page;
+            totalPages = data.totalPages;
+            renderCards();
+            renderPagination();
+        } catch (e) {
+            console.error('load stories failed:', e);
+            stories = [];
+            renderCards();
+        }
     })();
 
 

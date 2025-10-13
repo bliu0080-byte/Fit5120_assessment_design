@@ -28,16 +28,21 @@
 <!-- Navigation -->
 <nav class="navbar" id="navbar">
     <div class="nav-container">
-        <a href="index.html#home" class="logo">
+        <a href="home.html#home" class="logo">
             <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img" />
         </a>
         <div class="nav-controls">
             <ul class="nav-links">
-                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="home.html#home" class="nav-link">Home</a></li>
                 <li><a href="insights.html" class="nav-link">Insights</a></li>
                 <li><a href="education.html" class="nav-link">Education</a></li>
-                <li><a href="scam-stories.html" class="nav-link">Scam stories</a></li>
-                <li><a href="game-inbox.html" class="nav-link">Play &amp; Learn</a></li>
+                <li><a href="scam-stories.html" class="nav-link">Community</a></li>
+                <li><a href="game-inbox.html" class="nav-link">Interactive</a></li>
+                <li><a href="ScamShield_AI.html" class="nav-link">ScamShield AI</a> </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle">More ▾</a>
+                    <ul class="dropdown-menu"></ul>
+                </li>
             </ul>
             <div class="font-controls">
                 <button class="font-btn" data-size="small" type="button" title="Smaller"><i class="fa-solid fa-minus"></i></button>
@@ -115,7 +120,7 @@
 <script src="./js/config.js"></script>
 <script src="./js/utils.js"></script>
 <script src="./js/components/fontController.js?v=20250905"></script>
-<script src="./js/quiz-data.js"></script>
 <script src="./js/quiz-app.js"></script>
+<script src="./js/navbar-responsive.js"></script>
 </body>
 </html>

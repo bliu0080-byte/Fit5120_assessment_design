@@ -16,16 +16,21 @@
 <!-- Navigation -->
 <nav class="navbar" id="navbar">
     <div class="nav-container">
-        <a href="index.html#home" class="logo">
+        <a href="home.html#home" class="logo">
             <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img" />
         </a>
         <div class="nav-controls">
             <ul class="nav-links">
-                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="home.html#home" class="nav-link">Home</a></li>
                 <li><a href="insights.html" class="nav-link">Insights</a></li>
                 <li><a href="education.html" class="nav-link">Education</a></li>
-                <li><a href="scam-stories.html" class="nav-link">Scam stories</a></li>
-                <li><a href="game-inbox.html" class="nav-link">Play &amp; Learn</a></li>
+                <li><a href="scam-stories.html" class="nav-link">Community</a></li>
+                <li><a href="game-inbox.html" class="nav-link">Interactive</a></li>
+                <li><a href="ScamShield_AI.html" class="nav-link">ScamShield AI</a> </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle">More ▾</a>
+                    <ul class="dropdown-menu"></ul>
+                </li>
             </ul>
             <div class="font-controls">
                 <button class="font-btn" data-size="small" type="button" title="Smaller"><i class="fa-solid fa-minus"></i></button>
@@ -47,30 +52,54 @@
         </div>
     </section>
 
-    <section class="ss-controls" aria-label="Filters">
-        <div class="ss-pill">
-            <label for="filterType">Filter: </label>
-            <select id="filterType" aria-label="Filter by type">
-                <option value="all">By Type (All)</option>
-                <option value="sms">SMS</option>
-                <option value="phone">Phone</option>
-                <option value="web">Web Phishing</option>
-                <option value="email">Email</option>
-                <option value="other">Other</option>
-            </select>
+    <!-- Filter / Sort / Search controls -->
+    <section class="ss-controls" aria-label="Controls">
+        <!-- Filter -->
+        <div class="ss-pill ss-control">
+            <i class="fa-solid fa-filter ss-control__icon" aria-hidden="true"></i>
+            <label for="filterType" class="ss-control__label">Filter:</label>
+            <div class="ss-select">
+                <select id="filterType" aria-label="Filter by type">
+                    <option value="all">By Type (All)</option>
+                    <option value="sms">SMS</option>
+                    <option value="phone">Phone</option>
+                    <option value="web">Web Phishing</option>
+                    <option value="email">Email</option>
+                    <option value="other">Other</option>
+                </select>
+                <i class="fa-solid fa-angle-down ss-select__chevron" aria-hidden="true"></i>
+            </div>
         </div>
-        <div class="ss-pill">
-            <label for="sortBy">Sort: </label>
-            <select id="sortBy" aria-label="Sort stories">
-                <option value="newest">Newest</option>
-                <option value="popular">Popular</option>
-            </select>
+
+        <!-- Sort -->
+        <div class="ss-pill ss-control">
+            <i class="fa-solid fa-up-down ss-control__icon" aria-hidden="true"></i>
+            <label for="sortBy" class="ss-control__label">Sort:</label>
+            <div class="ss-select">
+                <select id="sortBy" aria-label="Sort stories">
+                    <option value="newest">Newest</option>
+                    <option value="popular">Popular</option>
+                </select>
+                <i class="fa-solid fa-angle-down ss-select__chevron" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="ss-pill ss-search">
+            <div class="ss-search__group">
+                <input type="text" id="searchBox" class="ss-search__input" placeholder="Search stories..." />
+                <button id="searchBtn" class="ss-search__btn" type="button">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <span>Search</span>
+                </button>
+            </div>
         </div>
     </section>
 
     <section class="ss-grid" id="storiesGrid" aria-live="polite">
         <!-- JS Render Cards -->
     </section>
+    <section id="pagination" class="ss-pagination" role="navigation" aria-label="Pagination"></section>
 
     <section class="ss-banner" role="note">
         <strong>Silence helps scams. Sharing stops them.</strong>
@@ -186,7 +215,27 @@
         </article>
     </div>
 </div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="#accessibility">Accessibility</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#sitemap">Site Map</a>
+        </div>
+        <div class="footer-disclaimer">
+            <p>This website is maintained by ScamSafe as a public welfare initiative. Information provided is for educational purposes only. We are dedicated to preventing cybersecurity fraud through community awareness and education.</p>
+        </div>
+    </div>
+</footer>
+
 <script src="./js/config.js"></script>
 <script src="./js/utils.js"></script>
 <script src="./js/components/fontController.js?v=20250905"></script>
 <script src="./js/scam-stories.js" defer></script>
+<script src="./js/navbar-responsive.js"></script>
+</body>
+</html>

@@ -1,3 +1,9 @@
+const API_BASE =
+    (window.SCAMSAFE_CONFIG?.apiBackend?.baseUrl) ||
+    ((location.hostname.includes('localhost') || location.hostname === '127.0.0.1')
+        ? 'http://localhost:3000/api'
+        : 'https://scamsafe.onrender.com/api');
+
 class EmailSortingGame {
     constructor() {
         this.gameData = null;
@@ -19,7 +25,7 @@ class EmailSortingGame {
         });
     }
 
-    // ✅ 随机抽题逻辑保留
+    // random picking email logic
     selectRandomEmails(allEmails, scamCount = 6, normalCount = 4) {
         const scamEmails = allEmails.filter(e => e.type === "scam");
         const normalEmails = allEmails.filter(e => e.type !== "scam");
@@ -32,14 +38,14 @@ class EmailSortingGame {
 
     async loadGameData() {
         try {
-            const response = await fetch('js/games/game-data.json');
+            const response = await fetch(`${API_BASE}/game-data`);
             this.gameData = await response.json();
             this.emails = this.selectRandomEmails(this.gameData.emails, 6, 4);
             this.originalEmails = [...this.gameData.emails];
             this.timeLeft = this.gameData.gameSettings.initialTime;
         } catch (error) {
             console.error('Error loading game data:', error);
-            // fallback 数据
+            // default mail data
             this.gameData = {
                 emails: [
                     { id: '1', sender: 'Council', subject: 'Reminder of bin collection', icon: '🏛️', type: "normal" },
@@ -63,14 +69,16 @@ class EmailSortingGame {
         this.renderEmails();
         this.renderGameTips();
         this.updateStats();
-        this.updateHearts(); // ✅ 初始渲染心心
+        this.updateHearts(); 
         this.setupEventListeners();
     }
 
     initializeDOM() {
         this.elements = {
             toggleGame: document.getElementById('toggleGame'),
+            toggleMusic: document.getElementById('toggleMusic'),
             resetGame: document.getElementById('resetGame'),
+            hardMode: document.getElementById('hardMode'),
             playIcon: document.getElementById('playIcon'),
             pauseIcon: document.getElementById('pauseIcon'),
             gameButtonText: document.getElementById('gameButtonText'),
@@ -98,6 +106,7 @@ class EmailSortingGame {
             tipsList: document.getElementById('tipsList'),
             smallHeartsWrapper: document.querySelector('.small-hearts-wrapper')
         };
+        this.bgm = document.getElementById('bgm');
     }
 
     setupEventListeners() {
@@ -105,10 +114,66 @@ class EmailSortingGame {
         this.elements.resetGame.addEventListener('click', () => this.resetGame());
         this.elements.playAgainBtn.addEventListener('click', () => this.resetGame());
 
+        // Hard Mode toggle button
+        this.elements.hardMode.addEventListener('click', () => {
+            const isHardMode = document.body.classList.toggle('hard-mode');
+            const emojiSpan = this.elements.hardMode.querySelector('.hard-emoji');
+
+            if (isHardMode) {
+                // Entering Hard Mode
+                this.startHardMode();
+                if (emojiSpan) emojiSpan.textContent = '🙂';
+
+                // Change button text (keep only one)
+                this.elements.hardMode.lastChild.textContent = ' Normal';
+            } else {
+                // Return to Normal mode
+                this.maxLives = 3;
+                this.lives = this.maxLives;
+                this.emails = this.selectRandomEmails(this.gameData.emails, 6, 4);
+                this.score = 0;
+                this.correct = 0;
+                this.total = 0;
+                this.streak = 0;
+                this.timeLeft = this.gameData.gameSettings.initialTime;
+                this.gameActive = false;
+
+                this.stopTimer();
+
+                this.elements.playIcon.classList.remove('hidden');
+                this.elements.pauseIcon.classList.add('hidden');
+                this.elements.gameButtonText.textContent = 'Start Game';
+                this.elements.gameStatus.classList.add('hidden');
+                this.elements.gameOverModal.classList.add('hidden');
+
+                this.renderEmails();
+                this.updateHearts();
+                this.updateStats();
+
+                // Recovery Harder
+                if (emojiSpan) emojiSpan.textContent = '😈';
+                this.elements.hardMode.lastChild.textContent = ' Harder';
+            }
+        });
+
+        // Drag & drop for trash bin
         this.elements.trashBin.addEventListener('dragover', (e) => this.handleDragOver(e));
         this.elements.trashBin.addEventListener('dragleave', () => this.handleDragLeave());
         this.elements.trashBin.addEventListener('drop', (e) => this.handleDrop(e));
+
+        // Music toggle
+        this.elements.toggleMusic.addEventListener('click', () => {
+            if (this.bgm.paused) {
+                this.bgm.play();
+                this.elements.toggleMusic.textContent = "🎵 Music On";
+            } else {
+                this.bgm.pause();
+                this.elements.toggleMusic.textContent = "🎵 Music Off";
+            }
+        });
     }
+
+
 
     renderGameTips() {
         if (this.elements.tipsList && this.gameData.gameTips) {
@@ -355,6 +420,29 @@ class EmailSortingGame {
         this.elements.gameOverModal.classList.remove('hidden');
     }
 
+    startHardMode() {
+    this.maxLives = 2;
+    this.lives = this.maxLives;
+    this.emails = this.selectRandomEmails(this.gameData.emails, 8, 2);
+    this.score = 0;
+    this.correct = 0;
+    this.total = 0;
+    this.streak = 0;
+    this.timeLeft = this.gameData.gameSettings.initialTime;
+    this.gameActive = false;
+
+    this.stopTimer();
+
+    this.elements.playIcon.classList.remove('hidden');
+    this.elements.pauseIcon.classList.add('hidden');
+    this.elements.gameButtonText.textContent = 'Start Game';
+    this.elements.gameStatus.classList.add('hidden');
+    this.elements.gameOverModal.classList.add('hidden');
+
+    this.renderEmails();
+    this.updateHearts();
+    this.updateStats();
+}
     resetGame() {
         this.lives = this.maxLives;
         this.emails = this.selectRandomEmails(this.gameData.emails, 6, 4);
@@ -379,7 +467,10 @@ class EmailSortingGame {
     }
 }
 
-// 初始化
+// initial
 document.addEventListener("DOMContentLoaded", () => {
     new EmailSortingGame();
 });
+
+
+

@@ -1,4 +1,21 @@
-// Quiz Application Logic
+const API_BASE =
+    (window.SCAMSAFE_CONFIG?.apiBackend?.baseUrl) ||
+    ((location.hostname.includes('localhost') || location.hostname === '127.0.0.1')
+        ? 'http://localhost:3000/api'
+        : 'https://scamsafe.onrender.com/api');
+
+let quizData = {};
+
+async function loadQuizData() {
+    try {
+        const res = await fetch(`${API_BASE}/quiz-data`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        quizData = await res.json();
+        console.log("✅ Quiz data loaded:", quizData);
+    } catch (err) {
+        console.error("❌ Failed to load quiz data:", err);
+    }
+}
 
 // Quiz State Variables
 let currentModule = null;
@@ -7,43 +24,10 @@ let score = 0;
 let answers = [];
 let hasAnswered = false;
 
-// Module Information
-const moduleInfo = [
-    {
-        id: 'phone',
-        icon: '📱',
-        title: 'Phone Scams',
-        description: 'Learn to identify fake calls from ATO, banks, tech support, and family emergencies',
-        questions: '10 Questions',
-        duration: '3 min',        // 🆕 时长
-        participants: 500         // 🆕 初始人数
-
-
-    },
-    {
-        id: 'web',
-        icon: '🌐',
-        title: 'Web Phishing',
-        description: 'Spot fake websites, malicious links, and fraudulent online shops',
-        questions: '10 Questions',
-        duration: '4 min',        // 🆕 时长
-        participants: 400         // 🆕 初始人数
-
-    },
-    {
-        id: 'email',
-        icon: '✉️',
-        title: 'Email & Message Scams',
-        description: 'Recognize phishing emails, fake prizes, and suspicious attachments',
-        questions: 'Start answering',
-        duration: '5 min',        // 🆕 时长
-        participants: 300         // 🆕 初始人数
-
-    }
-];
 
 // Initialize the app when DOM is ready
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
+    await loadQuizData();
     initializeModules();
     setupEventListeners();
 });
@@ -52,65 +36,57 @@ document.addEventListener('DOMContentLoaded', function () {
 function initializeModules() {
     const moduleSelection = document.getElementById("moduleSelection");
     const moduleImages = {
-      phone: "./assets/images/phone.png",
-      web: "./assets/images/web.png",
-      email: "./assets/images/email.png",
+        phone: "./assets/images/phone.png",
+        web: "./assets/images/web.png",
+        email: "./assets/images/email.png",
     };
-  
-    moduleSelection.innerHTML = moduleInfo
-      .map(
-        (m) => `
-          <div class="module-card" data-module="${m.id}" role="button" tabindex="0" aria-label="${m.title}">
-            <div class="mc-topbar"></div>
-            <div class="mc-grid">
-              
-              <div class="mc-body">
-                <div class="mc-title">${m.title}</div>
-                <div class="mc-desc">${m.description}</div>
-              </div>
-    
-              <div class="mc-media">
-                ${
-                  moduleImages[m.id]
-                    ? `<img src="${moduleImages[m.id]}" alt="${m.title} illustration" class="mc-img" />`
-                    : `<div class="mc-emoji" aria-hidden="true">${m.icon || "🛡️"}</div>`
-                }
-              </div>
-            
-              <div class="mc-footer">
-                <button class="mc-cta" data-module="${m.id}" type="button">🕵️‍♂️ Try Now!</button>
-                <div class="module-meta">
-                  <span class="meta-item">
-                    <i class="fa-solid fa-clock"></i> ${m.duration}
-                  </span>
-                  <span class="meta-item">
-                    <i class="fa-solid fa-users"></i> 
-                    <span class="participant-count" id="count-${m.id}">${m.participants}</span> users
-                  </span>
-                </div>
-              </div>
-    
+
+    // Generating Module Cards from quizData
+    const modules = Object.entries(quizData);
+
+    moduleSelection.innerHTML = modules
+        .map(([id, m]) => `
+      <div class="module-card" data-module="${id}" role="button" tabindex="0" aria-label="${m.title}">
+        <div class="mc-topbar"></div>
+        <div class="mc-grid">
+          <div class="mc-body">
+            <div class="mc-title">${m.title}</div>
+            <div class="mc-desc">${m.stats?.description || ''}</div>
+          </div>
+          <div class="mc-media">
+            ${
+            moduleImages[id]
+                ? `<img src="${moduleImages[id]}" alt="${m.title} illustration" class="mc-img" />`
+                : `<div class="mc-emoji" aria-hidden="true">${m.icon || "🛡️"}</div>`
+        }
+          </div>
+          <div class="mc-footer">
+            <button class="mc-cta" data-module="${id}" type="button">🕵️‍♂️ Try Now!</button>
+            <div class="module-meta">
+              <span class="meta-item">
+                <i class="fa-solid fa-clock"></i> ${m.stats?.duration || '—'}
+              </span>
+              <span class="meta-item">
+                <i class="fa-solid fa-users"></i> 
+                <span class="participant-count" id="count-${id}">${m.stats?.participants ?? 0}</span> users
+              </span>
             </div>
           </div>
-        `
-      )
-      .join("");
-  
-    document.querySelectorAll(".module-card").forEach((card) => {
-      const id = card.getAttribute("data-module");
-      card.addEventListener("click", () => startModule(id));
-      card.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          startModule(id);
-        }
-      });
-      card.querySelector(".mc-cta")?.addEventListener("click", (e) => {
-        e.stopPropagation();
-        startModule(id);
-      });
+        </div>
+      </div>
+    `)
+        .join("");
+
+    // bind an event
+    document.querySelectorAll(".module-card").forEach(card => {
+        const id = card.getAttribute("data-module");
+        card.addEventListener("click", () => startModule(id));
+        card.querySelector(".mc-cta")?.addEventListener("click", e => {
+            e.stopPropagation();
+            startModule(id);
+        });
     });
-  }
+}
   
   
 
@@ -305,37 +281,38 @@ function nextQuestion() {
 // Show quiz results
 function showResults() {
     const module = quizData[currentModule];
-    const percentage = Math.round((score / module.questions.length) * 100);
+    const totalQuestions = module.questions.length;
+    const percentage = Math.round((score / totalQuestions) * 100);
 
-    // Hide question elements
+    // Hide the topic area
     document.getElementById('questionContainer').style.display = 'none';
     document.getElementById('feedbackContainer').style.display = 'none';
     document.getElementById('nextButton').style.display = 'none';
     document.getElementById('resultsContainer').style.display = 'block';
 
-    // Display score
-    document.getElementById('scoreText').textContent = `${score}/${module.questions.length}`;
+    // Show Score
+    document.getElementById('scoreText').textContent = `${score}/${totalQuestions}`;
 
-    // Determine feedback message and takeaways based on performance
+    // ✅ Define feedback variables (must be inside this function)
     let message = '';
     let takeaways = [];
 
     if (percentage >= 80) {
-        message = "Excellent work! You have a strong understanding of how to identify and avoid scams. Keep staying vigilant!";
+        message = "🌟 Excellent work! You have a strong understanding of how to identify and avoid scams. Keep staying vigilant!";
         takeaways = [
             "✅ You can identify common scam tactics",
             "✅ You know how to verify suspicious contacts",
             "✅ You understand safe online practices"
         ];
     } else if (percentage >= 60) {
-        message = "Good effort! You understand many scam tactics, but there's room to improve your awareness. Review the areas where you were unsure.";
+        message = "👍 Good effort! You understand many scam tactics, but there's room to improve your awareness.";
         takeaways = [
             "⚠️ Review how scammers use urgency and fear",
             "⚠️ Remember to always verify through official channels",
             "✅ You're developing good scam awareness"
         ];
     } else {
-        message = "You've made a great start! Scam awareness takes practice. Review the explanations and try again to build your confidence.";
+        message = "💡 You've made a great start! Scam awareness takes practice.";
         takeaways = [
             "📚 Never trust caller ID - it can be faked",
             "📚 Government agencies never demand gift cards",
@@ -343,54 +320,54 @@ function showResults() {
         ];
     }
 
-    // Update results display
-    document.getElementById('resultsMessage').textContent = message;
+    // Render results text
+    const resultsMessage = document.getElementById('resultsMessage');
+    const breakdownContent = document.getElementById('breakdownContent');
+    if (resultsMessage) resultsMessage.textContent = message;
 
-    // Build takeaways HTML
-    let breakdownHTML = '';
-    takeaways.forEach(takeaway => {
-        const icon = takeaway.substring(0, 2);
-        const text = takeaway.substring(2).trim();
-        breakdownHTML += `
-            <div class="breakdown-item">
-                <div class="breakdown-icon">${icon}</div>
-                <div>${text}</div>
-            </div>
-        `;
-    });
-    document.getElementById('breakdownContent').innerHTML = breakdownHTML;
+    if (breakdownContent) {
+        breakdownContent.innerHTML = '';
+        takeaways.forEach(t => {
+            const div = document.createElement('div');
+            div.className = 'takeaway-item';
+            div.textContent = t;
+            breakdownContent.appendChild(div);
+        });
+    }
 
-    // Scroll to top of results
-    document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-    // ⭐ 新增：完成一次 quiz 后，参与人数 +1
+    // Update participant count
     const counter = document.getElementById(`count-${currentModule}`);
     if (counter) {
-        let current = parseInt(counter.textContent.replace(/,/g, ""), 10);
-        current++;
-        counter.textContent = current.toLocaleString();
+        let current = parseInt(counter.textContent.replace(/,/g, ''), 10);
+        counter.textContent = (current + 1).toLocaleString();
     }
-}
 
-    // Update results display
-    document.getElementById('resultsMessage').textContent = message;
+    // Sync backend
+    fetch(`${API_BASE}/quiz-complete/${currentModule}`, { method: 'POST' })
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            console.log(`✅ Quiz completion recorded for module: ${currentModule}`);
+        })
+        .catch(err => console.warn('⚠️ Failed to update participant count:', err));
 
-    // Build takeaways HTML
-    let breakdownHTML = '';
-    takeaways.forEach(takeaway => {
-        const icon = takeaway.substring(0, 2);
-        const text = takeaway.substring(2).trim();
-        breakdownHTML += `
-            <div class="breakdown-item">
-                <div class="breakdown-icon">${icon}</div>
-                <div>${text}</div>
-            </div>
-        `;
-    });
-    document.getElementById('breakdownContent').innerHTML = breakdownHTML;
+    // Fade-in animation
+    const resultsContainer = document.getElementById('resultsContainer');
+    if (resultsContainer) {
+        resultsContainer.style.opacity = 0;
+        setTimeout(() => {
+            resultsContainer.style.transition = 'opacity 0.8s ease';
+            resultsContainer.style.opacity = 1;
+        }, 100);
+    }
 
-    // Scroll to top of results
-    document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // ✅ Accessibility live region
+    const ariaLive = document.getElementById('ariaLive');
+    if (ariaLive) {
+        ariaLive.textContent = `You scored ${score} out of ${totalQuestions}. ${message}`;
+    }
+} // ✅ Make sure this closing brace ends the function exactly here
+
+
 
 
 // Return to module selection
@@ -448,13 +425,9 @@ function getProgressHistory() {
     }
     return [];
 }
-// 关闭按钮
-document.getElementById('closeQuizModal').onclick = function () {
-    document.getElementById('quizModal').style.display = 'none';
-    backToModules();
-};
 
-// 点击背景关闭
+
+// Click on the background to close it
 window.onclick = function (event) {
     const modal = document.getElementById('quizModal');
     if (event.target === modal) {
