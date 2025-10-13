@@ -7,13 +7,16 @@ const router = express.Router();
 
 
 // routes/stories.js
+// GET /stories?sort=popular&page=1&limit=9&search=...
 router.get('/stories', async (req, res) => {
     try {
-        const page  = parseInt(req.query.page)  || 1;
+        const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 9;
         const offset = (page - 1) * limit;
         const search = (req.query.search || '').trim();
+        const sort = (req.query.sort || 'recent').toLowerCase(); // 'recent' or 'popular'
 
+        // --- 搜索条件 ---
         let whereClause = `WHERE s.moderation_status = 'approved'`;
         const params = [];
 
@@ -22,8 +25,24 @@ router.get('/stories', async (req, res) => {
             whereClause += ` AND (s.text ILIKE $${params.length} OR s.type ILIKE $${params.length})`;
         }
 
+        // --- 排序逻辑 ---
+        // 🔹 按创建时间或点赞数全局排序
+        let orderClause = 'ORDER BY s.created_at DESC';
+        if (sort === 'popular') {
+            orderClause = `
+        ORDER BY (COALESCE(s.likes, 0) * 2 + COALESCE(c.cnt, 0)) DESC,
+                 s.created_at DESC
+      `;
+        }
+
+        // --- 主查询 ---
         const query = `
-      SELECT s.id, s.text, s.type, s.state, s.likes, s.created_at AS "createdAt",
+      SELECT s.id,
+             s.text,
+             s.type,
+             s.state,
+             COALESCE(s.likes, 0) AS likes,
+             s.created_at AS "createdAt",
              COALESCE(c.cnt, 0) AS "commentCount"
       FROM stories s
       LEFT JOIN (
@@ -32,25 +51,30 @@ router.get('/stories', async (req, res) => {
         GROUP BY story_id
       ) c ON s.id = c.story_id
       ${whereClause}
-      ORDER BY s.created_at DESC
-      LIMIT $${params.length+1} OFFSET $${params.length+2};
+      ${orderClause}
+      LIMIT $${params.length + 1} OFFSET $${params.length + 2};
     `;
+
         params.push(limit, offset);
 
         const { rows } = await pool.query(query, params);
 
-        // Count total
+        // --- 统计总数 ---
         const countQuery = `SELECT COUNT(*)::int AS total FROM stories s ${whereClause}`;
-        const { rows: countRows } = await pool.query(countQuery, params.slice(0, params.length-2));
+        const { rows: countRows } = await pool.query(countQuery, params.slice(0, params.length - 2));
         const total = countRows[0]?.total || 0;
 
+        // --- 返回结果 ---
         res.json({
-            page, limit, total,
-            totalPages: Math.ceil(total/limit),
-            items: rows
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit),
+            sort,
+            items: rows,
         });
     } catch (err) {
-        console.error(err);
+        console.error('GET /stories error:', err);
         res.status(500).json({ error: 'DB query failed' });
     }
 });

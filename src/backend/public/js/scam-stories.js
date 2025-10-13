@@ -95,8 +95,8 @@
     }
 
     // ================= API =================
-    async function apiGetStories(page=1, limit=9, search='') {
-        const params = new URLSearchParams({ page, limit });
+    async function apiGetStories(page=1, limit=9, search='', sort='recent') {
+        const params = new URLSearchParams({ page, limit, sort });
         if (search) params.append('search', search);
 
         const res = await fetch(`${API_BASE}/stories?${params.toString()}`);
@@ -105,7 +105,8 @@
     }
     async function loadStories(page=1, search='') {
         try {
-            const data = await apiGetStories(page, 9, search);
+            const sort = sortEl?.value === 'popular' ? 'popular' : 'recent';
+            const data = await apiGetStories(page, 9, search, sort);
             stories = data.items || [];
             currentPage = data.page;
             totalPages = data.totalPages;
@@ -200,19 +201,11 @@
     function renderCards() {
         if (!grid) return;
         const type = filterEl?.value || 'all';
-        const sort = sortEl?.value || 'newest';
 
         let list = [...stories];
         if (type !== 'all') list = list.filter(s => s.type === type);
 
-        if (sort === 'newest') {
-            list.sort((a,b) =>
-                new Date(b.createdAt||b.created_at||b.timestamp) -
-                new Date(a.createdAt||a.created_at||a.timestamp)
-            );
-        } else if (sort === 'popular') {
-            list.sort((a,b)=> (b.likes||0) - (a.likes||0));
-        }
+
 
         const typeImages = {
             sms: './assets/images/sms-scam.png',
@@ -522,7 +515,7 @@
 
     // ================= Filters =================
     filterEl?.addEventListener('change', renderCards);
-    sortEl  ?.addEventListener('change', renderCards);
+    sortEl  ?.addEventListener('change', () => loadStories(1, currentSearch));
 
     // ================= Share modal =================
     function openModal() { if (!modal) return; modal.setAttribute('aria-hidden','false'); textEl?.focus(); }
@@ -568,9 +561,11 @@
             // We DO NOT push into UI from this response to avoid "blank card".
             if (saved?.moderationStatus === 'approved') {
                 closeModal();
-                const data = await apiGetStories();
+                const sort = sortEl?.value === 'popular' ? 'popular' : 'recent';
+                const data = await apiGetStories(1, 9, currentSearch, sort);
                 stories = data.items || [];
                 renderCards();
+                renderPagination();
                 alert('Thanks for sharing your story!');
             } else if (saved?.moderationStatus === 'pending') {
                 closeModal();
