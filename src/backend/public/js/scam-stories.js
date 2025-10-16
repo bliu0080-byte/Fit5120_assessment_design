@@ -225,7 +225,6 @@
             <div class="ss-tag">[${(s.type||'other').toUpperCase()}] ${s.state ? ' · ' + s.state : ''}</div>
             <p class="ss-text">${escapeHtml(s.text || '')}</p>
             <div class="ss-card-actions">
-              <button class="ss-readmore" data-readmore type="button">Detail Info</button>
               <button class="ss-like ${liked ? 'liked' : ''}" data-like type="button" aria-label="Like this story">
                 ${likeIcon(liked)} <span class="count">${s.likes ?? 0}</span>
               </button>

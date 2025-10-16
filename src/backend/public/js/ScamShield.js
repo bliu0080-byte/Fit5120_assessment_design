@@ -106,15 +106,15 @@ async function handleCheck() {
 
         // === 判断风险等级 ===
         let riskLevel, tip, color;
-        if (finalScore >= 0.9) {
+        if (finalScore >= 0.7) {
             riskLevel = '🚨 High Risk';
             color = 'red';
             tip = 'Highly likely phishing. Do NOT click any links or provide information.';
-        } else if (finalScore >= 0.6) {
+        } else if (finalScore >= 0.4) {
             riskLevel = '⚠️ Suspicious';
             color = 'orange';
             tip = 'Message appears risky. Verify sender identity through official channels.';
-        } else if (finalScore >= 0.4) {
+        } else if (finalScore >= 0.2) {
             riskLevel = '⚖️ Uncertain';
             color = 'gold';
             tip = 'Some warning signals found. Review carefully before taking action.';
