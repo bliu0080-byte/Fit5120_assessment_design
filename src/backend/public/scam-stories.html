@@ -102,12 +102,49 @@
     </section>
 
     <section class="ss-grid" id="storiesGrid" aria-live="polite">
+        <!-- JS Render Cards -->
     </section>
     <section id="pagination" class="ss-pagination" role="navigation" aria-label="Pagination"></section>
 
+    <section class="ss-banner" role="note">
+        <strong>Silence helps scams. Sharing stops them.</strong>
+    </section>
 </main>
 
 
+<!-- Story Detail Modal -->
+<div class="ss-modal" id="storyDetailModal" aria-hidden="true">
+    <div class="ss-modal__backdrop" data-close></div>
+    <div class="ss-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="storyDetailTitle">
+        <button class="ss-modal__close" data-close aria-label="Close">&times;</button>
+
+        <article class="ss-detail" data-detail>
+            <div class="ss-detail__header">
+                <div class="ss-detail__meta">
+                    <span class="ss-tag" data-detail-type>[TYPE]</span>
+                    <span class="ss-detail__dot">•</span>
+                    <span data-detail-state>STATE</span>
+                    <span class="ss-detail__dot">•</span>
+                    <time data-detail-time>DATE</time>
+                </div>
+                <h3 id="storyDetailTitle" class="ss-detail__title">Story</h3>
+            </div>
+
+            <div class="ss-detail__content">
+                <p class="ss-text" data-detail-text></p>
+            </div>
+
+            <div class="ss-detail__actions">
+                <button class="ss-like" data-detail-like type="button" aria-label="Like this story">
+                    <i class="fa-regular fa-thumbs-up"></i> <span class="count">0</span>
+                </button>
+            </div>
+
+
+            </section>
+        </article>
+    </div>
+</div>
 
 <footer class="footer">
     <div class="footer-content">
