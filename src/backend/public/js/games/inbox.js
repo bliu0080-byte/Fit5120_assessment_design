@@ -126,7 +126,7 @@ class EmailSortingGame {
                 if (emojiSpan) emojiSpan.textContent = '🙂';
 
                 // Change button text (keep only one)
-                this.elements.hardMode.lastChild.textContent = ' Normal';
+                this.elements.hardMode.lastChild.textContent = ' Easy';
             } else {
                 // Return to Normal mode
                 this.maxLives = 3;
