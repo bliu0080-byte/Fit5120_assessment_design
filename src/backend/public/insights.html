@@ -315,9 +315,26 @@
         border-color: rgba(249,115,22,.35);
         background: linear-gradient(135deg, rgba(255,235,205,.94), rgba(255,247,237,.97));
       }
-      .ins-highlight .label { font-size: .78rem; color: #b45309; text-transform: uppercase; letter-spacing: .05em; }
-      .ins-highlight .value { font-size: 1.2rem; font-weight: 700; color: #7c2d12; margin-top: .2rem; }
-      .ins-highlight .detail { font-size: .88rem; color: #a16207; margin-top: .25rem; }
+      .ins-highlight .label {
+        display: block;
+        font-size: .78rem;
+        color: #b45309;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+      }
+      .ins-highlight .value {
+        display: block;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #7c2d12;
+        margin-top: .2rem;
+      }
+      .ins-highlight .detail {
+        display: block;
+        font-size: .88rem;
+        color: #a16207;
+        margin-top: .25rem;
+      }
       .ins-tips { display: flex; flex-direction: column; gap: .85rem; }
       .ins-tip {
         background: rgba(255,255,255,.92);
@@ -357,29 +374,53 @@
         .ins-alert { flex-direction: column; }
       }
       .navbar {
-          position: relative;
-          z-index: 1000; /* 让导航浮在 React 背景之上 */
-          background: #fff;
+        position: relative;
+        z-index: 1000; /* keep nav above React backdrop */
+        background: rgba(255,255,255,.94);
+        border-bottom: 1px solid rgba(248,113,113,.2);
+        box-shadow: 0 12px 30px rgba(249,115,22,.12);
+        backdrop-filter: blur(14px);
       }
 
       .nav-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.5rem;
       }
 
       .nav-links li {
-          display: inline-block;
-          margin: 0 10px;
+        display: inline-block;
+        margin: 0 .4rem;
+      }
+
+      .nav-link {
+        color: #1f2937;
+        font-weight: 600;
+        padding: .55rem .95rem;
+        border-radius: 999px;
+        transition: color .2s ease, background .2s ease, box-shadow .2s ease;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        background: rgba(253,186,116,.28);
+        color: #b45309;
+        box-shadow: 0 14px 32px rgba(249,115,22,.18);
+      }
+
+      .nav-link.active::after {
+        background: #f97316;
+        bottom: -6px;
       }
 
       .dropdown-menu {
-          background: #fff;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-          border-radius: 8px;
-          z-index: 9999;
+        background: #fff;
+        box-shadow: 0 10px 28px rgba(249,115,22,.16);
+        border-radius: 12px;
+        z-index: 9999;
       }
     </style>
 </head>
@@ -388,7 +429,7 @@
 <nav class="navbar" id="navbar">
     <div class="nav-container">
         <a href="home.html#home" class="logo">
-            <img src="assets/images/logo.png" alt="ScamSafe Logo" class="logo-img">
+            <img src="./assets/images/logo.png" alt="ScamSafe Logo" class="logo-img">
         </a>
         <div class="nav-controls">
             <ul class="nav-links">
@@ -685,7 +726,18 @@
 
   const CategoriesChart = ({ data }) => {
     if (!data || !data.length) return h('div', { className: 'ins-error-box' }, 'No category data available.');
-    const palette = ['#fb923c', '#f97316', '#f59e0b', '#facc15', '#fde68a', '#fdba74', '#fda4af', '#fb7185'];
+    // High-contrast, diverse palette (Tableau/D3 inspired) for better readability
+    // on the light, warm background. Avoids similar warm hues so each slice is distinct.
+    const palette = [
+      '#4E79A7', // blue
+      '#F28E2B', // orange
+      '#E15759', // red
+      '#76B7B2', // teal
+      '#59A14F', // green
+      '#B07AA1', // purple
+      '#EDC948', // gold
+      '#9C755F'  // brown
+    ];
     return h('div', { style: { height: '320px' } },
       h(ResponsiveContainer, { width: '100%', height: '100%' },
         h(PieChart, { margin: { top: 0, right: 100, bottom: 0, left: 0 } },
@@ -696,7 +748,8 @@
             innerRadius: '45%',
             outerRadius: '80%',
             paddingAngle: 2,
-            stroke: '#fff',
+            // white stroke to keep strong separation between neighbouring slices
+            stroke: '#ffffff',
             strokeWidth: 1,
           },
             data.map((entry, index) => h(Cell, {
@@ -705,7 +758,8 @@
             }))
           ),
           h(Tooltip, { formatter: (value, name) => [`${numberFmt.format(value)} reports`, name] }),
-          h(Legend, { layout: 'vertical', align: 'right', verticalAlign: 'middle', iconType: 'circle' })
+          // Slightly darker legend text for readability on bright card background
+          h(Legend, { layout: 'vertical', align: 'right', verticalAlign: 'middle', iconType: 'circle', wrapperStyle: { color: '#7c2d12' } })
         )
       )
     );
