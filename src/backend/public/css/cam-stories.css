@@ -265,15 +265,7 @@ textarea:focus,.ss-field input:focus,.ss-field select:focus{
 }
 @keyframes ssShimmer{ 0%{ background-position:100% 0; } 100%{ background-position:-100% 0; } }
 
-/* =========================
-   Nav Active
-   ========================= */
-.nav-link.active,.nav-link[href*="scam-stories.html"]{
-    color:var(--brand-600); font-weight:800; position:relative;
-}
-.nav-link.active::after,.nav-link[href*="scam-stories.html"]::after{
-    content:""; position:absolute; left:0; right:0; bottom:-6px; height:3px; background:var(--brand-600); border-radius:999px;
-}
+
 /* ===== Comments block — soft card & badge ===== */
 .ss-detail__comments { background:#fff; border-radius:12px; }
 .ss-detail__comments .ss-subtitle { display:flex; align-items:center; gap:10px; }
